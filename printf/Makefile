@@ -6,7 +6,7 @@
 #    By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/10 10:47:10 by dzuiev            #+#    #+#              #
-#    Updated: 2023/11/10 10:47:10 by dzuiev           ###   ########.fr        #
+#    Updated: 2023/11/10 13:49:33 by dzuiev           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,9 @@ RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror
 
 NAME			= libftprintf.a
+
+test: $(OBJS)
+	$(CC) $(CFLAGS) main.c $(SRCS)
 
 all:			$(NAME)
 

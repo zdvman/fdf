@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 11:12:40 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/10 11:12:40 by dzuiev           ###   ########.fr       */
+/*   Updated: 2023/11/10 17:33:49 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	ft_print_format(char format_specifier, va_list ap)
 {
 	int		len;
+	unsigned long long		ptr;
 
 	len = 0;
 	if (format_specifier == 'c')
@@ -23,8 +24,16 @@ int	ft_print_format(char format_specifier, va_list ap)
 		len = ft_putstr(va_arg(ap, char *));
 	else if (format_specifier == 'd')
 		len = ft_putnbr((long)va_arg(ap, int), 10);
+	else if (format_specifier == 'i')
+		len = ft_putnbr((long)va_arg(ap, int), 10);
 	else if (format_specifier == 'x')
 		len = ft_putnbr((long)va_arg(ap, unsigned int), 16);
+	else if (format_specifier == 'p')
+	{
+		len = ft_putstr("0x");
+	       	ptr = (unsigned long long)(va_arg(ap, void *));
+        	len += ft_putnbr(ptr, 16);
+	}
 	else if (format_specifier == '%')
 		len = ft_putchar('%');
 	else

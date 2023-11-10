@@ -6,13 +6,13 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:43:38 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/09 18:43:38 by dzuiev           ###   ########.fr       */
+/*   Updated: 2023/11/10 13:28:10 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-int		ft_printf(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
 	va_list		ap;
 	int			len;
