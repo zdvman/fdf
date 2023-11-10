@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   libftprintf.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 18:43:38 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/09 18:43:38 by dzuiev           ###   ########.fr       */
+/*   Created: 2023/11/10 12:56:07 by dzuiev            #+#    #+#             */
+/*   Updated: 2023/11/10 12:56:07 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#ifndef LIBFTPRINTF_H
+# define LIBFTPRINTF_H
 
-int		ft_printf(const char *format, ...)
-{
-	va_list		ap;
-	int			len;
+#include <unistd.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <stdio.h>
 
-	len = 0;
-	va_start(ap, format);
-	while (*format)
-	{
-		if (*format == '%')
-		{
-			len += ft_print_format(*(++format), ap);
-		}
-		else
-			len += write(1, format, 1);
-		format++;
-	}
-	va_end(ap);
-	return (len);
-}
+int	ft_putchar(int c);
+int	ft_putstr(char *str);
+int ft_putnbr(long n, int base);
+int	ft_print_format(char format_specifier, va_list ap);
+int	ft_printf(const char *format, ...);
+
+#endif

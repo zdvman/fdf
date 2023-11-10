@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 18:43:38 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/09 18:43:38 by dzuiev           ###   ########.fr       */
+/*   Created: 2023/11/10 11:11:22 by dzuiev            #+#    #+#             */
+/*   Updated: 2023/11/10 11:11:22 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-int		ft_printf(const char *format, ...)
+int ft_putnbr(long n, int base)
 {
-	va_list		ap;
-	int			len;
+	char	*hex;
 
-	len = 0;
-	va_start(ap, format);
-	while (*format)
+	hex = "0123456789abcdef";
+	if (n < 0)
 	{
-		if (*format == '%')
-		{
-			len += ft_print_format(*(++format), ap);
-		}
-		else
-			len += write(1, format, 1);
-		format++;
+		ft_putchar('-');
+		return (ft_putnbr(-n, base) + 1);
 	}
-	va_end(ap);
-	return (len);
+	else if (n < base)
+	{
+		return (ft_putchar(hex[n]));
+	}
+	else
+	{
+		return (ft_putnbr(n / base, base) + ft_putnbr(n % base, base));
+	}
 }

@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 18:43:38 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/09 18:43:38 by dzuiev           ###   ########.fr       */
+/*   Created: 2023/11/10 11:25:01 by dzuiev            #+#    #+#             */
+/*   Updated: 2023/11/10 11:25:01 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-int		ft_printf(const char *format, ...)
+int		main(void)
 {
-	va_list		ap;
-	int			len;
-
-	len = 0;
-	va_start(ap, format);
-	while (*format)
-	{
-		if (*format == '%')
-		{
-			len += ft_print_format(*(++format), ap);
-		}
-		else
-			len += write(1, format, 1);
-		format++;
-	}
-	va_end(ap);
-	return (len);
+	ft_printf("Hello %s, today is %d, in hex %x, char %c, and %%\n", "world", 20161109, 20161109, 'a');
+	printf("Hello %s, today is %d, in hex %x, char %c, and %%\n", "world", 20161109, 20161109, 'a');
+	return (0);
 }
