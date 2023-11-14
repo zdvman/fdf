@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:02:31 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/13 15:51:54 by dzuiev           ###   ########.fr       */
+/*   Updated: 2023/11/14 21:10:02 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,26 @@
 #include <time.h>
 #include <wchar.h>
 #include <fcntl.h>
+#include "get_next_line.h"
 
 int	main()
 {
-	int	fd;
-	char	buf[256];
-	int	chars_read;
+	int		fd;
 
 	fd = open("file.txt", O_RDONLY);
+	// printf("fd : %i\n", fd);
+	printf("next_line : %s\n", get_next_line(fd));
 
-	while (chars_read = read(fd, buf, 10))
-	{
-		buf[chars_read] = '\0';
-		printf("buf: %s\n", buf);
-	}
+// Закрытие файла, если это необходимо
+
+
+
+
+	// while ((chars_read = read(fd, buf, 25)))
+	// {
+	// 	buf[chars_read] = '\0';
+	// 	printf("buf: %s\n", buf);
+	// }
 
 	// Open for reading only, if it's not exist - create a file.txt
 	//fd = open("file.txt", O_RDONLY | O_CREAT);
