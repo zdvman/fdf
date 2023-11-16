@@ -1,3 +1,9 @@
-01234567890123456789
-wer
-1
+This line contains tabs and
+newline characters.
+	Tab1	Tab2	Tab3
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor lectus sed nunc. Nam ac nisi massa. Phasellus facilisis tortor at elit rhoncus, a tempor ante auctor. Aenean consequat odio eu quam tincidunt viverra. Sed quis ultricies velit. Curabitur sit amet nisl in massa tincidunt sagittis. Nunc auctor justo nec magna eleifend efficitur. Vestibulum interdum velit vel mi malesuada, id venenatis libero feugiat. Etiam fermentum odio in nulla varius, eget sodales neque malesuada. Vivamus venenatis euismod nisi, at euismod odio facilisis eu. Pellentesque tristique nunc ut justo laoreet, at sagittis mi finibus. Quisque vitae bibendum leo. Nunc vulputate est et feugiat vulputate. Nulla facilisi. Fusce vel ipsum in lectus rhoncus tincidunt.
+
+This line ends with a newline character and spaces:     
+
+This line ends with a newline character and tabs:	
