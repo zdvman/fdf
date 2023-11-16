@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 13:07:39 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/14 20:56:11 by dzuiev           ###   ########.fr       */
+/*   Updated: 2023/11/16 00:18:04 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,4 +197,111 @@ char	*ft_strdup(const char *str)
 	}
 	dup[i] = '\0';
 	return (dup);
+}
+
+void	dealloc(t_list *list)
+{
+	t_list	*tmp;
+
+	while (list)
+	{
+		tmp = list;
+		list = list->next;
+		free(tmp->content);
+		free(tmp);
+	}
+}
+
+t_list	*create_linked_list(int fd, char *buf, t_list *list)
+{
+	int		chars_read;
+
+	chars_read = 0;
+
+	while ((chars_read = read(fd, buf, BUFFER_SIZE)) > 0)
+	{
+		buf[chars_read] = '\0';
+    	if (ft_strchr(buf, '\n'))
+		{
+			ft_lstadd_back(&list, ft_lstnew(ft_strdup(buf)));
+        	break;
+		}
+    	ft_lstadd_back(&list, ft_lstnew(ft_strdup(buf)));
+	}
+	return (list);
+}
+
+char	*next_line_from_list(t_list *list)
+{
+	char	*next_line;
+	char	*newline_index;
+	int		next_line_len;
+
+	next_line_len = 0;
+	if (list == NULL)
+		return (NULL);
+	while (list)
+	{
+		if ((newline_index = ft_strchr(list->content, '\n')))
+		{
+			next_line_len += newline_index - (char *)list->content + 1;
+			next_line = (char *)ft_calloc(next_line_len + 1, 1);
+			if (next_line == NULL)
+				return (NULL);
+			ft_strlcat(next_line, list->content, next_line_len + 1);
+			return (next_line);
+		}
+		next_line_len += ft_strlen(list->content);
+		list = list->next;
+	}
+	next_line = (char *)ft_calloc(next_line_len + 1, 1);
+	if (next_line == NULL)
+		return (NULL);
+	ft_strlcat(next_line, list->content, next_line_len + 1);
+	return (next_line);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*substr;
+	size_t	i;
+	size_t	slen;
+
+	if (!s)
+		return (NULL);
+	slen = ft_strlen(s);
+	if (start >= slen || len == 0)
+		return (ft_strdup(""));
+	if (len > slen - start)
+		len = slen - start;
+	substr = malloc(len + 1);
+	if (!substr)
+		return (NULL);
+	i = 0;
+	while (i < len && s[start + i])
+	{
+		substr[i] = s[start + i];
+		i++;
+	}
+	substr[i] = '\0';
+	return (substr);
+}
+
+void *realloc(void *ptr, size_t size)
+{
+	void *new_ptr;
+
+	if (ptr == NULL)
+		return (malloc(size));
+	if (size == 0)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	new_ptr = malloc(size);
+	if (new_ptr == NULL)
+		return (NULL);
+	ft_memcpy(new_ptr, ptr, size);
+	free(ptr);
+	return (new_ptr);
 }

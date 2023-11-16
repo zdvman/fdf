@@ -23,7 +23,7 @@ CFLAGS			= -Wall -Wextra -Werror
 NAME			= get_next_line.a
 
 test: $(OBJS)
-	$(CC) $(CFLAGS) $(SRCS) -o test
+	$(CC) $(CFLAGS) $(SRCS) -D BUFFER_SIZE=10 -o test
 
 all:			$(NAME)
 
