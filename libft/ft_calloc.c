@@ -47,6 +47,28 @@ void	*ft_calloc(size_t nmemb, size_t size)
 }
 
 /*
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	unsigned char	*str;
+	size_t			bytes;
+	void			*ptr;
+
+	if (!nmemb || !size)
+		return (malloc(0));
+	bytes = nmemb * size;
+	if (nmemb != bytes / size)
+		return (NULL);
+	ptr = (void *)malloc(bytes);
+	if (!ptr)
+		return (NULL);
+	str = (unsigned char *)ptr;
+	while (bytes--)
+		*str++ = 0;
+	return (ptr);
+}
+*/
+
+/*
 void	*ft_calloc(size_t num_elements, size_t element_size)
 {
 	void	*memory;

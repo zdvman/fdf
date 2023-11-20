@@ -6,7 +6,7 @@
 #    By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/14 18:09:17 by dzuiev            #+#    #+#              #
-#    Updated: 2023/11/14 18:09:17 by dzuiev           ###   ########.fr        #
+#    Updated: 2023/11/17 19:32:52 by dzuiev           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,12 @@ OBJS			= $(SRCS:.c=.o)
 
 CC				= cc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror -g
 
 NAME			= get_next_line.a
 
 test: $(OBJS)
-	$(CC) $(CFLAGS) $(SRCS) -D BUFFER_SIZE=5
+	$(CC) $(CFLAGS) $(SRCS) -g -D BUFFER_SIZE=10
 
 all:			$(NAME)
 

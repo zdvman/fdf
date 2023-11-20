@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:02:31 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/19 19:25:27 by dzuiev           ###   ########.fr       */
+/*   Updated: 2023/11/19 23:43:20 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,13 @@ int	main()
 	int		fd;
 	char	*str;
 
-	fd = open("file.txt", O_RDONLY);
+	fd = open("41_with_nl.txt", O_RDONLY);
 	if (fd == -1)
 	{
 		perror("open");
 		return (1);
 	}
-	if ((str = get_next_line(fd)) != NULL)
-	{
-		printf("%s", str);
-		free(str);
-	}
-	if ((str = get_next_line(fd)) != NULL)
-	{
-		printf("%s", str);
-		free(str);
-	}
-	if ((str = get_next_line(fd)) != NULL)
-	{
-		printf("%s", str);
-		free(str);
-	}
-	if ((str = get_next_line(fd)) != NULL)
+	while((str = get_next_line(fd)))
 	{
 		printf("%s", str);
 		free(str);

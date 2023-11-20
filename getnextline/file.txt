@@ -1,9 +1,26 @@
-This line contains tabs and
-newline characters.
-	Tab1	Tab2	Tab3
+static char *read_line(t_gnl_data *data) {
+    char *line = NULL;
+    int line_len = 0;
+    char *newline_ptr = NULL;
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor lectus sed nunc. Nam ac nisi massa. Phasellus facilisis tortor at elit rhoncus, a tempor ante auctor. Aenean consequat odio eu quam tincidunt viverra. Sed quis ultricies velit. Curabitur sit amet nisl in massa tincidunt sagittis. Nunc auctor justo nec magna eleifend efficitur. Vestibulum interdum velit vel mi malesuada, id venenatis libero feugiat. Etiam fermentum odio in nulla varius, eget sodales neque malesuada. Vivamus venenatis euismod nisi, at euismod odio facilisis eu. Pellentesque tristique nunc ut justo laoreet, at sagittis mi finibus. Quisque vitae bibendum leo. Nunc vulputate est et feugiat vulputate. Nulla facilisi. Fusce vel ipsum in lectus rhoncus tincidunt.
+    while (1) {
+        if (data->buffer_index >= data->bytes_read) {
+            return line;  // Return the line or NULL if buffer is exhausted
+        }
 
-This line ends with a newline character and spaces:     
+        newline_ptr = memchr(data->buffer + data->buffer_index, '\n', data->bytes_read - data->buffer_index);
+        int chunk_len = (newline_ptr) ? (newline_ptr - (data->buffer + data->buffer_index) + 1) : (data->bytes_read - data->buffer_index);
 
-This line ends with a newline character and tabs:	
+        line = allocate_and_copy(line, line_len, chunk_len);
+        if (!line) {
+            return NULL;  // Memory allocation error
+        }
+        memcpy(line + line_len, data->buffer + data->buffer_index, chunk_len);
+        line_len += chunk_len;
+        data->buffer_index += chunk_len;
+
+        if (newline_ptr) {
+            return line;  // Return the line if a newline is found
+        }
+    }
+}

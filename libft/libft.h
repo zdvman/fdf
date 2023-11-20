@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:17:10 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/05 21:35:55 by dzuiev           ###   ########.fr       */
+/*   Updated: 2023/11/19 23:03:31 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ t_list			*ft_lstlast(t_list *lst);
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void(*del)(void *));
 void			ft_striteri(char *s, void (*f)(unsigned int, char *));
+void			*ft_realloc(void *ptr, size_t size);
 
 #endif
