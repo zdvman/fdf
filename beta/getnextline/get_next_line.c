@@ -6,11 +6,10 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:18:22 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/20 16:04:29 by dzuiev           ###   ########.fr       */
+/*   Updated: 2023/11/20 17:10:26 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "get_next_line.h"
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t size)
@@ -107,7 +106,7 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	line = NULL;
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE < 1 || fd > 4095)
 		return (NULL);
 	saved = read_from_fd(fd, saved);
 	if (!saved)

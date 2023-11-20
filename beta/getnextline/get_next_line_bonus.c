@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 12:18:22 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/20 17:10:26 by dzuiev           ###   ########.fr       */
+/*   Created: 2023/11/20 16:26:10 by dzuiev            #+#    #+#             */
+/*   Updated: 2023/11/20 16:57:44 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,15 @@ static char	*extract_line(char **saved)
 
 char	*get_next_line(int fd)
 {
-	static char	*saved = NULL;
+	static char	*saved[4096] = {0};
 	char		*line;
 
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE < 1 || fd > 4095)
 		return (NULL);
-	saved = read_from_fd(fd, saved);
-	if (!saved)
+	saved[fd] = read_from_fd(fd, saved[fd]);
+	if (!saved[fd])
 		return (NULL);
-	line = extract_line(&saved);
+	line = extract_line(&saved[fd]);
 	return (line);
 }
