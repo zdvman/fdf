@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 13:07:39 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/19 23:30:34 by dzuiev           ###   ########.fr       */
+/*   Updated: 2023/11/20 16:01:15 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 		ft_strlcpy(str, s1, s1_len + 1);
 	else
 		str[0] = '\0';
-	ft_strlcat(str, s2, s1_len + s2_len + 1);
+	ft_memcpy(str + s1_len, s2, s2_len + 1);
 	return (str);
 }
 
@@ -45,25 +45,6 @@ size_t	ft_strlen(const char *str)
 		while (*(str + size) != '\0')
 			size++;
 	return (size);
-}
-
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
-{
-	size_t	dstlen;
-	size_t	srclen;
-	size_t	copylen;
-
-	dstlen = ft_strlen(dst);
-	srclen = ft_strlen(src);
-	if (dstlen >= dstsize)
-		return (dstsize + srclen);
-	if (dstsize - dstlen - 1 > srclen)
-		copylen = srclen;
-	else
-		copylen = dstsize - dstlen - 1;
-	ft_memcpy(dst + dstlen, src, copylen);
-	dst[dstlen + copylen] = '\0';
-	return (dstlen + srclen);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
@@ -115,38 +96,4 @@ char	*ft_strchr(const char *str, int character)
 		str++;
 	}
 	return ((char *)str);
-}
-
-char	*ft_strdup(const char *str)
-{
-	char	*dup;
-	int		i;
-
-	dup = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (str[i])
-	{
-		dup[i] = str[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
-{
-	size_t	n;
-
-	n = 0;
-	while (size > 1 && *src != '\0')
-	{
-		*dest++ = *src++;
-		n++;
-		size--;
-	}
-	if (size > 0)
-		*dest = '\0';
-	return (n + ft_strlen(src));
 }
