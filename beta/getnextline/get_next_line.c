@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:18:22 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/20 17:10:26 by dzuiev           ###   ########.fr       */
+/*   Updated: 2023/11/21 20:33:36 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static char	*read_from_fd(int fd, char *saved)
 	if (chars_read < 0)
 	{
 		free(saved);
+		saved = NULL;
 		return (NULL);
 	}
 	return (saved);
@@ -105,12 +106,20 @@ char	*get_next_line(int fd)
 	static char	*saved = NULL;
 	char		*line;
 
-	line = NULL;
 	if (fd < 0 || BUFFER_SIZE < 1 || fd > 4095)
 		return (NULL);
 	saved = read_from_fd(fd, saved);
 	if (!saved)
+	{
+		free(saved);
+		saved = NULL;
 		return (NULL);
+	}
 	line = extract_line(&saved);
+	if (line == NULL)
+	{
+		free(saved);
+		saved = NULL;
+	}
 	return (line);
 }

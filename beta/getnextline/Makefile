@@ -6,11 +6,11 @@
 #    By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/14 18:09:17 by dzuiev            #+#    #+#              #
-#    Updated: 2023/11/20 19:18:29 by dzuiev           ###   ########.fr        #
+#    Updated: 2023/11/21 14:06:06 by dzuiev           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS			=	$(wildcard *.c)
+SRCS			=	$(filter-out %_bonus.c, $(wildcard *.c))
 OBJS			= $(SRCS:.c=.o)
 
 BONUS			=	$(wildcard *_bonus.c)
@@ -23,10 +23,11 @@ CFLAGS			= -Wall -Wextra -Werror -g
 NAME			= get_next_line.a
 
 test: $(OBJS)
-	$(CC) $(CFLAGS) $(SRCS) -D BUFFER_SIZE=10
+	$(CC) $(CFLAGS) $(OBJS) -D BUFFER_SIZE=10
 
 btest: $(BONUS_OBJS)
-	$(CC) $(CFLAGS) $(BONUS) -D BUFFER_SIZE=10
+	$(CC) $(CFLAGS) $(BONUS_OBJS) -D BUFFER_SIZE=10
+
 all:			$(NAME)
 
 $(NAME):		$(OBJS)
@@ -36,11 +37,11 @@ clean:
 				$(RM) $(OBJS) $(BONUS_OBJS)
 
 fclean:			clean
-				$(RM) $(NAME)
+				$(RM) $(NAME) test btest
 
 re:				fclean $(NAME)
 
-bonus:			$(OBJS) $(BONUS_OBJS)
-				ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
+bonus:			$(BONUS_OBJS)
+				ar rcs $(NAME) $(BONUS_OBJS)
 
-.PHONY:			all clean fclean re bonus
+.PHONY:			all clean fclean re bonus test bteset
