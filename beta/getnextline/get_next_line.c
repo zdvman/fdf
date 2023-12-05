@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:18:22 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/21 20:33:36 by dzuiev           ###   ########.fr       */
+/*   Updated: 2023/11/22 12:44:16 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,11 @@ char	*ft_strdup(const char *str)
 	return (dup);
 }
 
-static char	*read_from_fd(int fd, char *saved)
+static char	*read_from_fd(int fd, char *saved, char *buf)
 {
 	int		chars_read;
-	char	*buf;
 	char	*temp;
 
-	buf = malloc(BUFFER_SIZE + 1);
-	if (!buf)
-		return (NULL);
 	chars_read = read(fd, buf, BUFFER_SIZE);
 	while (chars_read > 0)
 	{
@@ -105,10 +101,14 @@ char	*get_next_line(int fd)
 {
 	static char	*saved = NULL;
 	char		*line;
+	char		*buf;
 
 	if (fd < 0 || BUFFER_SIZE < 1 || fd > 4095)
 		return (NULL);
-	saved = read_from_fd(fd, saved);
+	buf = malloc(BUFFER_SIZE + 1);
+	if (!buf)
+		return (NULL);
+	saved = read_from_fd(fd, saved, buf);
 	if (!saved)
 	{
 		free(saved);

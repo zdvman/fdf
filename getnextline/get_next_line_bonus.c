@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:26:10 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/20 16:57:44 by dzuiev           ###   ########.fr       */
+/*   Updated: 2023/11/22 12:53:51 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,11 @@ char	*ft_strdup(const char *str)
 	return (dup);
 }
 
-static char	*read_from_fd(int fd, char *saved)
+static char	*read_from_fd(int fd, char *saved, char *buf)
 {
 	int		chars_read;
-	char	*buf;
 	char	*temp;
 
-	buf = malloc(BUFFER_SIZE + 1);
-	if (!buf)
-		return (NULL);
 	chars_read = read(fd, buf, BUFFER_SIZE);
 	while (chars_read > 0)
 	{
@@ -70,6 +66,7 @@ static char	*read_from_fd(int fd, char *saved)
 	if (chars_read < 0)
 	{
 		free(saved);
+		saved = NULL;
 		return (NULL);
 	}
 	return (saved);
@@ -104,13 +101,25 @@ char	*get_next_line(int fd)
 {
 	static char	*saved[4096] = {0};
 	char		*line;
+	char		*buf;
 
-	line = NULL;
 	if (fd < 0 || BUFFER_SIZE < 1 || fd > 4095)
 		return (NULL);
-	saved[fd] = read_from_fd(fd, saved[fd]);
-	if (!saved[fd])
+	buf = malloc(BUFFER_SIZE + 1);
+	if (!buf)
 		return (NULL);
+	saved[fd] = read_from_fd(fd, saved[fd], buf);
+	if (!saved[fd])
+	{
+		free(saved[fd]);
+		saved[fd] = NULL;
+		return (NULL);
+	}
 	line = extract_line(&saved[fd]);
+	if (line == NULL)
+	{
+		free(saved[fd]);
+		saved[fd] = NULL;
+	}
 	return (line);
 }
