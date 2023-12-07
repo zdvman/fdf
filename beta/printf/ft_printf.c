@@ -1,5 +1,5 @@
 /* ************************************************************************** */
-/*                                                                            */
+/*                                                                      */
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -12,21 +12,46 @@
 
 #include "ft_printf.h"
 
+static t_print	*ft_initialise_tab(t_print *tab)
+{
+	tab->wdt = 0;
+	tab->prc = 0;
+	tab->zero = 0;
+	tab->pnt = 0;
+	tab->sign = 0;
+	tab->tl = 0;
+	tab->is_zero = 0;
+	tab->dash = 0;
+	tab->perc = 0;
+	tab->sp = 0;
+	return (tab);
+}
+
 int	ft_printf(const char *format, ...)
 {
-	va_list	ap;
+	t_print	*tab;
 	int		len;
+	int		i;
 
-	len = 0;
-	va_start(ap, format);
-	while (*format)
+	i = 0;
+	tab = (t_print *)malloc(sizeof(t_print));
+	if (!tab)
+		return (-1);
+	tab = ft_initialise_tab(tab);
+	va_start(tab->args, format);
+	while (format[i])
 	{
-		if (*format == '%')
-			ft_print_format(*(++format), ap, &len);
+		if (format[i] == '%')
+		{
+			i = ft_eval_format(tab, (char *)format, ++i);
+			ft_print_format(format[i], tab);
+		}
 		else
-			len += write(1, format, 1);
-		format++;
+			ft_putchar(format[i], tab);
+		i++;
 	}
-	va_end(ap);
+	va_end(tab->args);
+	len = tab->tl;
+	free(tab);
 	return (len);
 }

@@ -12,11 +12,11 @@
 
 #include "ft_printf.h"
 
-int	ft_putptr(void *ptr, int *len)
+int	ft_putptr(void *ptr, t_print *tab)
 {
 	if (ptr == NULL)
-		return (ft_putstr("(nil)", len));
+		return (ft_putstr("(nil)", tab));
 	else
-		ft_putstr("0x", len);
-	return (ft_putunsigned((unsigned long long int)ptr, 16, 0, len));
+		ft_putstr("0x", tab);
+	return (ft_putunsigned((unsigned long long int)ptr, 16, 0, tab));
 }

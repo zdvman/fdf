@@ -17,25 +17,29 @@
 # include <stdarg.h>
 # include <stdlib.h>
 
-typedef struct	s_flags
+typedef struct s_print
 {
-	int			plus;
-	int			minus;
-	int			space;
-	int			hash;
-	int			zero;
-	int			width;
-	int			precision;
-	int			length;
-	int			upper_case;
-}				t_flags;
+	va_list	args;
+	int		wdt;
+	int		prc;
+	int		zero;
+	int		pnt;
+	int		dash;
+	int		tl;
+	int		sign;
+	int		is_zero;
+	int		perc;
+	int		sp;
+}	t_print;
 
-int	ft_putchar(int c, int *len);
-int	ft_putstr(char *str, int *len);
-int	ft_putnbr(long n, int *len);
-int	ft_printf(const char *format, ...);
-int	ft_putptr(void *ptr, int *len);
-int	ft_putunsigned(unsigned long int n, int base, int upper_case, int *len);
-int	*ft_print_format(char format_specifier, va_list ap, int *len);
+void	ft_print_format(char format_specifier, t_print *tab);
+int		ft_putchar(int c, t_print *tab);
+int		ft_putstr(char *str, t_print *tab);
+int		ft_putnbr(long n, t_print *tab);
+int		ft_printf(const char *format, ...);
+int		ft_putptr(void *ptr, t_print *tab);
+int		ft_putunsigned(unsigned long int n, int base, int upper_case,
+			t_print *tab);
+int		ft_eval_format(t_print *tab, char *format, int i);
 
 #endif

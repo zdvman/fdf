@@ -22,10 +22,10 @@ int	main(void)
 	int		len = 0;
 	int		len2 = 0;
 
-	len = ft_printf("str %s\n, digit min %d\n, digit max %d\n, min int %i\n, max int %i\n, min unsigned int %u\n, max unsigned int %u\n, try to print negative number -123456789 as unsigned %u\n, min o %o\n, max o %o\n, min hex %x\n, max hex %x\n, UPPER CASE HEX %X\n, char %c\n, pointer %p\n, NULL pointer %p\n, %% %%\n",
+	len = ft_printf("str %s\ndigit min %d\ndigit max %d\nmin int %i\nmax int %i\nmin unsigned int %u\nmax unsigned int %u\ntry to print negative number -123456789 as unsigned %u\nmin o %o\nmax o %o\nmin hex %x\nmax hex %x\nUPPER CASE HEX %X\nchar %c\npointer %p\nNULL pointer %p\n%% %%\n",
 		"Hello \\n World!", INT_MIN, INT_MAX, INT_MIN, INT_MAX, 0, UINT_MAX, (unsigned int)-123456789, 0, UINT_MAX, 0, UINT_MAX, INT_MAX, 'c', ptr, ptr2);
 	ft_printf("=============================================\n");
-	len2 = printf("str %s\n, digit min %d\n, digit max %d\n, min int %i\n, max int %i\n, min unsigned int %u\n, max unsigned int %u\n, try to print negative number -123456789 as unsigned %u\n, min o %o\n, max o %o\n, min hex %x\n, max hex %x\n, UPPER CASE HEX %X\n, char %c\n, pointer %p\n, NULL pointer %p\n, %% %%\n",
+	len2 = printf("str %s\ndigit min %d\ndigit max %d\nmin int %i\nmax int %i\nmin unsigned int %u\nmax unsigned int %u\ntry to print negative number -123456789 as unsigned %u\nmin o %o\nmax o %o\nmin hex %x\nmax hex %x\nUPPER CASE HEX %X\nchar %c\npointer %p\nNULL pointer %p\n%% %%\n",
 		"Hello \\n World!", INT_MIN, INT_MAX, INT_MIN, INT_MAX, 0, UINT_MAX, (unsigned int)-123456789, 0, UINT_MAX, 0, UINT_MAX, INT_MAX, 'c', ptr, ptr2);
 	ft_printf("=============================================\n");
 	printf("ft_printf len: %d\n", len);
@@ -40,9 +40,16 @@ int	main(void)
 	ft_printf("=============================================\n");
 	len = ft_printf(" NULL %s NULL \n", ptr3);
 	ft_printf("=============================================\n");
-	// len2 = printf(" NULL %s NULL ", NULL);
-	// ft_printf("=============================================\n");
+	len2 = printf(" NULL %s NULL \n", ptr3);
+	ft_printf("=============================================\n");
 	printf("ft_printf len: %d\n", len);
+	printf("printf    len: %d\n", len2);
+	// ft_printf("=============================================\n");
+	// len = ft_printf("min o %o\n max o %o\n", 0, UINT_MAX);
+	// ft_printf("=============================================\n");
+	// len2 = printf("min o %o\n max o %o\n", 0, UINT_MAX);
+	// ft_printf("=============================================\n");
+	// printf("ft_printf len: %d\n", len);
 	// printf("printf    len: %d\n", len2);
 
 	return (0);

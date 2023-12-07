@@ -12,15 +12,15 @@
 
 #include "ft_printf.h"
 
-int	ft_putnbr(long n, int *len)
+int	ft_putnbr(long n, t_print *tab)
 {
 	if (n < 0)
 	{
-		ft_putchar('-', len);
-		return (ft_putnbr(-n, len));
+		ft_putchar('-', tab);
+		return (ft_putnbr(-n, tab));
 	}
 	else if (n < 10)
-		return (ft_putchar(n + 48, len));
+		return (ft_putchar(n + 48, tab));
 	else
-		return (ft_putnbr(n / 10, len) + ft_putnbr(n % 10, len));
+		return (ft_putnbr(n / 10, tab) + ft_putnbr(n % 10, tab));
 }

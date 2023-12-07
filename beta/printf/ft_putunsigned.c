@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int	ft_putunsigned(unsigned long int n, int base, int upper_case, int *len)
+int	ft_putunsigned(unsigned long int n, int base, int upper_case, t_print *tab)
 {
 	char	*hex;
 
@@ -20,9 +20,9 @@ int	ft_putunsigned(unsigned long int n, int base, int upper_case, int *len)
 		hex = "0123456789ABCDEF";
 	else
 		hex = "0123456789abcdef";
-	if (n < (unsigned int)base)
-		return (ft_putchar(hex[n], len));
+	if (n < (unsigned long int)base)
+		return (ft_putchar(hex[n], tab));
 	else
-		return (ft_putunsigned(n / base, base, upper_case, len)
-			+ ft_putunsigned(n % base, base, upper_case, len));
+		return (ft_putunsigned(n / base, base, upper_case, tab)
+			+ ft_putunsigned(n % base, base, upper_case, tab));
 }

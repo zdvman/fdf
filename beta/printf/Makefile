@@ -25,7 +25,7 @@ AR				= ar crs
 
 
 test:			
-				$(CC) $(CFLAGS) $(SRCS) main.c
+				$(CC) $(CFLAGS) -g $(SRCS) main.c
 
 $(NAME):		$(OBJS)
 				$(AR) $(NAME) $(OBJS)

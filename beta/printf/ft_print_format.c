@@ -12,27 +12,24 @@
 
 #include "ft_printf.h"
 
-int	*ft_print_format(char format_specifier, va_list ap, int *len)
+void	ft_print_format(char format_specifier, t_print *tab)
 {
 	if (format_specifier == 'c')
-		ft_putchar(va_arg(ap, int), len);
+		ft_putchar(va_arg(tab->args, int), tab);
 	else if (format_specifier == 's')
-		ft_putstr(va_arg(ap, char *), len);
-	else if (format_specifier == 'd')
-		ft_putnbr((long)va_arg(ap, int), len);
-	else if (format_specifier == 'i')
-		ft_putnbr((long)va_arg(ap, int), len);
+		ft_putstr(va_arg(tab->args, char *), tab);
+	else if (format_specifier == 'i' || format_specifier == 'd')
+		ft_putnbr((long)va_arg(tab->args, int), tab);
 	else if (format_specifier == 'u')
-		ft_putunsigned(va_arg(ap, unsigned int), 10, 0, len);
+		ft_putunsigned(va_arg(tab->args, unsigned int), 10, 0, tab);
 	else if (format_specifier == 'o')
-		ft_putunsigned(va_arg(ap, unsigned int), 8, 0, len);
+		ft_putunsigned(va_arg(tab->args, unsigned int), 8, 0, tab);
 	else if (format_specifier == 'x')
-		ft_putunsigned(va_arg(ap, unsigned int), 16, 0, len);
+		ft_putunsigned(va_arg(tab->args, unsigned int), 16, 0, tab);
 	else if (format_specifier == 'X')
-		ft_putunsigned(va_arg(ap, unsigned int), 16, 1, len);
+		ft_putunsigned(va_arg(tab->args, unsigned int), 16, 1, tab);
 	else if (format_specifier == 'p')
-		ft_putptr(va_arg(ap, void *), len);
+		ft_putptr(va_arg(tab->args, void *), tab);
 	else if (format_specifier == '%')
-		ft_putchar('%', len);
-	return (len);
+		ft_putchar('%', tab);
 }

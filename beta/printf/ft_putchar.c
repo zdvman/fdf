@@ -12,8 +12,8 @@
 
 #include "ft_printf.h"
 
-int	ft_putchar(int c, int *len)
+int	ft_putchar(int c, t_print *tab)
 {
-	*len += write(1, &c, 1);
-	return (*len);
+	tab->tl += write(1, &c, 1);
+	return (tab->tl);
 }
