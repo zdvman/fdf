@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libftprintf.h                                      :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:56:07 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/10 13:28:48 by dzuiev           ###   ########.fr       */
+/*   Updated: 2023/12/05 17:30:14 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,6 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdlib.h>
-
-typedef struct	s_flags
-{
-	int			plus;
-	int			minus;
-	int			space;
-	int			hash;
-	int			zero;
-	int			width;
-	int			precision;
-	int			length;
-	int			upper_case;
-}				t_flags;
 
 int	ft_putchar(int c, int *len);
 int	ft_putstr(char *str, int *len);
