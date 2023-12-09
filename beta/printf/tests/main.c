@@ -12,7 +12,7 @@
 
 #include <limits.h>
 #include <stdio.h>
-#include "ft_printf.h"
+#include "../include/ft_printf.h"
 
 int	main(void)
 {
@@ -38,9 +38,9 @@ int	main(void)
 	printf("ft_printf len: %d\n", len);
 	printf("printf    len: %d\n", len2);
 	ft_printf("=============================================\n");
-	len = ft_printf(" NULL %s NULL \n", ptr3);
-	ft_printf("=============================================\n");
 	len2 = printf(" NULL %s NULL \n", ptr3);
+	ft_printf("=============================================\n");
+	len = ft_printf(" NULL %s NULL \n", ptr3);
 	ft_printf("=============================================\n");
 	printf("ft_printf len: %d\n", len);
 	printf("printf    len: %d\n", len2);

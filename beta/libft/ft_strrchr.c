@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 11:11:22 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/10 11:11:22 by dzuiev           ###   ########.fr       */
+/*   Created: 2023/10/30 11:13:45 by dzuiev            #+#    #+#             */
+/*   Updated: 2023/10/30 11:13:49 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_putnbr(long n, t_print *tab)
+char	*ft_strrchr(const char *str, int character)
 {
-	if (n < 0)
+	char	*last;
+
+	last = NULL;
+	while (*str)
 	{
-		ft_putchar('-', tab);
-		return (ft_putnbr(-n, tab));
+		if (*str == (char)character)
+			last = (char *)str;
+		str++;
 	}
-	else if (n < 10)
-		return (ft_putchar(n + 48, tab));
-	else
-		return (ft_putnbr(n / 10, tab) + ft_putnbr(n % 10, tab));
+	if (*str == (char)character)
+		last = (char *)str;
+	return (last);
 }

@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putunbr.c                                       :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 20:51:23 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/23 20:51:23 by dzuiev           ###   ########.fr       */
+/*   Created: 2023/10/30 11:15:20 by dzuiev            #+#    #+#             */
+/*   Updated: 2023/10/30 11:15:24 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_putunsigned(unsigned long int n, int base, int upper_case, t_print *tab)
+int	ft_tolower(int character)
 {
-	char	*hex;
-
-	if (upper_case)
-		hex = "0123456789ABCDEF";
-	else
-		hex = "0123456789abcdef";
-	if (n < (unsigned long int)base)
-		return (ft_putchar(hex[n], tab));
-	else
-		return (ft_putunsigned(n / base, base, upper_case, tab)
-			+ ft_putunsigned(n % base, base, upper_case, tab));
+	if (character >= 'A' && character <= 'Z')
+		return (character + 32);
+	return (character);
 }

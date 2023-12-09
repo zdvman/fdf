@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdlib.h>
+# include "../../libft/libft.h"
 
 typedef struct s_print
 {
@@ -33,8 +34,6 @@ typedef struct s_print
 }	t_print;
 
 void	ft_print_format(char format_specifier, t_print *tab);
-int		ft_putchar(int c, t_print *tab);
-int		ft_putstr(char *str, t_print *tab);
 int		ft_putnbr(long n, t_print *tab);
 int		ft_printf(const char *format, ...);
 int		ft_putptr(void *ptr, t_print *tab);

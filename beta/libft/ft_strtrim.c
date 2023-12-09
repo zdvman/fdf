@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 11:08:39 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/10 11:08:39 by dzuiev           ###   ########.fr       */
+/*   Created: 2023/10/30 11:14:13 by dzuiev            #+#    #+#             */
+/*   Updated: 2023/10/30 11:14:16 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_putchar(int c, t_print *tab)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	tab->tl += write(1, &c, 1);
-	return (tab->tl);
+	char	*str;
+	size_t	len;
+
+	if (!s1 || !set)
+		return (NULL);
+	while (*s1 && ft_strchr(set, *s1))
+		s1++;
+	len = ft_strlen(s1);
+	while (len && ft_strchr(set, s1[len]))
+		len--;
+	str = ft_substr((char *)s1, 0, len + 1);
+	return (str);
 }

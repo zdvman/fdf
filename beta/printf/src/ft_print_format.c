@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../include/ft_printf.h"
 
 void	ft_print_format(char format_specifier, t_print *tab)
 {
 	if (format_specifier == 'c')
-		ft_putchar(va_arg(tab->args, int), tab);
+		tab->tl += ft_putchar(va_arg(tab->args, int));
 	else if (format_specifier == 's')
-		ft_putstr(va_arg(tab->args, char *), tab);
+		tab->tl += ft_putstr(va_arg(tab->args, char *));
 	else if (format_specifier == 'i' || format_specifier == 'd')
 		ft_putnbr((long)va_arg(tab->args, int), tab);
 	else if (format_specifier == 'u')
@@ -31,5 +31,5 @@ void	ft_print_format(char format_specifier, t_print *tab)
 	else if (format_specifier == 'p')
 		ft_putptr(va_arg(tab->args, void *), tab);
 	else if (format_specifier == '%')
-		ft_putchar('%', tab);
+		tab->tl += ft_putchar('%');
 }

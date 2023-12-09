@@ -10,49 +10,60 @@
 #                                                                              #
 # **************************************************************************** #
 
+
 NAME		= libftprintf.a
 
-SRCS		= $(wildcard ft_*.c)
-OBJS		= $(SRCS:.c=.o)
+LIBFT_DIR	= ../libft
+LIBFT		= $(LIBFT_DIR)/libft.a
+LIBFT_SRCS	= $(wildcard $(LIBFT_DIR)/*.c)
+LIBFT_OBJS  = $(patsubst $(LIBFT_DIR)/%.c,$(LIBFT_DIR)/obj/%.o,$(LIBFT_SRCS))
 
-# BONUS		= $(wildcard ft_*_bonus.c)
-# BONUS_OBJS	= $(BONUS:.c=.o)
+SRCS		= $(wildcard src/*.c)
+OBJS		= $(patsubst src/%.c,obj/%.o,$(SRCS))
 
-CC		= cc
+CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
-RM		= rm -rf
-AR		= ar crs
+RM			= rm -rf
+AR			= ar crs
 
 # Main rule for the library
-$(NAME):	$(OBJS)
-		$(AR) $(NAME) $(OBJS)
+$(NAME):	$(LIBFT) $(OBJS)
+			$(AR) $(NAME) $(OBJS) $(LIBFT_OBJS)
+
+# Rule for libft
+$(LIBFT):	$(LIBFT_OBJS)
+			$(AR) $(LIBFT) $(LIBFT_OBJS)
+
+# Rule for compiling libft .c to .o
+$(LIBFT_DIR)/obj/%.o:	$(LIBFT_DIR)/%.c
+			@mkdir -p $(LIBFT_DIR)/obj
+			$(CC) $(CFLAGS) -c $< -o $@
 
 # Generic rule for compiling .c to .o
-%.o:		%.c
-		$(CC) $(CFLAGS) -c $< -o $@
+obj/%.o:	src/%.c
+			@mkdir -p obj
+			$(CC) $(CFLAGS) -c $< -o $@
 
 # Rule for all
 all:		$(NAME)
 
-# Rule for cleaning object files
+# Rule for cleaning object files and the obj directory
 clean:
-		$(RM) $(OBJS) 
-#		$(RM) $(BONUS_OBJS)
+			$(RM) obj
+			$(RM) $(LIBFT_DIR)/obj
 
-# Rule for full clean (includes removing the library)
-fclean:		clean
-		$(RM) $(NAME)
+# Rule for full clean (includes removing the library and the obj directory)
+fclean:	 clean
+			$(RM) $(NAME)
+			$(RM) $(LIBFT)
 
 # Rule for re-making everything
-re:		fclean all
-
-# bonus:	$(OBJS) $(BONUS_OBJS)
-#		$(AR) $(NAME) $(OBJS) $(BONUS_OBJS)
+re:		 fclean all
 
 # Rule for compiling and running tests (Adjust as needed)
-test:                   
-		$(CC) $(CFLAGS) $(SRCS) main.c -o test_program
+test:
+			$(CC) $(CFLAGS) $(wildcard src/*.c) $(wildcard tests/*.c) -o test_program -L$(LIBFT_DIR) -lft
+
 
 # Marking phony targets
-.PHONY: all clean fclean re test
-# .PHONY: bonus
+.PHONY:	 all clean fclean re test

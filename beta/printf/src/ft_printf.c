@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../../libft/libft.h"
+#include "../include/ft_printf.h"
 
 static t_print	*ft_initialise_tab(t_print *tab)
 {
@@ -47,7 +48,7 @@ int	ft_printf(const char *format, ...)
 			ft_print_format(format[i], tab);
 		}
 		else
-			ft_putchar(format[i], tab);
+			tab->tl += ft_putchar(format[i]);
 		i++;
 	}
 	va_end(tab->args);

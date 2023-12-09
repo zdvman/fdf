@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../../libft/libft.h"
+#include "../include/ft_printf.h"
 
 int	ft_eval_format(t_print *tab, char *format, int i)
 {
