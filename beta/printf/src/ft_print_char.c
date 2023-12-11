@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_print_char.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 11:11:22 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/10 11:11:22 by dzuiev           ###   ########.fr       */
+/*   Created: 2023/12/10 18:11:50 by dzuiev            #+#    #+#             */
+/*   Updated: 2023/12/10 18:11:50 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_printf.h"
 
-int	ft_putnbr(long int n)
+int	ft_print_char(int c, t_print *tab)
 {
-	int	len;
-
-	len = 0;
-	if (n == LONG_MIN) {
-		len += ft_putchar('-');
-		len += ft_putnbr(-(n / 10));
-		len += ft_putchar('0' - (n % 10));
-		return len;
+	if (tab->wdt > 1)
+	{
+		if (tab->dash)
+		{
+			tab->tl += ft_putchar(c);
+			tab->tl += ft_putnchar(' ', tab->wdt - 1);
+		}
+		else
+		{
+			tab->tl += ft_putnchar(' ', tab->wdt - 1);
+			tab->tl += ft_putchar(c);
+		}
 	}
-
-	if (n < 0) {
-		len += ft_putchar('-');
-		n = -n;
-	}
-
-	if (n < 10) {
-		len += ft_putchar(n + '0');
-	} else {
-		len += ft_putnbr(n / 10);
-		len += ft_putnbr(n % 10);
-	}
-
-	return len;
+	else
+		tab->tl += ft_putchar(c);
+	return (tab->tl);
 }

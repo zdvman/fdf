@@ -51,7 +51,7 @@ re:		fclean all
 
 # Rule for compiling and running tests (Adjust as needed)
 test:                   
-		$(CC) $(CFLAGS) $(SRCS) main.c -o test_program
+		$(CC) $(CFLAGS) -g $(SRCS) main.c -o test_program
 
 # Marking phony targets
 .PHONY: all clean fclean re test

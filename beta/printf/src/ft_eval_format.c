@@ -10,32 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/libft.h"
 #include "../include/ft_printf.h"
 
 int	ft_eval_format(t_print *tab, char *format, int i)
 {
-	while (format[i] != 'u' && format[i] != 'd' && format[i] != 'c'
-		&& format[i] != 's' && format[i] != 'u' && format[i] != 'p'
-		&& format[i] != 'x' && format[i] != 'X' && format[i] != '%'
-		&& format[i] != 'i' && format[i] != 'o' && format[i] != '\0')
+	while (!(ft_strchr("iducsopxX%", format[i])) && format[i] != '\0')
 	{
-		if (*format == '-')
+		if (format[i] == '-')
 			tab->dash = 1;
-		else if (*format == '0')
+		else if (format[i] == '0' && format[i - 1] != '.'
+			&& format[i - 1] != '0')
 			tab->zero = 1;
-		else if (*format == '.')
+		else if (format[i] == '0' && format[i - 1] == '.')
+			tab->zero = 0;
+		else if (format[i] == '#')
+			tab->hash = 1;
+		else if (format[i] == '.')
 			tab->pnt = 1;
-		else if (*format == ' ')
+		else if (format[i] == ' ')
 			tab->sp = 1;
-		else if (*format == '+')
+		else if (format[i] == '+')
 			tab->sign = 1;
-		else if (*format >= '0' && *format <= '9')
+		else if (format[i] >= '0' && format[i] <= '9')
 		{
 			if (tab->pnt == 0)
-				tab->wdt = tab->wdt * 10 + (*format - '0');
+				tab->wdt = tab->wdt * 10 + (format[i] - '0');
 			else
-				tab->prc = tab->prc * 10 + (*format - '0');
+				tab->prc = tab->prc * 10 + (format[i] - '0');
 		}
 		i++;
 	}

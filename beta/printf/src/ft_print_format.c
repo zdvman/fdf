@@ -15,11 +15,11 @@
 void	ft_print_format(char format_specifier, t_print *tab)
 {
 	if (format_specifier == 'c')
-		tab->tl += ft_putchar(va_arg(tab->args, int));
+		ft_print_char(va_arg(tab->args, int), tab);
 	else if (format_specifier == 's')
-		tab->tl += ft_putstr(va_arg(tab->args, char *));
+		ft_print_str(va_arg(tab->args, char *), tab);
 	else if (format_specifier == 'i' || format_specifier == 'd')
-		ft_putnbr((long)va_arg(tab->args, int), tab);
+		ft_print_nbr((long)va_arg(tab->args, int), tab);
 	else if (format_specifier == 'u')
 		ft_putunsigned(va_arg(tab->args, unsigned int), 10, 0, tab);
 	else if (format_specifier == 'o')
@@ -29,7 +29,7 @@ void	ft_print_format(char format_specifier, t_print *tab)
 	else if (format_specifier == 'X')
 		ft_putunsigned(va_arg(tab->args, unsigned int), 16, 1, tab);
 	else if (format_specifier == 'p')
-		ft_putptr(va_arg(tab->args, void *), tab);
+		ft_print_ptr(va_arg(tab->args, void *), tab);
 	else if (format_specifier == '%')
 		tab->tl += ft_putchar('%');
 }

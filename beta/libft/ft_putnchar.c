@@ -1,40 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_putnchar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 11:11:22 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/10 11:11:22 by dzuiev           ###   ########.fr       */
+/*   Created: 2023/12/10 19:01:49 by dzuiev            #+#    #+#             */
+/*   Updated: 2023/12/10 19:01:49 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_printf.h"
+#include "libft.h"
 
-int	ft_putnbr(long int n)
+int	ft_putnchar(char c, int n)
 {
-	int	len;
+	int i;
 
-	len = 0;
-	if (n == LONG_MIN) {
-		len += ft_putchar('-');
-		len += ft_putnbr(-(n / 10));
-		len += ft_putchar('0' - (n % 10));
-		return len;
+	i = 0;
+	while (i < n)
+	{
+		ft_putchar(c);
+		i++;
 	}
-
-	if (n < 0) {
-		len += ft_putchar('-');
-		n = -n;
-	}
-
-	if (n < 10) {
-		len += ft_putchar(n + '0');
-	} else {
-		len += ft_putnbr(n / 10);
-		len += ft_putnbr(n % 10);
-	}
-
-	return len;
+	return (i);
 }

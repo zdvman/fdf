@@ -62,7 +62,7 @@ re:		 fclean all
 
 # Rule for compiling and running tests (Adjust as needed)
 test:
-			$(CC) $(CFLAGS) $(wildcard src/*.c) $(wildcard tests/*.c) -o test_program -L$(LIBFT_DIR) -lft
+			$(CC) $(CFLAGS) -g $(wildcard src/*.c) $(wildcard tests/*.c) -o test_program -L$(LIBFT_DIR) -lft
 
 
 # Marking phony targets

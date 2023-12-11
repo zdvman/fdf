@@ -16,12 +16,9 @@ int	ft_putstr(char *s)
 {
 	int	len;
 
-	len = 0;
 	if (s == NULL)
-	{
-		len += write(1, "(null)", 6);
-		return (len);
-	}
+		return (0);
+	len = 0;
 	while (*s)
 		len += write(1, s++, sizeof(char));
 	return (len);
