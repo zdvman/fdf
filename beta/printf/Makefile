@@ -10,19 +10,19 @@
 #                                                                              #
 # **************************************************************************** #
 
-# Название целевой библиотеки
+# Name of the library
 NAME			= libftprintf.a
 
-# Путь к директории libft
+# Path to libft directory (relative to the Makefile)
 LIBFT_DIR		= ../libft
-# Используем скрипт для получения списка исходных файлов из libft, используемых в printf
+# Create the list of used functions from libft (found by find_used_libft_funcs.sh)
 LIBFT_USED_SRCS	= $(shell sh find_used_libft_funcs.sh)
-# Преобразуем исходные файлы .c в объектные файлы .o
+# Convert .c files to .o files for libft used in printf
 LIBFT_OBJS		= $(patsubst $(LIBFT_DIR)/%.c,$(LIBFT_DIR)/obj/%.o,$(LIBFT_USED_SRCS))
 
-# Исходные файлы для ft_printf
+# Source files of the library (all .c files in src directory)
 SRCS			= $(shell find src -name 'ft_*.c')
-# Преобразование исходных файлов в объектные файлы
+# Convert .c files to .o files for the library (in obj directory)
 OBJS			= $(patsubst src/%.c,obj/%.o,$(SRCS))
 
 CC				= cc
@@ -39,17 +39,17 @@ $(LIBFT):		$(LIBFT_OBJS)
 				@mkdir -p $(LIBFT_DIR)/obj
 				$(AR) $(LIBFT) $(LIBFT_OBJS)
 
-# Rule for compiling libft .c to .o
+# Rule for compiling libft .c to .o (in obj directory of libft)
 $(LIBFT_DIR)/obj/%.o:	$(LIBFT_DIR)/%.c
 				@mkdir -p $(LIBFT_DIR)/obj
 				$(CC) $(CFLAGS) -c $< -o $@
 
-# Generic rule for compiling .c to .o
+# Generic rule for compiling .c to .o (in obj directory)
 obj/%.o:		src/%.c
 				@mkdir -p obj
 				$(CC) $(CFLAGS) -c $< -o $@
 
-# Объявление правила 'objdir'
+# Rule for creating the obj directory (if needed)
 objdir:
 				@mkdir -p obj
 				@mkdir -p $(LIBFT_DIR)/obj
