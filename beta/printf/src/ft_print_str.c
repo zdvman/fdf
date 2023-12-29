@@ -15,30 +15,26 @@
 int	ft_print_str(char *str, t_print *tab)
 {
 	int	len;
+	int	space_count;
 
 	if (!str)
-	{
 		str = "(null)";
-		len = 6;
-	}
-	else
-		len = ft_strlen(str);
+	len = ft_strlen(str);
 	if (tab->pnt && tab->prc < len)
 		len = tab->prc;
 	if (tab->wdt > len)
-	{
-		if (tab->dash)
-		{
-			tab->tl += ft_putnstr(str, len);
-			tab->tl += ft_putnchar(' ', tab->wdt - len);
-		}
-		else
-		{
-			tab->tl += ft_putnchar(' ', tab->wdt - len);
-			tab->tl += ft_putnstr(str, len);
-		}
-	}
+		space_count = tab->wdt - len;
 	else
+		space_count = 0;
+	if (tab->dash) // Выравнивание по левому краю
+	{
 		tab->tl += ft_putnstr(str, len);
+		tab->tl += ft_putnchar(' ', space_count);
+	}
+	else // Выравнивание по правому краю
+	{
+		tab->tl += ft_putnchar(' ', space_count);
+		tab->tl += ft_putnstr(str, len);
+	}
 	return (tab->tl);
 }

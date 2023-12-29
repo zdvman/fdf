@@ -18,23 +18,17 @@ int	ft_putnbr(long int n)
 
 	len = 0;
 	if (n == LONG_MIN) {
-		len += ft_putchar('-');
 		len += ft_putnbr(-(n / 10));
 		len += ft_putchar('0' - (n % 10));
 		return len;
 	}
-
-	if (n < 0) {
-		len += ft_putchar('-');
+	if (n < 0)
 		n = -n;
-	}
-
 	if (n < 10) {
 		len += ft_putchar(n + '0');
 	} else {
 		len += ft_putnbr(n / 10);
 		len += ft_putnbr(n % 10);
 	}
-
 	return len;
 }

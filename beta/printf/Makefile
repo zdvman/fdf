@@ -26,7 +26,7 @@ SRCS			= $(shell find src -name 'ft_*.c')
 OBJS			= $(patsubst src/%.c,obj/%.o,$(SRCS))
 
 CC				= cc
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror -g
 RM				= rm -rf
 AR				= ar crs
 
@@ -57,6 +57,8 @@ objdir:
 # Rule for all
 all:			$(NAME)
 
+bonus:			$(NAME)
+
 # Rule for cleaning object files and the obj directory
 clean:
 				$(RM) obj
@@ -66,14 +68,14 @@ clean:
 fclean:	 		clean
 				$(RM) $(NAME)
 				$(RM) $(LIBFT)
-				$(RM) test_program
+				$(RM) test
 
 # Rule for re-making everything
 re:				fclean all
 
 # Rule for compiling and running tests (Adjust as needed)
 test:			$(NAME)
-				$(CC) $(CFLAGS) -g -o test_program tests/main.c -L. -lftprintf
+				$(CC) $(CFLAGS) -o test tests/main.c -L. -lftprintf
 
 # Marking phony targets
-.PHONY:			all clean fclean re test objdir
+.PHONY:			all clean fclean re test objdir bonus

@@ -61,6 +61,8 @@ static int	ft_print_sign(long int n, t_print *tab)
 	len = 0;
 	if (tab->sign && n > 0)
 		len += ft_putchar('+');
+	else if (n < 0)
+		len += ft_putchar('-');
 	else if (tab->sp && n > 0)
 		len += ft_putchar(' ');
 	tab->sign = 0;

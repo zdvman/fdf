@@ -33,7 +33,7 @@ int	ft_print_ptr(void *ptr, t_print *tab)
 	len = tab->wdt - len;
 	if (tab->dash)
 	{
-		tab->tl += ft_putptr(ptr, tab);
+		ft_putptr(ptr, tab);
 		if (len > 0)
 			tab->tl += ft_putnchar(' ', len);
 	}
@@ -41,7 +41,7 @@ int	ft_print_ptr(void *ptr, t_print *tab)
 	{
 		if (len > 0)
 			tab->tl += ft_putnchar(' ', len);
-		tab->tl += ft_putptr(ptr, tab);
+		ft_putptr(ptr, tab);
 	}
 	return (tab->tl);
 }

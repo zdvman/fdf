@@ -21,13 +21,13 @@ void	ft_print_format(char format_specifier, t_print *tab)
 	else if (format_specifier == 'i' || format_specifier == 'd')
 		ft_print_nbr((long)va_arg(tab->args, int), tab);
 	else if (format_specifier == 'u')
-		ft_putunsigned(va_arg(tab->args, unsigned int), 10, 0, tab);
+		ft_print_unsigned(va_arg(tab->args, unsigned int), 10, 0, tab);
 	else if (format_specifier == 'o')
-		ft_putunsigned(va_arg(tab->args, unsigned int), 8, 0, tab);
+		ft_print_unsigned(va_arg(tab->args, unsigned int), 8, 0, tab);
 	else if (format_specifier == 'x')
-		ft_putunsigned(va_arg(tab->args, unsigned int), 16, 0, tab);
+		ft_print_unsigned(va_arg(tab->args, unsigned int), 16, 0, tab);
 	else if (format_specifier == 'X')
-		ft_putunsigned(va_arg(tab->args, unsigned int), 16, 1, tab);
+		ft_print_unsigned(va_arg(tab->args, unsigned int), 16, 1, tab);
 	else if (format_specifier == 'p')
 		ft_print_ptr(va_arg(tab->args, void *), tab);
 	else if (format_specifier == '%')
