@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:17:52 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/12/29 15:23:50 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/01/15 10:56:39 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 # include <limits.h>
 # include "../../libft/libft.h"
 
-typedef struct	s_stack
+typedef struct	s_list
 {
+	int		num;
+	struct	s_list	*next;
 
-} t_stack;
+}			t_list;
 
 #endif
