@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnstr.c                                       :+:      :+:    :+:   */
+/*   input_validation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/10 19:39:39 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/12/10 19:39:39 by dzuiev           ###   ########.fr       */
+/*   Created: 2024/01/16 12:49:38 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/01/16 12:49:38 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/ft_push_swap.h"
 
-int	ft_putnstr(char *str, int len)
+int	input_validation(char **argv)
 {
 	int	i;
+	int	count_zeros;
 
-	if (!str)
-		return (0);
-	i = 0;
-	while (i < len)
+	i = 1;
+	count_zeros = 0;
+	while (argv[i])
 	{
-		ft_putchar(str[i]);
+		if (!ft_isnumber(argv[i]) || ft_isempty(argv[i]))
+			return (0);
+		count_zeros += ft_iszero(argv[i]);
 		i++;
 	}
-	return (i);
+	if (count_zeros > 1)
+		return (0);
+	if (ft_duplicates_found(argv))
+		return (0);
+	return (1);
 }

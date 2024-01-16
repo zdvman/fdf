@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:17:10 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/12/10 19:39:16 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/01/16 13:15:29 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@ int				ft_tolower(int character);
 int				ft_lstsize(t_list *lst);
 int				ft_putnchar(char c, int n);
 int				ft_putnstr(char *str, int len);
+int				ft_issign(int c);
+int				ft_isnumber(char *arg);
+int				ft_iszero(char *arg);
+int				ft_isempty(char *arg);
+int				ft_duplicates_found(char **argv);
+int				ft_nbr_strcmp(const char *s1, const char *s2);
 char			*ft_strdup(const char *str);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);

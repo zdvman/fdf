@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnstr.c                                       :+:      :+:    :+:   */
+/*   ft_nbr_strcmp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/10 19:39:39 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/12/10 19:39:39 by dzuiev           ###   ########.fr       */
+/*   Created: 2024/01/16 13:08:33 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/01/16 13:08:33 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_putnstr(char *str, int len)
+int	ft_nbr_strcmp(const char *s1, const char *s2)
 {
 	int	i;
+	int	j;
 
-	if (!str)
-		return (0);
 	i = 0;
-	while (i < len)
+	j = 0;
+	if (s1[i] == '+')
 	{
-		ft_putchar(str[i]);
-		i++;
+		if (s2[j] != '+')
+			i++;
 	}
-	return (i);
+	else
+	{
+		if (s2[j] == '+')
+			j++;
+	}
+	while (s1[i] != '\0' && s2[j] != '\0' && s1[i] == s2[j])
+	{
+		i++;
+		j++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[j]);
 }

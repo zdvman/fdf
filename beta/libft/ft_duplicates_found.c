@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnstr.c                                       :+:      :+:    :+:   */
+/*   ft_duplicates_found.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/10 19:39:39 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/12/10 19:39:39 by dzuiev           ###   ########.fr       */
+/*   Created: 2024/01/16 12:46:28 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/01/16 12:46:28 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_putnstr(char *str, int len)
+int	ft_duplicates_found(char **argv)
 {
 	int	i;
+	int	j;
 
-	if (!str)
-		return (0);
-	i = 0;
-	while (i < len)
+	i = 1;
+	while (argv[i])
 	{
-		ft_putchar(str[i]);
+		j = 1;
+		while (argv[j])
+		{
+			if (j != i && ft_nbr_strcmp(argv[i], argv[j]) == 0)
+				return (1);
+			j++;
+		}
 		i++;
 	}
-	return (i);
+	return (0);
 }

@@ -11,17 +11,17 @@
 # **************************************************************************** #
 
 # Name of the library
-NAME			= libftprintf.a
+NAME			= libftpushswap.a
 
 # Path to libft directory (relative to the Makefile)
 LIBFT_DIR		= ../libft
-# Create the list of used functions from libft (found by find_used_libft_funcs.sh)
-LIBFT_USED_SRCS	= $(shell sh find_used_libft_funcs.sh)
+# Create the list of functions from libft
+LIBFT_SRCS	:= $(wildcard $(LIBFT_DIR)/*.c)
 # Convert .c files to .o files for libft used in printf
-LIBFT_OBJS		= $(patsubst $(LIBFT_DIR)/%.c,$(LIBFT_DIR)/obj/%.o,$(LIBFT_USED_SRCS))
+LIBFT_OBJS		= $(patsubst $(LIBFT_DIR)/%.c,$(LIBFT_DIR)/obj/%.o,$(LIBFT_SRCS))
 
 # Source files of the library (all .c files in src directory)
-SRCS			= $(shell find src -name 'ft_*.c')
+SRCS			= $(shell find src -name '*.c')
 # Convert .c files to .o files for the library (in obj directory)
 OBJS			= $(patsubst src/%.c,obj/%.o,$(SRCS))
 
@@ -75,7 +75,7 @@ re:				fclean all
 
 # Rule for compiling and running tests (Adjust as needed)
 test:			$(NAME)
-				$(CC) $(CFLAGS) -o test tests/main.c -L. -lftprintf
+				$(CC) $(CFLAGS) -o push_swap src/push_swap.c -L. -lftpushswap
 
 # Marking phony targets
 .PHONY:			all clean fclean re test objdir bonus
