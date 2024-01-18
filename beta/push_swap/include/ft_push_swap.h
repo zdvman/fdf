@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:17:52 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/18 13:16:55 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/01/18 18:37:38 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	rotate_rr(t_stack *stack_a, t_stack *stack_b);
 void	reverse_rotate_rra(t_stack *stack_a, int flag);
 void	reverse_rotate_rrb(t_stack *stack_b, int flag);
 void	reverse_rotate_rrr(t_stack *stack_a, t_stack *stack_b);
-void	free_stack(t_stack *stack);
 int		stack_sorted(t_stack *stack);
 int		argv_size(char **argv);
 

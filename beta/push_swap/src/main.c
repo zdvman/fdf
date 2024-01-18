@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 11:54:18 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/18 13:20:46 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/01/18 18:36:26 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,12 @@
 int	main(int argc, char **argv)
 {
 	t_stack	*stack_a;
-	int		i;
-	// int		flag;
 
 	stack_a = NULL;
-	i = 0;
-	// flag = 0;
 	if (argc < 2 || (ft_strisempty(argv[1]) && argc == 2))
 		return (1);
 	else if (argc == 2)
-	{
 		argv = ft_split(argv[1], ' ');
-		// flag = 1;
-	}
 	if (!input_validation(argv, !(argc == 2)))
 		error_exit(NULL, NULL);
 	else
