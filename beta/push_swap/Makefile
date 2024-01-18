@@ -6,12 +6,13 @@
 #    By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/10 10:47:10 by dzuiev            #+#    #+#              #
-#    Updated: 2023/12/05 15:16:36 by dzuiev           ###   ########.fr        #
+#    Updated: 2024/01/18 19:28:39 by dzuiev           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Name of the library
 NAME			= libftpushswap.a
+PROGRAM_NAME		= push_swap
 
 # Path to libft directory (relative to the Makefile)
 LIBFT_DIR		= ../libft
@@ -67,7 +68,8 @@ clean:
 # Rule for full clean (includes removing the library and the obj directory)
 fclean:	 		clean
 				$(RM) $(NAME)
-				$(RM) $(LIBFT)
+				$(RM) $(PROGRAM_NAME)
+#				$(RM) $(LIBFT)
 				$(RM) test
 
 # Rule for re-making everything
@@ -75,7 +77,7 @@ re:				fclean all
 
 # Rule for compiling and running tests (Adjust as needed)
 test:			$(NAME)
-				$(CC) $(CFLAGS) -o push_swap src/main.c -L. -lftpushswap
+				$(CC) $(CFLAGS) -o $(PROGRAM_NAME) src/main.c -L. -lftpushswap
 
 # Marking phony targets
 .PHONY:			all clean fclean re test objdir bonus
