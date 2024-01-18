@@ -6,69 +6,33 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 10:45:00 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/12/09 15:34:15 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/01/17 15:41:49 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static const char	*ft_whitespaces(const char *nptr)
+int	ft_atoi(const char *nptr)
 {
-	while ((*nptr >= 9 && *nptr <= 13) || *nptr == 32)
-		nptr++;
-	return (nptr);
-}
-
-static int	ft_sign(const char *nptr)
-{
-	int	sign;
-	int	num_of_signs;
-
-	num_of_signs = 0;
-	sign = 1;
-	while (*nptr == '-' || *nptr == '+')
-	{
-		num_of_signs++;
-		if (*nptr == '-' && num_of_signs == 1)
-			sign = -1;
-		nptr++;
-	}
-	if (num_of_signs == 0)
-		return (0);
-	else if (num_of_signs == 1)
-		return (sign);
-	else
-		return (num_of_signs);
-}
-
-static long int	ft_handledigits(const char *nptr)
-{
+	int			sign;
 	long int	num;
 
 	num = 0;
-	while (*nptr >= '0' && *nptr <= '9')
+	sign = 1;
+	while ((*nptr >= 9 && *nptr <= 13) || *nptr == 32)
+		nptr++;
+	if (*nptr == '-')
+	{
+		sign = -1;
+		nptr++;
+	}
+	else if (*nptr == '+')
+		nptr++;
+	while (ft_isdigit(*nptr))
 	{
 		num = num * 10 + (*nptr - 48);
 		nptr++;
 	}
+	num = num * sign;
 	return (num);
-}
-
-int	ft_atoi(const char *nptr)
-{
-	const char	*ptr;
-	long int	num;
-	int			sign;
-
-	num = 0;
-	ptr = ft_whitespaces(nptr);
-	sign = ft_sign(ptr);
-	if (sign > 1)
-		return (0);
-	else if (sign == 1 || sign == -1)
-		ptr++;
-	else
-		sign = 1;
-	num = ft_handledigits(ptr);
-	return (num *= sign);
 }

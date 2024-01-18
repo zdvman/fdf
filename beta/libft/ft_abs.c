@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isnumber.c                                      :+:      :+:    :+:   */
+/*   ft_abs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/16 12:41:32 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/16 12:41:32 by dzuiev           ###   ########.fr       */
+/*   Created: 2024/01/16 18:00:35 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/01/16 18:00:35 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isnumber(char *arg)
+int	ft_abs(int nbr)
 {
-	int	i;
-
-	i = 0;
-	if (ft_issign(arg[i]) && arg[i + 1] != '\0')
-		i++;
-	while (arg[i] && ft_isdigit(arg[i]))
-		i++;
-	if (arg[i] != '\0' && !ft_isdigit(arg[i]))
-		return (0);
-	return (1);
+	if (nbr < 0)
+		return (-nbr);
+	return (nbr);
 }

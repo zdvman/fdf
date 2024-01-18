@@ -1,27 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isnumber.c                                      :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/16 12:41:32 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/16 12:41:32 by dzuiev           ###   ########.fr       */
+/*   Created: 2024/01/17 15:32:35 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/01/17 15:32:35 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isnumber(char *arg)
+long int	ft_atol(const char *nptr)
 {
-	int	i;
+	int			sign;
+	long int	num;
 
-	i = 0;
-	if (ft_issign(arg[i]) && arg[i + 1] != '\0')
-		i++;
-	while (arg[i] && ft_isdigit(arg[i]))
-		i++;
-	if (arg[i] != '\0' && !ft_isdigit(arg[i]))
-		return (0);
-	return (1);
+	num = 0;
+	sign = 1;
+	while ((*nptr >= 9 && *nptr <= 13) || *nptr == 32)
+		nptr++;
+	if (*nptr == '-')
+	{
+		sign = -1;
+		nptr++;
+	}
+	else if (*nptr == '+')
+		nptr++;
+	while (ft_isdigit(*nptr))
+	{
+		num = num * 10 + (*nptr - 48);
+		nptr++;
+	}
+	num = num * sign;
+	return (num);
 }

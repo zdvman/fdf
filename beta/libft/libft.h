@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:17:10 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/16 13:15:29 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/01/17 15:43:31 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef struct s_list
 {
@@ -24,7 +25,8 @@ typedef struct s_list
 
 int				ft_putchar(char c);
 int				ft_putstr(char *s);
-int				ft_atoi(const char *str);
+int				ft_atoi(const char *nptr);
+long int		ft_atol(const char *nptr);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 void			*ft_memset(void *str, int c, size_t len);
 void			ft_bzero(void *str, size_t len);
@@ -52,7 +54,7 @@ int				ft_putnstr(char *str, int len);
 int				ft_issign(int c);
 int				ft_isnumber(char *arg);
 int				ft_iszero(char *arg);
-int				ft_isempty(char *arg);
+int				ft_strisempty(char *arg);
 int				ft_duplicates_found(char **argv);
 int				ft_nbr_strcmp(const char *s1, const char *s2);
 char			*ft_strdup(const char *str);
@@ -72,6 +74,7 @@ void			ft_lstadd_back(t_list **lst, t_list *new);
 void			ft_lstdelone(t_list *lst, void (*del)(void *));
 void			ft_lstclear(t_list **lst, void (*del)(void *));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
+void			ft_swap(int *a, int *b);
 t_list			*ft_lstnew(void *content);
 t_list			*ft_lstlast(t_list *lst);
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),

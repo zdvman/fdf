@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_validation.c                                 :+:      :+:    :+:   */
+/*   push.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/16 12:49:38 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/16 12:49:38 by dzuiev           ###   ########.fr       */
+/*   Created: 2024/01/17 06:58:03 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/01/17 06:58:03 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_push_swap.h"
 
-int	input_validation(char **argv, int i)
+void	push_pa(t_stack **stack_a, t_stack **stack_b)
 {
-	int	count_zeros;
-
-	count_zeros = 0;
-	while (argv[i])
+	t_stack	*tmp;
+	if (*stack_b)
 	{
-		if (!ft_isnumber(argv[i]) || ft_strisempty(argv[i]))
-			return (0);
-		count_zeros += ft_iszero(argv[i]);
-		i++;
+		tmp = *stack_b;
+		*stack_b = (*stack_b)->next;
+		tmp->next = *stack_a;
+		*stack_a = tmp;
+		ft_putstr("pa\n");
 	}
-	if (count_zeros > 1)
-		return (0);
-	if (ft_duplicates_found(argv))
-		return (0);
-	return (1);
+}
+
+void	push_pb(t_stack **stack_a, t_stack **stack_b)
+{
+	t_stack	*tmp;
+
+	if (*stack_a)
+	{
+		tmp = *stack_a;
+		*stack_a = (*stack_a)->next;
+		tmp->next = *stack_b;
+		*stack_b = tmp;
+		ft_putstr("pb\n");
+	}
 }

@@ -75,7 +75,7 @@ re:				fclean all
 
 # Rule for compiling and running tests (Adjust as needed)
 test:			$(NAME)
-				$(CC) $(CFLAGS) -o push_swap src/push_swap.c -L. -lftpushswap
+				$(CC) $(CFLAGS) -o push_swap src/main.c -L. -lftpushswap
 
 # Marking phony targets
 .PHONY:			all clean fclean re test objdir bonus

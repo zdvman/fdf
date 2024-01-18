@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_validation.c                                 :+:      :+:    :+:   */
+/*   swap.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/16 12:49:38 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/16 12:49:38 by dzuiev           ###   ########.fr       */
+/*   Created: 2024/01/17 06:58:21 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/01/17 06:58:21 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_push_swap.h"
 
-int	input_validation(char **argv, int i)
+void	swap_sa(t_stack *stack_a, int flag)
 {
-	int	count_zeros;
-
-	count_zeros = 0;
-	while (argv[i])
+	if (stack_a && stack_a->next)
 	{
-		if (!ft_isnumber(argv[i]) || ft_strisempty(argv[i]))
-			return (0);
-		count_zeros += ft_iszero(argv[i]);
-		i++;
+		ft_swap(&stack_a->value, &stack_a->next->value);
+		if (flag)
+			ft_putstr("sa\n");
 	}
-	if (count_zeros > 1)
-		return (0);
-	if (ft_duplicates_found(argv))
-		return (0);
-	return (1);
+}
+
+void	swap_sb(t_stack *stack_b, int flag)
+{
+	if (stack_b && stack_b->next)
+	{
+		ft_swap(&stack_b->value, &stack_b->next->value);
+		if (flag)
+			ft_putstr("sb\n");
+	}
+}
+
+void	swap_ss(t_stack *stack_a, t_stack *stack_b)
+{
+	swap_sa(stack_a, 0);
+	swap_sb(stack_b, 0);
+		ft_putstr("ss\n");
 }
