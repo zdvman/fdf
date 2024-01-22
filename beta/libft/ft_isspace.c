@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_validation.c                                 :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/16 12:49:38 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/16 12:49:38 by dzuiev           ###   ########.fr       */
+/*   Created: 2024/01/21 17:08:48 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/01/21 17:08:48 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_push_swap.h"
+#include "libft.h"
 
-int	input_validation(char **argv, int i)
+int	ft_isspace(char c)
 {
-	while (argv[i])
-	{
-		if (!ft_isnumber(argv[i]) || ft_strisempty(argv[i])
-			|| ft_strisspace_only(argv[i]))
-			return (0);
-		i++;
-	}
-	return (1);
+	if (c == '\n' || c == '\t' || c == '\v' || c == '\f' || c == '\r'
+		|| c == ' ')
+		return (1);
+	return (0);
 }

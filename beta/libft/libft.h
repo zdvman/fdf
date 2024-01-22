@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:17:10 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/17 15:43:31 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/01/21 21:18:48 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int				ft_isalpha(int character);
 int				ft_isdigit(int character);
 int				ft_isalnum(int character);
 int				ft_isascii(int character);
+int				ft_isspace(char c);
 int				ft_isprint(int character);
 int				ft_toupper(int character);
 int				ft_tolower(int character);
@@ -55,6 +56,7 @@ int				ft_issign(int c);
 int				ft_isnumber(char *arg);
 int				ft_iszero(char *arg);
 int				ft_strisempty(char *arg);
+int				ft_strisspace_only(char *str);
 int				ft_duplicates_found(char **argv);
 int				ft_nbr_strcmp(const char *s1, const char *s2);
 char			*ft_strdup(const char *str);

@@ -17,11 +17,16 @@ int	ft_isnumber(char *arg)
 	int	i;
 
 	i = 0;
-	if (ft_issign(arg[i]) && arg[i + 1] != '\0')
-		i++;
-	while (arg[i] && ft_isdigit(arg[i]))
-		i++;
-	if (arg[i] != '\0' && !ft_isdigit(arg[i]))
+	if (arg)
+	{
+		if (ft_issign(arg[i]) && arg[i + 1] != '\0')
+			i++;
+		while (arg[i] && ft_isdigit(arg[i]))
+			i++;
+		if (arg[i] != '\0' && !ft_isdigit(arg[i]))
+			return (0);
+	}
+	else
 		return (0);
 	return (1);
 }

@@ -12,62 +12,34 @@
 
 #include "../include/ft_push_swap.h"
 
-void	error_exit(t_stack *stack_a, t_stack *stack_b)
+void	exit_error(t_stack *stack_a, t_stack *stack_b,
+			char **argv, int free_argv_flag)
 {
 	if (stack_a == NULL || stack_a != NULL)
 		free_stack(stack_a);
 	if (stack_b == NULL || stack_b != NULL)
 		free_stack(stack_b);
 	write(2, "Error\n", 6);
+	if (free_argv_flag)
+		free_argv(argv);
 	exit(1);
 }
 
-void	free_stack(t_stack *stack)
+void	exit_program(t_stack *stack_a, t_stack *stack_b,
+			char **argv, int free_argv_flag)
 {
-	t_stack	*tmp;
-
-	if (!stack)
-		return ;
-	while (stack)
-	{
-		tmp = stack;
-		stack = stack->next;
-		free(tmp);
-	}
+	if (stack_a == NULL || stack_a != NULL)
+		free_stack(stack_a);
+	if (stack_b == NULL || stack_b != NULL)
+		free_stack(stack_b);
+	if (free_argv_flag)
+		free_argv(argv);
+	exit(1);
 }
 
-int	stack_sorted(t_stack *stack)
+int	argv_size(char **argv)
 {
-	t_stack	*tmp;
-
-	tmp = stack;
-	while (tmp->next)
-	{
-		if (tmp->value > tmp->next->value)
-			return (0);
-		tmp = tmp->next;
-	}
-	return (1);
-}
-
-int	stack_size(t_stack *stack)
-{
-	int		size;
-	t_stack	*tmp;
-
-	size = 0;
-	tmp = stack;
-	while (tmp)
-	{
-		size++;
-		tmp = tmp->next;
-	}
-	return (size);
-}
-
-int argv_size(char **argv)
-{
-	int i;
+	int	i;
 
 	i = 0;
 	while (argv[i])
@@ -75,9 +47,9 @@ int argv_size(char **argv)
 	return (i);
 }
 
-void free_argv(char **argv)
+void	free_argv(char **argv)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (argv[i])
@@ -86,4 +58,18 @@ void free_argv(char **argv)
 		i++;
 	}
 	free(argv);
+}
+
+int	argv_is_nbr(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+	{
+		if (!ft_isnumber(argv[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }

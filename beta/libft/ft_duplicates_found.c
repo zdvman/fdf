@@ -17,10 +17,10 @@ int	ft_duplicates_found(char **argv)
 	int	i;
 	int	j;
 
-	i = 1;
+	i = 0;
 	while (argv[i])
 	{
-		j = 1;
+		j = 0;
 		while (argv[j])
 		{
 			if (j != i && ft_nbr_strcmp(argv[i], argv[j]) == 0)

@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_validation.c                                 :+:      :+:    :+:   */
+/*   ft_strisspace_only.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/16 12:49:38 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/16 12:49:38 by dzuiev           ###   ########.fr       */
+/*   Created: 2024/01/21 17:06:55 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/01/21 17:06:55 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_push_swap.h"
+#include "libft.h"
 
-int	input_validation(char **argv, int i)
+int	ft_strisspace_only(char *str)
 {
-	while (argv[i])
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		if (!ft_isnumber(argv[i]) || ft_strisempty(argv[i])
-			|| ft_strisspace_only(argv[i]))
+		if (!ft_isspace(str[i]))
 			return (0);
 		i++;
 	}

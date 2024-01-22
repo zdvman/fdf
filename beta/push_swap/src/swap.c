@@ -36,5 +36,5 @@ void	swap_ss(t_stack *stack_a, t_stack *stack_b)
 {
 	swap_sa(stack_a, 0);
 	swap_sb(stack_b, 0);
-		ft_putstr("ss\n");
+	ft_putstr("ss\n");
 }

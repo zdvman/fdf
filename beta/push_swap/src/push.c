@@ -15,6 +15,8 @@
 void	push_pa(t_stack **stack_a, t_stack **stack_b)
 {
 	t_stack	*tmp;
+
+	tmp = NULL;
 	if (*stack_b)
 	{
 		tmp = *stack_b;
@@ -29,6 +31,7 @@ void	push_pb(t_stack **stack_a, t_stack **stack_b)
 {
 	t_stack	*tmp;
 
+	tmp = NULL;
 	if (*stack_a)
 	{
 		tmp = *stack_a;

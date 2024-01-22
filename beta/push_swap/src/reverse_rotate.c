@@ -12,11 +12,13 @@
 
 #include "../include/ft_push_swap.h"
 
-void reverse_rotate_rra(t_stack *stack_a, int flag)
+void	reverse_rotate_rra(t_stack *stack_a, int flag)
 {
 	t_stack	*tmp;
 	t_stack	*tmp2;
 
+	tmp = NULL;
+	tmp2 = NULL;
 	if (stack_a && stack_a->next)
 	{
 		tmp = stack_a;
@@ -31,11 +33,13 @@ void reverse_rotate_rra(t_stack *stack_a, int flag)
 	}
 }
 
-void reverse_rotate_rrb(t_stack *stack_b, int flag)
+void	reverse_rotate_rrb(t_stack *stack_b, int flag)
 {
 	t_stack	*tmp;
 	t_stack	*tmp2;
 
+	tmp = NULL;
+	tmp2 = NULL;
 	if (stack_b && stack_b->next)
 	{
 		tmp = stack_b;
@@ -50,7 +54,7 @@ void reverse_rotate_rrb(t_stack *stack_b, int flag)
 	}
 }
 
-void reverse_rotate_rrr(t_stack *stack_a, t_stack *stack_b)
+void	reverse_rotate_rrr(t_stack *stack_a, t_stack *stack_b)
 {
 	reverse_rotate_rra(stack_a, 0);
 	reverse_rotate_rrb(stack_b, 0);

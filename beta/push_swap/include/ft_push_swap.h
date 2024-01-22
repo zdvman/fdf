@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:17:52 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/18 18:37:38 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/01/22 01:16:10 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,16 @@ typedef struct s_stack
 }					t_stack;
 
 int		input_validation(char **argv, int i);
-void	error_exit(t_stack *stack_a, t_stack *stack_b);
+void	exit_error(t_stack *stack_a, t_stack *stack_b,
+			char **argv, int free_argv_flag);
+void	exit_program(t_stack *stack_a, t_stack *stack_b,
+			char **argv, int free_argv_flag);
 void	free_stack(t_stack *stack);
 void	free_argv(char **argv);
-t_stack	*fill_stack_with_values(int argc, char **argv, int i);
+t_stack	*fill_stack_with_values(int argc, char **argv,
+			int i, int free_argv_flag);
 t_stack	*stack_new(int value);
+t_stack	*stack_last(t_stack *stack);
 t_stack	*stack_add_bottom(t_stack *stack, int value);
 t_stack	*stack_add_top(t_stack *stack, int value);
 t_stack	*get_stack_before_bottom(t_stack *stack);
@@ -53,5 +58,6 @@ void	reverse_rotate_rrb(t_stack *stack_b, int flag);
 void	reverse_rotate_rrr(t_stack *stack_a, t_stack *stack_b);
 int		stack_sorted(t_stack *stack);
 int		argv_size(char **argv);
+int		duplicates_found(t_stack *stack);
 
 #endif
