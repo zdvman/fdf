@@ -16,9 +16,9 @@ void	exit_error(t_stack *stack_a, t_stack *stack_b,
 			char **argv, int free_argv_flag)
 {
 	if (stack_a == NULL || stack_a != NULL)
-		free_stack(stack_a);
+		free_stack(&stack_a);
 	if (stack_b == NULL || stack_b != NULL)
-		free_stack(stack_b);
+		free_stack(&stack_b);
 	write(2, "Error\n", 6);
 	if (free_argv_flag)
 		free_argv(argv);
@@ -29,9 +29,9 @@ void	exit_program(t_stack *stack_a, t_stack *stack_b,
 			char **argv, int free_argv_flag)
 {
 	if (stack_a == NULL || stack_a != NULL)
-		free_stack(stack_a);
+		free_stack(&stack_a);
 	if (stack_b == NULL || stack_b != NULL)
-		free_stack(stack_b);
+		free_stack(&stack_b);
 	if (free_argv_flag)
 		free_argv(argv);
 	exit(1);

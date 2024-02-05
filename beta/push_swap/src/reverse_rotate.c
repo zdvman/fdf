@@ -12,49 +12,51 @@
 
 #include "../include/ft_push_swap.h"
 
-void	reverse_rotate_rra(t_stack *stack_a, int flag)
+// Функция для выполнения обратного вращения стека A
+// flag гарантирует печать названия операции
+void	reverse_rotate_rra(t_stack **stack_a, int flag)
 {
 	t_stack	*tmp;
 	t_stack	*tmp2;
 
-	tmp = NULL;
-	tmp2 = NULL;
-	if (stack_a && stack_a->next)
+	if (*stack_a && (*stack_a)->next)
 	{
-		tmp = stack_a;
+		tmp = *stack_a;
 		while (tmp->next->next)
 			tmp = tmp->next;
 		tmp2 = tmp->next;
 		tmp->next = NULL;
-		tmp2->next = stack_a;
-		stack_a = tmp2;
+		tmp2->next = *stack_a;
+		*stack_a = tmp2;
 		if (flag)
 			ft_putstr("rra\n");
 	}
 }
 
-void	reverse_rotate_rrb(t_stack *stack_b, int flag)
+// Функция для выполнения обратного вращения стека B
+// flag гарантирует печать названия операции
+void	reverse_rotate_rrb(t_stack **stack_b, int flag)
 {
 	t_stack	*tmp;
 	t_stack	*tmp2;
 
-	tmp = NULL;
-	tmp2 = NULL;
-	if (stack_b && stack_b->next)
+	if (*stack_b && (*stack_b)->next)
 	{
-		tmp = stack_b;
+		tmp = *stack_b;
 		while (tmp->next->next)
 			tmp = tmp->next;
 		tmp2 = tmp->next;
 		tmp->next = NULL;
-		tmp2->next = stack_b;
-		stack_b = tmp2;
+		tmp2->next = *stack_b;
+		*stack_b = tmp2;
 		if (flag)
 			ft_putstr("rrb\n");
 	}
 }
 
-void	reverse_rotate_rrr(t_stack *stack_a, t_stack *stack_b)
+// Функция для одновременного выполнения обратного вращения обоих стеков
+// flag равен 0 чтобы печатать только rrr
+void	reverse_rotate_rrr(t_stack **stack_a, t_stack **stack_b)
 {
 	reverse_rotate_rra(stack_a, 0);
 	reverse_rotate_rrb(stack_b, 0);
