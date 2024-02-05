@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:17:52 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/02 14:45:20 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/05 18:47:24 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,16 @@ typedef struct s_stack
 	struct s_stack	*next;
 }					t_stack;
 
-int		input_validation(char **argv, int i);
-void	exit_error(t_stack *stack_a, t_stack *stack_b,
-			char **argv, int free_argv_flag);
-void	exit_program(t_stack *stack_a, t_stack *stack_b,
-			char **argv, int free_argv_flag);
+void	input_validation(int argc, char **argv);
+void	exit_error(t_stack **stack_a, t_stack **stack_b);
+void	free_all_stacks(t_stack **stack_a, t_stack **stack_b);
 void	free_stack(t_stack **stack);
 void	free_argv(char **argv);
-t_stack	*fill_stack_with_values(int argc, char **argv,
-			int i, int free_argv_flag);
+void	fill_stack_with_values(int argc, char **argv, t_stack **stack);
+void	stack_add_bottom(t_stack **stack, t_stack *new);
 t_stack	*stack_new(int value);
 t_stack	*stack_last(t_stack *stack);
-t_stack	*stack_add_bottom(t_stack *stack, int value);
-t_stack	*stack_add_top(t_stack *stack, int value);
-t_stack	*get_stack_before_bottom(t_stack *stack);
-t_stack	*get_stack_bottom(t_stack *stack);
-t_stack	*get_stack_before_top(t_stack *stack);
-t_stack	*get_stack_top(t_stack *stack);
-t_stack	*stack_remove_top(t_stack *stack);
-int		stack_size(t_stack *stack);
+int		stack_size(t_stack **stack);
 void	swap_sa(t_stack **stack_a, int flag);
 void	swap_sb(t_stack **stack_b, int flag);
 void	swap_ss(t_stack **stack_a, t_stack **stack_b);
@@ -57,9 +48,7 @@ void	reverse_rotate_rra(t_stack **stack_a, int flag);
 void	reverse_rotate_rrb(t_stack **stack_b, int flag);
 void	reverse_rotate_rrr(t_stack **stack_a, t_stack **stack_b);
 void	sort_stack(t_stack **stack_a, t_stack **stack_b);
-int		stack_sorted(t_stack *stack);
-int		argv_size(char **argv);
-int		duplicates_found(t_stack *stack);
+int		stack_sorted(t_stack **stack);
 int		choose_pivot(t_stack *stack);
 
 #endif

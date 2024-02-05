@@ -45,7 +45,7 @@ static void quicksort_stack_a(t_stack **stack_a, t_stack **stack_b, int count) {
 }
 
 void sort_stack(t_stack **stack_a, t_stack **stack_b) {
-    int count = stack_size(*stack_a);
+    int count = stack_size(stack_a);
     quicksort_stack_a(stack_a, stack_b, count);
 }
 

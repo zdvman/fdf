@@ -6,45 +6,44 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 11:54:18 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/02 17:09:24 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/05 18:53:15 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_push_swap.h"
 
-void print_stack(t_stack *stack)
+static void	print_stack(t_stack **stack)
 {
-	while (stack)
+	while (*stack)
 	{
-		printf("%d\n", stack->value);
-		stack = stack->next;
+		printf("%d\n", (*stack)->value);
+		(*stack) = (*stack)->next;
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	t_stack	*stack_a;
-	t_stack	*stack_b;
-	int		free_argv_flag;
+	t_stack	**stack_a;
+	t_stack	**stack_b;
 
-	stack_a = NULL;
-	stack_b = NULL;
-	free_argv_flag = 0;
-	if (argc < 2 || (argc == 2 && ft_isnumber(argv[1])))
+	if (argc < 2)
+		return (-1);
+	input_validation(argc, argv);
+	stack_a = (t_stack **)malloc(sizeof(t_stack *));
+	stack_b = (t_stack **)malloc(sizeof(t_stack *));
+	*stack_a = NULL;
+	*stack_b = NULL;
+	fill_stack_with_values(argc, argv, stack_a);
+	if (stack_sorted(stack_a))
+	{
+		free_stack(stack_a);
+		free_stack(stack_b);
 		return (0);
-	else if (argc == 2)
-	{
-		argv = ft_split(argv[1], ' ');
-		free_argv_flag = 1;
 	}
-	if (!input_validation(argv, !(argc == 2)))
-		exit_error(NULL, NULL, argv, free_argv_flag);
-	else
-	{
-		stack_a = fill_stack_with_values(argv_size(argv), argv, !(argc == 2), free_argv_flag);
-		sort_stack(&stack_a, &stack_b);
-		print_stack(stack_a);
-	}
-	exit_program(stack_a, NULL, argv, free_argv_flag);
+	print_stack(stack_a);
+	sleep(15);
+	// sort_stack(stack_a, stack_b);
+	print_stack(stack_a);
+	free_all_stacks(stack_a, stack_b);
 	return (0);
 }

@@ -6,33 +6,50 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 10:45:00 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/17 15:41:49 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/05 17:24:15 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+static int	ft_convert_digits(const char *str, int i, int sign)
 {
-	int			sign;
-	long int	num;
+	int	result;
 
-	num = 0;
+	result = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		if (result > INT_MAX / 10
+			|| (result == INT_MAX / 10 && (str[i] - '0') > INT_MAX % 10))
+		{
+			if (sign == 1)
+				return (INT_MAX);
+			else
+				return (INT_MIN);
+		}
+		result = result * 10 + (str[i] - '0');
+		i++;
+	}
+	return (result * sign);
+}
+
+int	ft_atoi(const char *str)
+{
+	int	result;
+	int	sign;
+	int	i;
+
+	result = 0;
 	sign = 1;
-	while ((*nptr >= 9 && *nptr <= 13) || *nptr == 32)
-		nptr++;
-	if (*nptr == '-')
+	i = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		sign = -1;
-		nptr++;
+		if (str[i] == '-')
+			sign = -1;
+		i++;
 	}
-	else if (*nptr == '+')
-		nptr++;
-	while (ft_isdigit(*nptr))
-	{
-		num = num * 10 + (*nptr - 48);
-		nptr++;
-	}
-	num = num * sign;
-	return (num);
+	result = ft_convert_digits(str, i, sign);
+	return (result);
 }

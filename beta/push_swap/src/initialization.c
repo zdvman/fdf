@@ -12,30 +12,29 @@
 
 #include "../include/ft_push_swap.h"
 
-t_stack	*fill_stack_with_values(int argc, char **argv,
-			int i, int free_argv_flag)
+void	fill_stack_with_values(int argc, char **argv, t_stack **stack_a)
 {
-	t_stack		*stack_a;
-	long int	nbr;
-	int			j;
+	t_stack	*new;
+	char	**nbr;
+	int		i;
 
-	nbr = 0;
-	j = i;
-	stack_a = NULL;
-	while (i < argc)
+	i = 0;
+	new = NULL;
+	if (argc == 2)
+		nbr = ft_split(argv[1], ' ');
+	else
 	{
-		nbr = ft_atol(argv[i]);
-		if (nbr > INT_MAX || nbr < INT_MIN)
-			exit_error(stack_a, NULL, argv, free_argv_flag);
-		if (i == j)
-			stack_a = stack_new(nbr);
-		else
-			stack_a = stack_add_bottom(stack_a, nbr);
+		nbr = argv;
+		i = 1;
+	}
+	while (nbr[i])
+	{
+		new = stack_new(ft_atol(nbr[i]));
+		stack_add_bottom(stack_a, new);
 		i++;
 	}
-	if (duplicates_found(stack_a))
-		exit_error(stack_a, NULL, argv, free_argv_flag);
-	return (stack_a);
+	if (argc == 2)
+		free_argv(nbr);
 }
 
 t_stack	*stack_new(int value)
@@ -51,35 +50,20 @@ t_stack	*stack_new(int value)
 	return (new);
 }
 
-t_stack	*stack_add_bottom(t_stack *stack, int value)
+void	stack_add_bottom(t_stack **stack, t_stack *new)
 {
-	t_stack	*new;
 	t_stack	*last;
 
-	new = stack_new(value);
-	if (!new)
-		return (NULL);
-	if (stack)
+	if (stack && new)
 	{
-		last = stack_last(stack);
-		last->next = new;
+		if (*stack)
+		{
+			last = stack_last(*stack);
+			last->next = new;
+		}
+		else
+			*stack = new;
 	}
-	else
-		stack = new;
-	return (stack);
-}
-
-t_stack	*stack_add_top(t_stack *stack, int value)
-{
-	t_stack	*new;
-
-	new = stack_new(value);
-	if (!new)
-		return (NULL);
-	if (!stack)
-		return (new);
-	new->next = stack;
-	return (new);
 }
 
 t_stack	*stack_last(t_stack *stack)
