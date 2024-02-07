@@ -12,15 +12,15 @@
 
 #include "../include/ft_push_swap.h"
 
-void	index_stack(t_stack	**stack_a)
+void	index_stack(t_stack **stack)
 {
 	t_stack	*tmp;
 	int		i;
 
-	if (stack_a && *stack_a)
+	if (stack && *stack)
 	{
-		i = 0;
-		tmp = *stack_a;
+		i = 1;
+		tmp = *stack;
 		while (tmp)
 		{
 			tmp->index = i;

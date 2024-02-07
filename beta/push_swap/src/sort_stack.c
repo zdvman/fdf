@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 19:32:47 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/07 14:07:29 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/07 16:34:47 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,49 +49,49 @@ static void	tiny_sort(t_stack **stack_a, int size, int fd)
 		sort_three(stack_a, fd);
 }
 
-static void	radix_sort(t_stack **stack_a, t_stack **stack_b, int size, int fd)
+static void	radix_sort(t_stack **stack_a, t_stack **stack_b, int fd)
 {
-	int		pivot;
-	int		i;
-	int		j;
-	int		*arr;
-	t_stack	*tmp;
+	t_stack	**tmp;
+	int	i, j;
+	int	s;
 
-	i = 0;
-	j = 0;
-	arr = (int *)malloc(sizeof(int) * size);
-	tmp = *stack_a;
-	while (tmp)
+	i = 10;
+	if (!stack_a || !*stack_a || !stack_b)
+		return ;
+	tmp = stack_a;
+	s = stack_size(stack_a);
+	while (!stack_sorted(tmp))
 	{
-		arr[i] = tmp->value;
-		tmp = tmp->next;
-		i++;
-	}
-	pivot = choose_pivot(*stack_a);
-	while (stack_size(stack_a) > 3)
-	{
-		i = 0;
-		while (i < size)
+		j = 0;
+		while (*tmp)
 		{
-			if (arr[i] < pivot)
+			if ((*tmp)->value % i == j)
 			{
+				while ((*tmp)->prev)
+				{
+					if ((*tmp)->index < s / 2)
+						rotate_ra(stack_a, 1, fd);
+					else
+						reverse_rotate_rra(stack_a, 1, fd);
+				}
 				push_pb(stack_a, stack_b, fd);
-				j++;
 			}
-			else
-				rotate_ra(stack_a, 1, fd);
-			i++;
+			if ((*tmp)->index == s)
+			{
+				j++;
+				s = stack_size(stack_a);
+				index_stack(stack_a);
+			}
+			if (j == 9)
+			{
+				j = 0;
+				i *= 10;
+			}
+			*tmp = (*tmp)->next;
 		}
-		while (j > 0)
-		{
+		while (*stack_b)
 			push_pa(stack_a, stack_b, fd);
-			j--;
-		}
 	}
-	tiny_sort(stack_a, stack_size(stack_a), fd);
-	while (*stack_b)
-		push_pa(stack_a, stack_b, fd);
-	free(arr);
 }
 
 void	sort_stack(t_stack **stack_a, t_stack **stack_b)
@@ -108,7 +108,7 @@ void	sort_stack(t_stack **stack_a, t_stack **stack_b)
 	}
 	else
 	{
-		radix_sort(stack_a, stack_b, size, fd);
+		radix_sort(stack_a, stack_b, fd);
 	}
 	close(fd);
 	fd = file_open_old("commands.txt");

@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:17:52 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/07 14:06:19 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/07 15:55:45 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_stack
 	int				value;
 	int				index;
 	struct s_stack	*next;
+	struct s_stack	*prev;
 }					t_stack;
 
 void	input_validation(int argc, char **argv);
@@ -51,6 +52,7 @@ void	reverse_rotate_rra(t_stack **stack_a, int flag, int fd);
 void	reverse_rotate_rrb(t_stack **stack_b, int flag, int fd);
 void	reverse_rotate_rrr(t_stack **stack_a, t_stack **stack_b, int fd);
 void	sort_stack(t_stack **stack_a, t_stack **stack_b);
+void    index_stack(t_stack **stack);
 int		stack_sorted(t_stack **stack);
 int		choose_pivot(t_stack *stack);
 int		file_open_old(char *file);
