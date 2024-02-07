@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 19:32:47 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/07 16:34:47 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/07 18:07:09 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static void	radix_sort(t_stack **stack_a, t_stack **stack_b, int fd)
 					else
 						reverse_rotate_rra(stack_a, 1, fd);
 				}
+				swap_sa(stack_a, 1, fd);
 				push_pb(stack_a, stack_b, fd);
 			}
 			if ((*tmp)->index == s)
@@ -87,7 +88,6 @@ static void	radix_sort(t_stack **stack_a, t_stack **stack_b, int fd)
 				j = 0;
 				i *= 10;
 			}
-			*tmp = (*tmp)->next;
 		}
 		while (*stack_b)
 			push_pa(stack_a, stack_b, fd);
