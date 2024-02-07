@@ -18,17 +18,17 @@
 // Устанавливаем, что следующим элементом для tmp будет верхний элемент стека A
 // Теперь tmp (бывший верхний элемент стека B)
 // является верхним элементом стека A
-void	push_pa(t_stack **stack_a, t_stack **stack_b)
+void	push_pa(t_stack **stack_a, t_stack **stack_b, int fd)
 {
 	t_stack	*tmp;
 
-	if (*stack_b)
+	if (stack_a && stack_b && *stack_b)
 	{
 		tmp = *stack_b;
 		*stack_b = (*stack_b)->next;
 		tmp->next = *stack_a;
 		*stack_a = tmp;
-		ft_putstr("pa\n");
+		write(fd, "pa\n", 3);
 	}
 }
 
@@ -38,16 +38,16 @@ void	push_pa(t_stack **stack_a, t_stack **stack_b)
 // Устанавливаем, что следующим элементом для tmp будет верхний элемент стека B
 // Теперь tmp (бывший верхний элемент стека A)
 // является верхним элементом стека B
-void	push_pb(t_stack **stack_a, t_stack **stack_b)
+void	push_pb(t_stack **stack_a, t_stack **stack_b, int fd)
 {
 	t_stack	*tmp;
 
-	if (*stack_a)
+	if (stack_a && *stack_a && stack_b)
 	{
 		tmp = *stack_a;
 		*stack_a = (*stack_a)->next;
 		tmp->next = *stack_b;
 		*stack_b = tmp;
-		ft_putstr("pb\n");
+		write(fd, "pb\n", 3);
 	}
 }

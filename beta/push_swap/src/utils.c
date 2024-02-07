@@ -64,9 +64,9 @@ void	exit_error(t_stack **stack_a, t_stack **stack_b)
 
 void	free_all_stacks(t_stack **stack_a, t_stack **stack_b)
 {
-	if (stack_a != NULL)
+	if (stack_a != NULL || stack_a == NULL)
 		free_stack(stack_a);
-	if (stack_b != NULL)
+	if (stack_b != NULL || stack_b == NULL)
 		free_stack(stack_b);
 }
 
@@ -103,4 +103,17 @@ void	free_argv(char **argv)
 		i++;
 	}
 	free(argv);
+}
+
+int	file_open(char *file)
+{
+	int	fd;
+
+	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		write(1, "Error: file open failed\n", 24);
+		exit(1);
+	}
+	return (fd);
 }

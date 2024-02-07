@@ -12,6 +12,24 @@
 
 #include "../include/ft_push_swap.h"
 
+void	index_stack(t_stack	**stack_a)
+{
+	t_stack	*tmp;
+	int		i;
+
+	if (stack_a && *stack_a)
+	{
+		i = 0;
+		tmp = *stack_a;
+		while (tmp)
+		{
+			tmp->index = i;
+			tmp = tmp->next;
+			i++;
+		}
+	}
+}
+
 void	fill_stack_with_values(int argc, char **argv, t_stack **stack_a)
 {
 	t_stack	*new;
@@ -29,10 +47,11 @@ void	fill_stack_with_values(int argc, char **argv, t_stack **stack_a)
 	}
 	while (nbr[i])
 	{
-		new = stack_new(ft_atol(nbr[i]));
+		new = stack_new(ft_atoi(nbr[i]));
 		stack_add_bottom(stack_a, new);
 		i++;
 	}
+	index_stack(stack_a);
 	if (argc == 2)
 		free_argv(nbr);
 }

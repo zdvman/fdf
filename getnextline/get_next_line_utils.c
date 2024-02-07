@@ -6,13 +6,13 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 13:07:39 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/21 20:12:35 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/06 21:16:25 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char *s1, char const *s2)
+char	*ft_strjoin_gnl(char *s1, char const *s2)
 {
 	char	*str;
 	size_t	s1_len;
