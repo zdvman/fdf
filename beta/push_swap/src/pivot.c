@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 14:15:22 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/02 14:15:22 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/07 13:53:26 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,19 @@
 // Для выбора наиболее оптимального опорного элемента (pivot)
 // в контексте быстрой сортировки стеков, одним из лучших подходов
 // является использование "медианы трех". Этот метод заключается в выборе
-// медианного значения из трех элементов: первого, среднего и последнего в стеке.
+// медианного значения из трех элементов: первого, среднего 
+// и последнего в стеке.
 // Этот метод помогает уменьшить вероятность выбора крайне неудачного
-// опорного элемента, особенно в отсортированных или частично отсортированных данных.
+// опорного элемента, особенно в отсортированных или частично 
+// отсортированных данных.
 
 static int	find_median(int first, int middle, int last)
 {
-	if ((first - middle) * (last - first) >= 0) // Если first больше middle и last
+	if ((first - middle) * (last - first) >= 0)
 		return (first);
-	else if ((middle - first) * (last - middle) >= 0) // Если middle больше first и last
+	else if ((middle - first) * (last - middle) >= 0)
 		return (middle);
-	else // Если last больше first и middle
+	else
 		return (last);
 }
 
@@ -33,11 +35,11 @@ static int	find_middle(t_stack *stack, int count)
 {
 	t_stack	*tmp;
 	int		middle;
-	int		midIndex;
+	int		mid_index;
 
-	midIndex = count / 2;
+	mid_index = count / 2;
 	tmp = stack;
-	while (midIndex-- > 0)
+	while (mid_index-- > 0)
 		tmp = tmp->next;
 	middle = tmp->value;
 	return (middle);
@@ -45,12 +47,12 @@ static int	find_middle(t_stack *stack, int count)
 
 int	choose_pivot(t_stack *stack)
 {
-	t_stack	*tmp; 
-	int		first;				// Первый элемент
-	int		last;				// Последний элемент
-	int		middle;				// Средний элемент
+	t_stack	*tmp;
+	int		first;
+	int		last;
+	int		middle;
 	int		count;
-	
+
 	if (!stack || !stack->next)
 	{
 		if (stack)
@@ -59,14 +61,14 @@ int	choose_pivot(t_stack *stack)
 			return (0);
 	}
 	tmp = stack;
-	first = stack->value; // Первый элемент
-	count = 1;			// Счетчик для определения среднего элемента
+	first = stack->value;
+	count = 1;
 	while (tmp->next)
 	{
 		tmp = tmp->next;
 		count++;
 	}
-	last = tmp->value; // Записываем значение последнего элемента
-	middle = find_middle(stack, count); // Находим средний элемент
-	return find_median(first, middle, last); // Возвращаем медиану из трех значений
+	last = tmp->value;
+	middle = find_middle(stack, count);
+	return (find_median(first, middle, last));
 }

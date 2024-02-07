@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 12:49:38 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/16 12:49:38 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/07 13:17:27 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-static int	duplicates_found(char **nbr , long long int tmp, int i)
+static int	duplicates_found(char **nbr, long long int tmp, int i)
 {
 	i++;
 	while (nbr[i])

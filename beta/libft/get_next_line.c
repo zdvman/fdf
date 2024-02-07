@@ -6,13 +6,13 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:18:22 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/06 21:21:51 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/07 11:21:55 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_strjoin_gnl(char *s1, char const *s2)
+char	*ft_strjoin_gnl(char *s1, char const *s2)
 {
 	char	*str;
 	size_t	s1_len;

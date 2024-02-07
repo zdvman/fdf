@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 19:32:47 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/06 22:34:07 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/07 14:07:29 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ static void	tiny_sort(t_stack **stack_a, int size, int fd)
 		sort_three(stack_a, fd);
 }
 
-
-static void radix_sort(t_stack **stack_a, t_stack **stack_b, int size, int fd)
+static void	radix_sort(t_stack **stack_a, t_stack **stack_b, int size, int fd)
 {
 	int		pivot;
 	int		i;
@@ -95,42 +94,14 @@ static void radix_sort(t_stack **stack_a, t_stack **stack_b, int size, int fd)
 	free(arr);
 }
 
-static int	file_open(char *file)
-{
-	int	fd;
-
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		write(1, "Error: file open failed\n", 24);
-		exit(1);
-	}
-	return (fd);
-}
-
-static int	file_open_old(char *file)
-{
-	int	fd;
-
-	fd = open(file, O_WRONLY, 0644);
-	if (fd < 0)
-	{
-		write(1, "Error: file open failed\n", 24);
-		exit(1);
-	}
-	return (fd);
-}
-
 void	sort_stack(t_stack **stack_a, t_stack **stack_b)
 {
-	int fd;
-	int	size;
-	int size2 = stack_size(stack_b);
-	char *line;
+	int		fd;
+	int		size;
+	char	*line;
 
 	fd = file_open("commands.txt");
 	size = stack_size(stack_a);
-	size2++;
 	if (size <= 3)
 	{
 		tiny_sort(stack_a, size, fd);
@@ -139,11 +110,14 @@ void	sort_stack(t_stack **stack_a, t_stack **stack_b)
 	{
 		radix_sort(stack_a, stack_b, size, fd);
 	}
-		close(fd);
-		// fsync(fd);
-		fd = file_open_old("commands.txt");
-		line = get_next_line(fd);
-		ft_putstr(line);
+	close(fd);
+	fd = file_open_old("commands.txt");
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
+		ft_putstr_fd(line, 1);
 		free(line);
-		close(fd);
+		line = get_next_line(fd);
+	}
+	close(fd);
 }

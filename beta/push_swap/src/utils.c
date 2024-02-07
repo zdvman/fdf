@@ -105,15 +105,3 @@ void	free_argv(char **argv)
 	free(argv);
 }
 
-int	file_open(char *file)
-{
-	int	fd;
-
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		write(1, "Error: file open failed\n", 24);
-		exit(1);
-	}
-	return (fd);
-}
