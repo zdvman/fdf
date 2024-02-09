@@ -6,26 +6,38 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 11:54:18 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/07 13:41:02 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/08 20:34:03 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_push_swap.h"
 
-static void	print_stack(t_stack **stack)
-{
-	char	*str;
+// static void	print_stack(t_stack **stack)
+// {
+// 	t_stack	*tmp;
+// 	char	*str;
 
-	while (*stack)
-	{
-		str = ft_itoa((*stack)->value);
-		ft_putstr_fd(str, 1);
-		(*stack) = (*stack)->next;
-		free(str);
-		write(1, " ", 1);
-	}
-	write(1, "\n", 1);
-}
+// 	tmp = *stack;
+// 	while (tmp)
+// 	{
+// 		str = ft_itoa(tmp->value);
+// 		ft_putstr_fd(str, 1);
+// 		tmp = tmp->next;
+// 		free(str);
+// 		write(1, " ", 1);
+// 	}
+// 	write(1, "\n", 1);
+// 	tmp = *stack;
+// 	while (tmp)
+// 	{
+// 		str = ft_itoa(tmp->index);
+// 		ft_putstr_fd(str, 1);
+// 		tmp = tmp->next;
+// 		free(str);
+// 		write(1, " ", 1);
+// 	}
+// 	write(1, "\n\n", 1);
+// }
 
 int	main(int argc, char **argv)
 {
@@ -47,8 +59,9 @@ int	main(int argc, char **argv)
 		free(stack_b);
 		return (0);
 	}
+	// print_stack(stack_a);
 	sort_stack(stack_a, stack_b);
-	print_stack(stack_a);
+	// pr int_stack(stack_a);
 	free_all_stacks(stack_a, stack_b);
 	free(stack_a);
 	free(stack_b);

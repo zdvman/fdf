@@ -133,3 +133,23 @@ int	stack_size(t_stack **stack)
 	}
 	return (size);
 }
+
+int	stack_reverse_sorted(t_stack **stack)
+{
+	t_stack	*temp;
+
+	if (!stack || !(*stack))
+		return (1);
+	temp = *stack;
+	while (temp->next)
+	{
+		temp = temp->next;
+	}
+	while (temp->prev)
+	{
+		if (temp->value > temp->prev->value)
+			return (0);
+		temp = temp->prev;
+	}
+	return (1);
+}
