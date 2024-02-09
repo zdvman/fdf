@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 17:02:00 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/07 13:18:29 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/09 13:51:00 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	stack_sorted(t_stack **stack)
 
 /* ************************************************************************** */
 /*                                                                            */
-/*   Функция `stack_size` вычисляет размер стека, на который указывает       */
+/*   Функция `stack_size` вычисляет размер стека, на который указывает        */
 /*   двойной указатель `stack`.                                               */
 /*                                                                            */
 /*   Параметры:                                                               */
@@ -132,24 +132,4 @@ int	stack_size(t_stack **stack)
 		tmp = tmp->next;
 	}
 	return (size);
-}
-
-int	stack_reverse_sorted(t_stack **stack)
-{
-	t_stack	*temp;
-
-	if (!stack || !(*stack))
-		return (1);
-	temp = *stack;
-	while (temp->next)
-	{
-		temp = temp->next;
-	}
-	while (temp->prev)
-	{
-		if (temp->value > temp->prev->value)
-			return (0);
-		temp = temp->prev;
-	}
-	return (1);
 }

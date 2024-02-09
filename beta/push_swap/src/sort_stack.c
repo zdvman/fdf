@@ -6,79 +6,87 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 19:32:47 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/09 11:01:09 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/09 18:15:05 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_push_swap.h"
 
-static void	sort_three(t_stack **stack_a, int fd)
-{
-	if ((*stack_a)->value < (*stack_a)->next->value)
-	{
-		if ((*stack_a)->value > (*stack_a)->next->next->value)
-			reverse_rotate_rra(stack_a, 1, fd);
-		else
-		{
-			swap_sa(stack_a, 1, fd);
-			rotate_ra(stack_a, 1, fd);
-		}
-	}
-	else
-	{
-		if ((*stack_a)->next->value > (*stack_a)->next->next->value)
-		{
-			swap_sa(stack_a, 1, fd);
-			reverse_rotate_rra(stack_a, 1, fd);
-		}
-		else if ((*stack_a)->value < (*stack_a)->next->next->value)
-			swap_sa(stack_a, 1, fd);
-		else
-			rotate_ra(stack_a, 1, fd);
-	}
-}
-
-static void	tiny_sort(t_stack **stack_a, int size, int fd)
-{
-	if (stack_a && *stack_a && size == 2)
-	{
-		if ((*stack_a)->value > (*stack_a)->next->value)
-			swap_sa(stack_a, 1, fd);
-	}
-	else if (stack_a && *stack_a && size == 3)
-		sort_three(stack_a, fd);
-}
+/* ************************************************************************** */
+/*                                                                            */
+/*   Функция `get_max_steps` вычисляет количество шагов для сортировки        */
+/*   методом поразрядной сортировки по битам. Оно определяется как количество */
+/*   бит, необходимых для представления максимального индекса в стеке.        */
+/*                                                                            */
+/*   Параметры:                                                               */
+/*   - `stack`: двойной указатель на начало стека.                            */
+/*                                                                            */
+/*   Работа функции:                                                          */
+/*   1. Поиск максимального индекса в стеке.                                  */
+/*   2. Вычисление количества шагов (бит), необходимых для представления      */
+/*      максимального индекса.                                                */
+/*                                                                            */
+/*   Возвращаемое значение:                                                   */
+/*   - Возвращает количество шагов (целое число).                             */
+/*                                                                            */
+/* ************************************************************************** */
 
 static int	get_max_steps(t_stack **stack)
 {
 	t_stack	*head;
 	int		max;
-	int		max_bits;
+	int		max_steps;
 
 	head = *stack;
 	max = head->index;
-	max_bits = 0;
+	max_steps = 0;
 	while (head)
 	{
 		if (head->index > max)
 			max = head->index;
 		head = head->next;
 	}
-	while ((max >> max_bits) != 0)
-		max_bits++;
-	return (max_bits);
+	while ((max >> max_steps) != 0)
+		max_steps++;
+	return (max_steps);
 }
 
-static void	radix_sort(t_stack **stack_a, t_stack **stack_b, int fd)
+/* ************************************************************************** */
+/*                                                                            */
+/*   Функция `radix_sort_bits` реализует сортировку стека `a` с использованием*/
+/*   алгоритма поразрядной сортировки по битам.                               */
+/*   Элементы стека `a` перекладываются в стек `b` в зависимости от значения  */
+/*   текущего бита их индекса.                                                */
+/*                                                                            */
+/*   Параметры:                                                               */
+/*   - `stack_a`: двойной указатель на начало стека `a`.                      */
+/*   - `stack_b`: двойной указатель на начало стека `b`.                      */
+/*   - `fd`: файловый дескриптор для вывода операций.                         */
+/*                                                                            */
+/*   Работа функции:                                                          */
+/*   1. Определение количества шагов для сортировки, равное количеству битов  */
+/*      в индексе максимального элемента.                                     */
+/*   2. Поразрядное рассмотрение индексов элементов в стеке `a` с помощью     */
+/*      цикла, перебирающего биты от младших к старшим.                       */
+/*   3. Перекладывание элементов из `a` в `b` и обратно в зависимости от      */
+/*      значения текущего бита индекса.                                       */
+/*   4. Повторение процедуры для каждого бита.                                */
+/*                                                                            */
+/*   Возвращаемое значение:                                                   */
+/*   - Функция не возвращает значение.                                        */
+/*                                                                            */
+/* ************************************************************************** */
+
+static void	radix_sort_bits(t_stack **stack_a, t_stack **stack_b, int fd)
 {
 	int	i;
 	int	j;
-	int	max_bits;
+	int	max_steps;
 	int	current_size;
 
 	i = 0;
-	max_bits = get_max_steps(stack_a);
-	while (i < max_bits)
+	max_steps = get_max_steps(stack_a);
+	while (i < max_steps)
 	{
 		j = 0;
 		current_size = stack_size(stack_a);
@@ -95,60 +103,28 @@ static void	radix_sort(t_stack **stack_a, t_stack **stack_b, int fd)
 		i++;
 	}
 }
-/*
-static void	sort_by_index(t_stack **stack_a, t_stack **stack_b, int fd)
-{
-	t_stack *tmp;
-	int		median;
-	int		i;
-	int		j;
-	int		k;
 
-	k = 0;
-	j = 10;
-	while (stack_sorted(stack_a) == 0)
-	{
-		i = 0;
-		tmp = *stack_a;
-		median = stack_size(stack_a) / 2;
-		while (*stack_a && i < 10)
-		{
-			if (tmp == NULL)
-			{
-				i++;
-				tmp = *stack_a;
-				median = stack_size(stack_a) / 2;
-			}
-			else if (tmp->index % j == i)
-			{
-				k = tmp->order;
-				if (k <= median)
-				{
-					while (k-- > 0)
-						rotate_ra(stack_a, 1, fd);
-				}
-				else
-				{
-					while (k++ < stack_size(stack_a))
-						reverse_rotate_rra(stack_a, 1, fd);
-				}
-				push_pb(stack_a, stack_b, fd);
-				index_order(stack_a);
-				median = stack_size(stack_a) / 2;
-				tmp = *stack_a;
-			}
-			else
-			{
-				tmp = tmp->next;
-			}
-		}
-		j *= 10;
-		while (stack_size(stack_b) != 0)
-			push_pa(stack_a, stack_b, fd);
-	}
-}
-
-*/
+/* ************************************************************************** */
+/*                                                                            */
+/*   Функция `sort_stack` управляет процессом сортировки, выбирая метод       */
+/*   сортировки в зависимости от размера стека `a`. Если размер стека меньше  */
+/*   или равен трём, используется функция `tiny_sort`. В противном случае     */
+/*   используется функция `radix_sort_bits` для более эффективной сортировки. */
+/*                                                                            */
+/*   Параметры:                                                               */
+/*   - `stack_a`: двойной указатель на начало стека `a`.                      */
+/*   - `stack_b`: двойной указатель на начало стека `b`.                      */
+/*                                                                            */
+/*   Работа функции:                                                          */
+/*   1. Открытие файла "commands.txt" для записи операций сортировки.         */
+/*   2. Вызов соответствующего метода сортировки в зависимости от размера     */
+/*   стека.                                                                   */
+/*   3. Вывод записанных операций на стандартный вывод и закрытие файла.      */
+/*                                                                            */
+/*   Возвращаемое значение:                                                   */
+/*   - Функция не возвращает значение.                                        */
+/*                                                                            */
+/* ************************************************************************** */
 
 void	sort_stack(t_stack **stack_a, t_stack **stack_b)
 {
@@ -158,17 +134,16 @@ void	sort_stack(t_stack **stack_a, t_stack **stack_b)
 
 	fd = file_open("commands.txt");
 	size = stack_size(stack_a);
-	if (size <= 3)
+	if (size <= 5)
 	{
-		tiny_sort(stack_a, size, fd);
+		tiny_sort(stack_a, stack_b, size, fd);
 	}
 	else
 	{
-		// sort_by_index(stack_a, stack_b, fd);
-		radix_sort(stack_a, stack_b, fd);
+		radix_sort_bits(stack_a, stack_b, fd);
 	}
 	close(fd);
-	fd = file_open_old("commands.txt");  
+	fd = file_open_old("commands.txt");
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
