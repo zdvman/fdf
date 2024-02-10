@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:17:52 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/09 18:14:48 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/10 15:35:31 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	sort_stack(t_stack **stack_a, t_stack **stack_b);
 void	tiny_sort(t_stack **stack_a, t_stack **stack_b, int size, int fd);
 void	index_stack(t_stack **stack);
 void	index_order(t_stack **stack);
+int		execute_commands(t_stack **stack_a, t_stack **stack_b, char *command);
 int		stack_size(t_stack **stack);
 int		stack_sorted(t_stack **stack);
 int		file_open_old(char *file);
