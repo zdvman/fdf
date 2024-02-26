@@ -10,71 +10,85 @@
 #                                                                              #
 # **************************************************************************** #
 
-# Program names
-NAME           = push_swap
-NAME_BONUS     = checker
+# **************************************************************************** #
+#                                                                              #
+#                             Makefile for push_swap                           #
+#                                                                              #
+# **************************************************************************** #
 
-# Directories
-LIBFT_DIR      = libft
-SRC_DIR        = src
-OBJ_DIR        = obj
-INCLUDE_DIR    = include
-BONUS_DIR      = src_bonus
-OBJ_BONUS_DIR  = obj_bonus
+# Имена исполняемых файлов для основной и бонусной частей проекта
+NAME = push_swap
+BONUS_NAME = checker
 
-# Source files
-SRCS           = $(shell find $(SRC_DIR) -name '*.c' ! -name 'push_swap.c')
-OBJS           = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-BONUS_SRCS     = $(shell find $(BONUS_DIR) -name '*.c')
-BONUS_OBJS     = $(BONUS_SRCS:$(BONUS_DIR)/%.c=$(OBJ_BONUS_DIR)/%.o)
-MAIN_SRC       = $(SRC_DIR)/push_swap.c
-BONUS_MAIN_SRC = $(BONUS_DIR)/checker.c
+# Компилятор и флаги компиляции
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -g
 
-# Compiler and flags
-CC             = gcc
-CFLAGS         = -Wall -Wextra -Werror
+# Директории с исходным кодом и библиотеками
+LIBFT_DIR = libft
+INCLUDES = includes
+SRC_DIR = src
+OBJ_DIR = obj
+BONUS_DIR = src_bonus
+OBJ_BONUS_DIR = obj_bonus
 
-# Libraries
-LIBFT          = $(LIBFT_DIR)/libft.a
-LIBPS          = libpush_swap.a
+# Поиск исходных файлов и создание объектных файлов
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJS_WITHOUT_MAIN = $(filter-out $(OBJ_DIR)/push_swap.o, $(OBJS))
 
-# Compile libraries and programs
-all: $(LIBFT) $(LIBPS) $(NAME)
+BONUS_SRCS = $(wildcard $(BONUS_DIR)/*.c)
+BONUS_OBJS = $(BONUS_SRCS:$(BONUS_DIR)/%.c=$(OBJ_BONUS_DIR)/%.o)
 
-$(NAME): $(MAIN_SRC) $(LIBFT) $(LIBPS)
-	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $(NAME) $(MAIN_SRC) -L. -lpush_swap -L$(LIBFT_DIR) -lft
+# Статические библиотеки для основной и бонусной частей
+LIBFT = $(LIBFT_DIR)/libft.a
+LIBPS = libpush_swap.a
 
-bonus: $(LIBFT) $(LIBPS) $(NAME_BONUS)
+# Основная цель - сборка основной части проекта
+all: $(NAME)
 
-$(NAME_BONUS): $(BONUS_MAIN_SRC) $(LIBFT) $(LIBPS)
-	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -o $(NAME_BONUS) $(BONUS_MAIN_SRC) -L. -lpush_swap -L$(LIBFT_DIR) -lft
+# Сборка основной части проекта
+$(NAME): $(LIBPS) $(LIBFT) $(OBJ_DIR)/push_swap.o
+	$(CC) $(CFLAGS) -I$(INCLUDES) -o $(NAME) $(OBJ_DIR)/push_swap.o -L. -lpush_swap -L$(LIBFT_DIR) -lft
 
-# Compile libft
+# Сборка бонусной части проекта
+$(BONUS_NAME): $(LIBPS) $(LIBFT) $(BONUS_OBJS)
+	$(CC) $(CFLAGS) -I$(INCLUDES) -o $(BONUS_NAME) $(BONUS_OBJS) -L. -lpush_swap -L$(LIBFT_DIR) -lft
+
+# Компиляция библиотеки libft
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
-# Compile libpush_swap.a
-$(LIBPS): $(OBJS)
-	ar rcs $(LIBPS) $(OBJS)
+# Создание статической библиотеки libpush_swap.a из объектных файлов
+$(LIBPS): $(OBJS_WITHOUT_MAIN)
+	ar rcs $(LIBPS) $(OBJS_WITHOUT_MAIN)
 
-# Compiling .c to .o
+# Компиляция исходных файлов в объектные файлы
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(INCLUDES) -c $< -o $@
 
+# Компиляция исходных файлов бонусной части в объектные файлы
 $(OBJ_BONUS_DIR)/%.o: $(BONUS_DIR)/%.c
 	@mkdir -p $(OBJ_BONUS_DIR)
-	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(INCLUDES) -c $< -o $@
 
-# Cleaning rules
+# Цель для сборки бонусной части проекта
+bonus: $(BONUS_NAME)
+
+# Очистка всех созданных файлов
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
-	rm -rf $(OBJ_DIR) $(OBJ_BONUS_DIR)
+	rm -rf $(OBJ_DIR) $(OBJ_BONUS_DIR) $(LIBPS)
 
+# Полная очистка проекта
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	rm -f $(NAME) $(NAME_BONUS) $(LIBPS)
+	rm -f $(NAME) $(BONUS_NAME)
+	rm -f commands.txt
 
+# Пересборка проекта
 re: fclean all
 
+# Указание фиктивных целей
 .PHONY: all clean fclean re bonus

@@ -6,11 +6,11 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 19:32:47 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/09 18:15:05 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/11 16:03:05 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_push_swap.h"
+#include "../include/push_swap.h"
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -95,11 +95,11 @@ static void	radix_sort_bits(t_stack **stack_a, t_stack **stack_b, int fd)
 			if ((((*stack_a)->index >> i) & 1) == 1)
 				rotate_ra(stack_a, 1, fd);
 			else
-				push_pb(stack_a, stack_b, fd);
+				push_pb(stack_a, stack_b, 1, fd);
 			j++;
 		}
 		while (stack_size(stack_b) != 0)
-			push_pa(stack_a, stack_b, fd);
+			push_pa(stack_a, stack_b, 1, fd);
 		i++;
 	}
 }

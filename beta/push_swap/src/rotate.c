@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_push_swap.h"
+#include "../include/push_swap.h"
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -103,6 +103,7 @@ void	rotate_rb(t_stack **stack_b, int flag, int fd)
 /*   Параметры:                                                               */
 /*   - `stack_a`: двойной указатель на начало стека `a`.                      */
 /*   - `stack_b`: двойной указатель на начало стека `b`.                      */
+/*   - `flag`: флаг для определения необходимости вывода операции.            */
 /*   - `fd`: файловый дескриптор для записи комбинированной операции.         */
 /*                                                                            */
 /*   Работа функции:                                                          */
@@ -115,13 +116,14 @@ void	rotate_rb(t_stack **stack_b, int flag, int fd)
 /*                                                                            */
 /* ************************************************************************** */
 
-void	rotate_rr(t_stack **stack_a, t_stack **stack_b, int fd)
+void	rotate_rr(t_stack **stack_a, t_stack **stack_b, int flag, int fd)
 {
 	if (stack_a && *stack_a && (*stack_a)->next
 		&& stack_b && *stack_b && (*stack_b)->next)
 	{
 		rotate_ra(stack_a, 0, 0);
 		rotate_rb(stack_b, 0, 0);
-		write(fd, "rr\n", 3);
+		if (flag)
+			write(fd, "rr\n", 3);
 	}
 }

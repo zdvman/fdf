@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_push_swap.h"
+#include "../include/push_swap.h"
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -85,6 +85,7 @@ void	swap_sb(t_stack **stack_b, int flag, int fd)
 /*   Параметры:                                                               */
 /*   - `stack_a`: двойной указатель на начало стека `a`.                      */
 /*   - `stack_b`: двойной указатель на начало стека `b`.                      */
+/*   - `flag`: флаг для определения необходимости вывода операции.            */
 /*   - `fd`: файловый дескриптор для записи комбинированной операции.         */
 /*                                                                            */
 /*   Работа функции:                                                          */
@@ -97,12 +98,13 @@ void	swap_sb(t_stack **stack_b, int flag, int fd)
 /*                                                                            */
 /* ************************************************************************** */
 
-void	swap_ss(t_stack **stack_a, t_stack **stack_b, int fd)
+void	swap_ss(t_stack **stack_a, t_stack **stack_b, int flag, int fd)
 {
 	if (*stack_a && (*stack_a)->next && *stack_b && (*stack_b)->next)
 	{
 		swap_sa(stack_a, 0, 0);
 		swap_sb(stack_b, 0, 0);
-		write(fd, "ss\n", 3);
+		if (flag)
+			write(fd, "ss\n", 3);
 	}
 }

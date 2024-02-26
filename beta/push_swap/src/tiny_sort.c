@@ -6,11 +6,11 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 18:10:40 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/09 19:30:21 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/11 16:17:42 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_push_swap.h"
+#include "../include/push_swap.h"
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -108,7 +108,7 @@ void	remove_mins_from_stack_a(t_stack **stack_a, t_stack **stack_b, int fd)
 			else
 				reverse_rotate_rra(stack_a, 1, fd);
 		}
-		push_pb(stack_a, stack_b, fd);
+		push_pb(stack_a, stack_b, 1, fd);
 		min++;
 		if (stack_size(stack_a) == 3)
 			sort_three(stack_a, fd);
@@ -143,7 +143,7 @@ static void	selection_sort(t_stack **stack_a, t_stack **stack_b, int fd)
 	{
 		remove_mins_from_stack_a(stack_a, stack_b, fd);
 		while (*stack_b)
-			push_pa(stack_a, stack_b, fd);
+			push_pa(stack_a, stack_b, 1, fd);
 	}
 }
 

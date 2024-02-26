@@ -20,6 +20,8 @@ char	**ft_split(char const *s, char c)
 {
 	char	**result;
 
+	if (s == NULL)
+		return (NULL);
 	result = (char **)malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
 	if (!result)
 		return (NULL);

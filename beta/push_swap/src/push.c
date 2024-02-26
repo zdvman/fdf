@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_push_swap.h"
+#include "../include/push_swap.h"
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -21,6 +21,7 @@
 /*   Параметры:                                                               */
 /*   - `stack_a`: двойной указатель на вершину стека `a`.                     */
 /*   - `stack_b`: двойной указатель на вершину стека `b`.                     */
+/*   - `flag`: флаг для определения необходимости вывода операции.            */
 /*   - `fd`: файловый дескриптор для вывода операции.                         */
 /*                                                                            */
 /*   Работа функции:                                                          */
@@ -34,7 +35,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void	push_pa(t_stack **stack_a, t_stack **stack_b, int fd)
+void	push_pa(t_stack **stack_a, t_stack **stack_b, int flag, int fd)
 {
 	t_stack	*tmp;
 
@@ -44,7 +45,8 @@ void	push_pa(t_stack **stack_a, t_stack **stack_b, int fd)
 		*stack_b = (*stack_b)->next;
 		tmp->next = *stack_a;
 		*stack_a = tmp;
-		write(fd, "pa\n", 3);
+		if (flag)
+			write(fd, "pa\n", 3);
 	}
 }
 
@@ -56,6 +58,7 @@ void	push_pa(t_stack **stack_a, t_stack **stack_b, int fd)
 /*   Параметры:                                                               */
 /*   - `stack_a`: двойной указатель на вершину стека `a`.                     */
 /*   - `stack_b`: двойной указатель на вершину стека `b`.                     */
+/*   - `flag`: флаг для определения необходимости вывода операции.            */
 /*   - `fd`: файловый дескриптор для вывода операции.                         */
 /*                                                                            */
 /*   Работа функции:                                                          */
@@ -70,7 +73,7 @@ void	push_pa(t_stack **stack_a, t_stack **stack_b, int fd)
 /*                                                                            */
 /* ************************************************************************** */
 
-void	push_pb(t_stack **stack_a, t_stack **stack_b, int fd)
+void	push_pb(t_stack **stack_a, t_stack **stack_b, int flag, int fd)
 {
 	t_stack	*tmp;
 
@@ -80,6 +83,7 @@ void	push_pb(t_stack **stack_a, t_stack **stack_b, int fd)
 		*stack_a = (*stack_a)->next;
 		tmp->next = *stack_b;
 		*stack_b = tmp;
-		write(fd, "pb\n", 3);
+		if (flag)
+			write(fd, "pb\n", 3);
 	}
 }

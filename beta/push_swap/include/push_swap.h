@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_push_swap.h                                     :+:      :+:    :+:   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:17:52 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/10 15:35:31 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/11 17:30:42 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PUSH_SWAP_H
-# define FT_PUSH_SWAP_H
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -39,15 +39,16 @@ t_stack	*stack_new(int value);
 t_stack	*stack_last(t_stack *stack);
 void	swap_sa(t_stack **stack_a, int flag, int fd);
 void	swap_sb(t_stack **stack_b, int flag, int fd);
-void	swap_ss(t_stack **stack_a, t_stack **stack_b, int fd);
-void	push_pa(t_stack **stack_a, t_stack **stack_b, int fd);
-void	push_pb(t_stack **stack_a, t_stack **stack_b, int fd);
+void	swap_ss(t_stack **stack_a, t_stack **stack_b, int flag, int fd);
+void	push_pa(t_stack **stack_a, t_stack **stack_b, int flag, int fd);
+void	push_pb(t_stack **stack_a, t_stack **stack_b, int flag, int fd);
 void	rotate_ra(t_stack **stack_a, int flag, int fd);
 void	rotate_rb(t_stack **stack_b, int flag, int fd);
-void	rotate_rr(t_stack **stack_a, t_stack **stack_b, int fd);
+void	rotate_rr(t_stack **stack_a, t_stack **stack_b, int flag, int fd);
 void	reverse_rotate_rra(t_stack **stack_a, int flag, int fd);
 void	reverse_rotate_rrb(t_stack **stack_b, int flag, int fd);
-void	reverse_rotate_rrr(t_stack **stack_a, t_stack **stack_b, int fd);
+void	reverse_rotate_rrr(t_stack **stack_a, t_stack **stack_b, int flag,
+			int fd);
 void	sort_stack(t_stack **stack_a, t_stack **stack_b);
 void	tiny_sort(t_stack **stack_a, t_stack **stack_b, int size, int fd);
 void	index_stack(t_stack **stack);

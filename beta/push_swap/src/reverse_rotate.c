@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_push_swap.h"
+#include "../include/push_swap.h"
 
 /* ************************************************************************** */
 /*                                                                            */
@@ -107,6 +107,7 @@ void	reverse_rotate_rrb(t_stack **stack_b, int flag, int fd)
 /*   Параметры:                                                               */
 /*   - `stack_a`: двойной указатель на начало стека `a`.                      */
 /*   - `stack_b`: двойной указатель на начало стека `b`.                      */
+/*   - `flag`: флаг для определения необходимости вывода операции.            */
 /*   - `fd`: файловый дескриптор для вывода комбинированной операции.         */
 /*                                                                            */
 /*   Работа функции:                                                          */
@@ -120,13 +121,15 @@ void	reverse_rotate_rrb(t_stack **stack_b, int flag, int fd)
 /*                                                                            */
 /* ************************************************************************** */
 
-void	reverse_rotate_rrr(t_stack **stack_a, t_stack **stack_b, int fd)
+void	reverse_rotate_rrr(t_stack **stack_a, t_stack **stack_b, int flag,
+			int fd)
 {
 	if (stack_a && *stack_a && (*stack_a)->next
 		&& stack_b && *stack_b && (*stack_b)->next)
 	{
 		reverse_rotate_rra(stack_a, 0, 0);
 		reverse_rotate_rrb(stack_b, 0, 0);
-		write(fd, "rrr\n", 4);
+		if (flag)
+			write(fd, "rrr\n", 4);
 	}
 }

@@ -6,93 +6,160 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 14:15:25 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/10 15:38:14 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/11 17:34:08 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_push_swap.h"
+#include "../include/push_swap.h"
+
+/* ************************************************************************** */
+/*                                                                            */
+/*   Функция: do_reverse                                                      */
+/*   Описание: Выполняет обратные вращения ('rra', 'rrb', 'rrr') на стеках A  */
+/*   и B в зависимости от переданной команды.                                 */
+/*   Параметры:                                                               */
+/*     - t_stack **stack_a: Указатель на указатель на вершину стека A.        */
+/*     - t_stack **stack_b: Указатель на указатель на вершину стека B.        */
+/*     - char *command: Команда для выполнения.                               */
+/*   Возвращает: 0, если была выполнена команда, иначе 1.                     */
+/*                                                                            */
+/* ************************************************************************** */
 
 static int	do_reverse(t_stack **stack_a, t_stack **stack_b, char *command)
 {
-	if (!ft_strcmp(command, "rra"))
+	if (!ft_strcmp(command, "rra\n"))
 	{
-		reverse_rotate_rra(stack_a, 1, 1);
+		reverse_rotate_rra(stack_a, 0, 0);
 		return (0);
 	}
-	else if (!ft_strcmp(command, "rrb"))
+	else if (!ft_strcmp(command, "rrb\n"))
 	{
-		reverse_rotate_rrb(stack_b, 1, 1);
+		reverse_rotate_rrb(stack_b, 0, 0);
 		return (0);
 	}
-	else if (!ft_strcmp(command, "rrr"))
+	else if (!ft_strcmp(command, "rrr\n"))
 	{
-		reverse_rotate_rrr(stack_a, stack_b, 1);
+		reverse_rotate_rrr(stack_a, stack_b, 0, 0);
 		return (0);
 	}
 	else
 		return (1);
 }
+
+/* ************************************************************************** */
+/*                                                                            */
+/*   Функция: do_rotate                                                       */
+/*   Описание: Выполняет вращения ('ra', 'rb', 'rr') на стеках A и B в        */
+/*   зависимости от переданной команды.                                       */
+/*   Параметры:                                                               */
+/*     - t_stack **stack_a: Указатель на указатель на вершину стека A.        */
+/*     - t_stack **stack_b: Указатель на указатель на вершину стека B.        */
+/*     - char *command: Команда для выполнения.                               */
+/*   Возвращает: 0, если была выполнена команда, иначе 1.                     */
+/*                                                                            */
+/* ************************************************************************** */
 
 static int	do_rotate(t_stack **stack_a, t_stack **stack_b, char *command)
 {
-	if (!ft_strcmp(command, "ra"))
+	if (!ft_strcmp(command, "ra\n"))
 	{
-		rotate_ra(stack_a, 1, 1);
+		rotate_ra(stack_a, 0, 0);
 		return (0);
 	}
-	else if (!ft_strcmp(command, "rb"))
+	else if (!ft_strcmp(command, "rb\n"))
 	{
-		rotate_rb(stack_b, 1, 1);
+		rotate_rb(stack_b, 0, 0);
 		return (0);
 	}
-	else if (!ft_strcmp(command, "rr"))
+	else if (!ft_strcmp(command, "rr\n"))
 	{
-		rotate_rr(stack_a, stack_b, 1);
+		rotate_rr(stack_a, stack_b, 0, 0);
 		return (0);
 	}
 	else
 		return (1);
 }
+
+/* ************************************************************************** */
+/*                                                                            */
+/*   Функция: do_push                                                         */
+/*   Описание: Выполняет операции 'push' ('pa', 'pb'), перемещая элементы     */
+/*   между стеками A и B в зависимости от переданной команды.                 */
+/*   Параметры:                                                               */
+/*     - t_stack **stack_a: Указатель на указатель на вершину стека A.        */
+/*     - t_stack **stack_b: Указатель на указатель на вершину стека B.        */
+/*     - char *command: Команда для выполнения.                               */
+/*   Возвращает: 0, если была выполнена команда, иначе 1.                     */
+/*                                                                            */
+/* ************************************************************************** */
 
 static int	do_push(t_stack **stack_a, t_stack **stack_b, char *command)
 {
-	if (!ft_strcmp(command, "pa"))
+	if (!ft_strcmp(command, "pa\n"))
 	{
-		push_pa(stack_a, stack_b, 1);
+		push_pa(stack_a, stack_b, 0, 0);
 		return (0);
 	}
-	else if (!ft_strcmp(command, "pb"))
+	else if (!ft_strcmp(command, "pb\n"))
 	{
-		push_pb(stack_a, stack_b, 1);
+		push_pb(stack_a, stack_b, 0, 0);
 		return (0);
 	}
 	else
 		return (1);
 }
+
+/* ************************************************************************** */
+/*                                                                            */
+/*   Функция: do_swap                                                         */
+/*   Описание: Выполняет операции 'swap' ('sa', 'sb', 'ss'), меняя местами    */
+/*   элементы на вершине стеков A и B в зависимости от переданной команды.    */
+/*   Параметры:                                                               */
+/*     - t_stack **stack_a: Указатель на указатель на вершину стека A.        */
+/*     - t_stack **stack_b: Указатель на указатель на вершину стека B.        */
+/*     - char *command: Команда для выполнения.                               */
+/*   Возвращает: 0, если была выполнена команда, иначе 1.                     */
+/*                                                                            */
+/* ************************************************************************** */
 
 static int	do_swap(t_stack **stack_a, t_stack **stack_b, char *command)
 {
-	if (!ft_strcmp(command, "sa"))
+	if (!ft_strcmp(command, "sa\n"))
 	{
-		swap_sa(stack_a, 1, 1);
+		swap_sa(stack_a, 0, 0);
 		return (0);
 	}
-	else if (!ft_strcmp(command, "sb"))
+	else if (!ft_strcmp(command, "sb\n"))
 	{
-		swap_sb(stack_b, 1, 1);
+		swap_sb(stack_b, 0, 0);
 		return (0);
 	}
-	else if (!ft_strcmp(command, "ss"))
+	else if (!ft_strcmp(command, "ss\n"))
 	{
-		swap_ss(stack_a, stack_b, 1);
+		swap_ss(stack_a, stack_b, 0, 0);
 		return (0);
 	}
 	else
 		return (1);
 }
 
+/* ************************************************************************** */
+/*                                                                            */
+/*   Функция: execute_commands                                                */
+/*   Описание: Интегрирует все функции операций и выполняет переданную        */
+/*   команду, если она допустима.                                             */
+/*   Параметры:                                                               */
+/*     - t_stack **stack_a: Указатель на указатель на вершину стека A.        */
+/*     - t_stack **stack_b: Указатель на указатель на вершину стека B.        */
+/*     - char *command: Команда для выполнения.                               */
+/*   Возвращает: 0, если команда не была распознана и выполнена, иначе 1.     */
+/*                                                                            */
+/* ************************************************************************** */
+
 int	execute_commands(t_stack **stack_a, t_stack **stack_b, char *command)
 {
-	return (do_swap(stack_a, stack_b, command) || do_push(stack_a, stack_b, command)
-	      || do_rotate(stack_a, stack_b, command) || do_reverse(stack_a, stack_b, command));
+	return (do_swap(stack_a, stack_b, command)
+		&& do_push(stack_a, stack_b, command)
+		&& do_rotate(stack_a, stack_b, command)
+		&& do_reverse(stack_a, stack_b, command));
 }
