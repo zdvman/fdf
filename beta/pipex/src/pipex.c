@@ -12,7 +12,7 @@
 
 #include "../include/libpipex.h"
 
-void child_process(int i, t_pipex *pipex, int in, int out)
+void	child_process(int i, t_pipex *pipex, int in, int out)
 {
 	char	**cmd;
 	char	*my_path;
@@ -24,19 +24,13 @@ void child_process(int i, t_pipex *pipex, int in, int out)
 	close_unused_pipes(pipex, i);
 	cmd = ft_split(pipex->cmds[i], ' ');
 	if (!cmd)
-	{
-		perror("ft_split");
-		cleanup(pipex);
-		exit(EXIT_FAILURE);
-	}
+		cleanup(pipex, "ft_split error");
 	my_path = get_path(cmd[0], pipex->path);
 	execve(my_path, cmd, pipex->envp);
-	perror("execve");
-	cleanup(pipex);
-	exit(EXIT_FAILURE);
+	cleanup(pipex, "execve error");
 }
 
-void launch_processes(t_pipex *pipex)
+void	launch_processes(t_pipex *pipex)
 {
 	pid_t	pid;
 	int		i;
@@ -53,71 +47,63 @@ void launch_processes(t_pipex *pipex)
 			out = pipex->outfile_fd;
 		pid = fork();
 		if (pid == -1)
-		{
-			perror("fork");
-			cleanup(pipex);
-			exit(EXIT_FAILURE);
-		}
+			cleanup(pipex, "fork error");
 		if (pid == 0)
 			child_process(i, pipex, in, out);
-		close_unused_pipes(pipex, i);
+		if (i > 0)
+			close(in);
+		if (i < pipex->num_cmds - 1)
+			close(out);
 		in = pipex->pipes[i][0];
 	}
 }
 
-void	close_unused_pipes(t_pipex *pipex, int i)
+void	close_unused_pipes(t_pipex *pipex, int current_pipe)
 {
-	int j;
+	int	j;
 
-	j = 0;
-	while (j < pipex->num_pipes)
+	j = -1;
+	while (++j < pipex->num_pipes)
 	{
-		if (j != i)
+		if (j != current_pipe)
 		{
-			if (pipex->pipes[j][0] >= 0)
-				close(pipex->pipes[j][0]);
-			if (pipex->pipes[j][1] >= 0)
-				close(pipex->pipes[j][1]);
+			close(pipex->pipes[j][0]);
+			close(pipex->pipes[j][1]);
 		}
-		j++;
 	}
 }
 
-void wait_for_children(t_pipex *pipex)
+void	wait_for_children(t_pipex *pipex)
 {
-	int	status;
-	int	i;
+	pid_t	child_pid;
+	int		status;
+	int		i;
 
 	i = 0;
 	while (i < pipex->num_cmds)
 	{
-		wait(&status);
+		child_pid = wait(&status);
+		if (child_pid == -1)
+			cleanup(pipex, "wait error");
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-		{
-			cleanup(pipex);
-			exit(EXIT_FAILURE);
-		}
+			cleanup(pipex, "child process failed");
 		i++;
 	}
 }
 
-void	ft_pipex(t_pipex *pipex)
-{
-	launch_processes(pipex);
-	wait_for_children(pipex);
-}
-
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
 
 	if (argc < 5)
 	{
-		write(2, "Arguments Error.\nPlease follow the usage example: ./pipex infile \"cmd1\" \"cmd2\" ... \"cmdN\" outfile\n", 99);
+		write(2, "Arguments Error.\nPlease follow the usage example: ", 50);
+		write(2, "./pipex infile \"cmd1\" \"cmd2\" ... \"cmdN\" outfile\n", 49);
 		return (EXIT_FAILURE);
 	}
 	init_pipex(&pipex, argc, argv, envp);
-	ft_pipex(&pipex);
-	cleanup(&pipex);
+	launch_processes(&pipex);
+	wait_for_children(&pipex);
+	cleanup(&pipex, NULL);
 	return (EXIT_SUCCESS);
 }
