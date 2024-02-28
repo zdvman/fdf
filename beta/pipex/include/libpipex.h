@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 20:10:17 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/27 16:47:20 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/02/28 17:07:23 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int		open_file(char *file, int flag, t_pipex *pipex);
 void	init_pipex(t_pipex *pipex, int argc, char **argv, char **envp);
 void	wait_for_children(t_pipex *pipex);
 void	ft_free_array(char ***array);
-void	close_unused_pipes(t_pipex *pipex, int i);
 void	cleanup(t_pipex *pipex, char *error_msg);
 char	*get_env(char **envp);
 char	*get_path(char *cmd, char *path);
