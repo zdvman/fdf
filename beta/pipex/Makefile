@@ -6,7 +6,7 @@
 #    By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/16 12:07:25 by dzuiev            #+#    #+#              #
-#    Updated: 2024/02/16 12:07:25 by dzuiev           ###   ########.fr        #
+#    Updated: 2024/03/01 14:05:15 by dzuiev           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@
 
 # Имена исполняемых файлов для основной и бонусной частей проекта
 NAME = pipex
-BONUS_NAME = pipex
+# BONUS_NAME = pipex
 
 # Компилятор и флаги компиляции
 CC = gcc
@@ -52,8 +52,8 @@ $(NAME): $(LIBP) $(LIBFT) $(OBJ_DIR)/pipex.o
 	$(CC) $(CFLAGS) -I$(INCLUDES) -o $(NAME) $(OBJ_DIR)/pipex.o -L. -lpipex -L$(LIBFT_DIR) -lft
 
 # Сборка бонусной части проекта
-$(BONUS_NAME): $(LIBP) $(LIBFT) $(BONUS_OBJS)
-	$(CC) $(CFLAGS) -I$(INCLUDES) -o $(BONUS_NAME) $(BONUS_OBJS) -L. -lpipex -L$(LIBFT_DIR) -lft
+#$(BONUS_NAME): $(LIBP) $(LIBFT) $(BONUS_OBJS)
+#	$(CC) $(CFLAGS) -I$(INCLUDES) -o $(BONUS_NAME) $(BONUS_OBJS) -L. -lpipex -L$(LIBFT_DIR) -lft
 
 # Компиляция библиотеки libft
 $(LIBFT):
@@ -74,7 +74,8 @@ $(OBJ_BONUS_DIR)/%.o: $(BONUS_DIR)/%.c
 	$(CC) $(CFLAGS) -I$(INCLUDES) -c $< -o $@
 
 # Цель для сборки бонусной части проекта
-bonus: fclean $(BONUS_NAME)
+bonus: $(LIBP) $(LIBFT) $(BONUS_OBJS)
+	$(CC) $(CFLAGS) -I$(INCLUDES) -o $(NAME) $(BONUS_OBJS) -L. -lpipex -L$(LIBFT_DIR) -lft
 
 # Очистка всех созданных файлов
 clean:
@@ -84,8 +85,9 @@ clean:
 # Полная очистка проекта
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	rm -f $(NAME) $(BONUS_NAME)
+	rm -f $(NAME) 
 	rm -f file2
+	#rm -f $(BONUS_NAME)
 
 # Пересборка проекта
 re: fclean all

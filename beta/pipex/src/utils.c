@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 13:46:16 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/27 13:46:16 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/01 16:50:43 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	open_file(char *file, int flag, t_pipex *pipex)
 
 void	cleanup(t_pipex *pipex, char *error_msg)
 {
+    if (pipex->cmds)
+        ft_free_array(&pipex->cmds);
 	if (pipex->pid)
 		free(pipex->pid);
 	if (pipex->infile_fd >= 0)
@@ -83,15 +85,68 @@ void	cleanup(t_pipex *pipex, char *error_msg)
 	}
 }
 
+char **get_commands(int shift, char **argv, t_pipex *pipex)
+{
+    char    **cmds;
+    int     i;
+
+    i = -1;
+    cmds = (char **)malloc(sizeof(char *) * (pipex->num_cmds + 1));
+    if (cmds == NULL)
+        return (NULL);
+    while (++i < pipex->num_cmds)
+    {
+        cmds[i] = ft_strdup(argv[i + shift]);
+        if (cmd[i] == NULL)
+        {
+            ft_free_array(&cmds);
+            return (NULL);
+        }
+    }
+    cmds[i] = NULL;
+    return (cmds);
+}
+
+void validate_cmds(t_pipex)
+{
+    int i;
+
+    i = -1;
+    while (++i < pipex->num_cmds)
+    {
+	    cmd = ft_split(pipex->cmds[i], ' ');
+	    if (!cmd)
+	        cleanup(pipex, "ft_split error");
+	    my_path = get_path(cmd[0], pipex->path);
+	    if (my_path == NULL)
+        {
+            write(2, &pipex->cmds[i], sizeof(pipex->cmds[i]));
+    	    cleanup(pipex, " :command error");
+        }
+    }
+}
+
 void	init_pipex(t_pipex *pipex, int argc, char **argv, char **envp)
 {
+    int shift;
+
 	pipex->pid = malloc(sizeof(pid_t) * (argc - 3));
 	if (!pipex->pid)
 		cleanup(pipex, "pid malloc error");
 	pipex->infile_fd = open_file(argv[1], 0, pipex);
 	pipex->outfile_fd = open_file(argv[argc - 1], 1, pipex);
-	pipex->num_cmds = argc - 3;
-	pipex->cmds = argv + 2;
+    if (argc == 6 && ft_strcmp(argv[1], "here_doc") == 0)
+    {
+        pipex->num_cmds = argc - 4;
+        shift = 3;
+    }
+    else
+    {
+	    pipex->num_cmds = argc - 3;
+        shift = 2;
+    }
+	pipex->cmds = get_commands(shift, argv, pipex);
+    validate_cmds(pipex);
 	pipex->envp = envp;
 	pipex->path = get_env(envp);
 	create_pipes(pipex, argc - 4);

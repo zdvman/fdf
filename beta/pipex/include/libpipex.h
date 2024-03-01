@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 20:10:17 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/29 16:09:08 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/01 16:45:13 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_pipex
 	int		**pipes;
 	pid_t	*pid;
 	char	**cmds;
+    char    ***cmd;
 	char	**envp;
 	char	*path;
 }				t_pipex;
