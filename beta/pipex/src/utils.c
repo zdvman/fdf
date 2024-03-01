@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 13:46:16 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/01 16:50:43 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/01 18:12:08 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ static void	ft_clean_pipes(int ***pipes, int num_pipes)
 	{
 		if ((*pipes)[i])
 		{
-			close((*pipes)[i][0]);
-			close((*pipes)[i][1]);
+            if ((*pipes)[i][0] >= 0)
+			    close((*pipes)[i][0]);
+            if ((*pipes)[i][1] >= 0)
+			    close((*pipes)[i][1]);
 			free((*pipes)[i]);
 		}
 		i++;
@@ -64,10 +66,35 @@ int	open_file(char *file, int flag, t_pipex *pipex)
 	return (fd);
 }
 
+void    ft_free_3d_array(char ****array) 
+{
+    int i;
+    int j;
+
+    if (array == NULL || *array == NULL)
+        return ;
+    i = 0;
+    while ((*array)[i])
+    {
+        j = 0;
+        while ((*array)[i][j])
+        {
+            free((*array)[i][j]);
+            j++;
+        }
+        free((*array)[i]);
+        i++;
+    }
+    free(*array);
+    *array = NULL;
+}
+
 void	cleanup(t_pipex *pipex, char *error_msg)
 {
     if (pipex->cmds)
-        ft_free_array(&pipex->cmds);
+        ft_free_array(&(pipex->cmds));
+    if (pipex->my_cmd)
+        ft_free_3d_array(&(pipex->my_cmd));
 	if (pipex->pid)
 		free(pipex->pid);
 	if (pipex->infile_fd >= 0)
@@ -97,7 +124,7 @@ char **get_commands(int shift, char **argv, t_pipex *pipex)
     while (++i < pipex->num_cmds)
     {
         cmds[i] = ft_strdup(argv[i + shift]);
-        if (cmd[i] == NULL)
+        if (cmds[i] == NULL)
         {
             ft_free_array(&cmds);
             return (NULL);
@@ -107,20 +134,23 @@ char **get_commands(int shift, char **argv, t_pipex *pipex)
     return (cmds);
 }
 
-void validate_cmds(t_pipex)
+void validate_cmds(t_pipex *pipex)
 {
     int i;
 
     i = -1;
+    pipex->my_cmd = (char ***)malloc(sizeof(char **) * (pipex->num_cmds + 1));
+    if (pipex->my_cmd == NULL)
+        cleanup(pipex, "malloc error for 3d array of cmd's pointers");
     while (++i < pipex->num_cmds)
     {
-	    cmd = ft_split(pipex->cmds[i], ' ');
-	    if (!cmd)
-	        cleanup(pipex, "ft_split error");
-	    my_path = get_path(cmd[0], pipex->path);
-	    if (my_path == NULL)
+	    pipex->my_cmd[i] = ft_split(pipex->cmds[i], ' ');
+	    if (!pipex->my_cmd[i])
+	        cleanup(pipex, "ft_split error in cmd array creation");
+	    pipex->my_path[i] = get_path(pipex->my_cmd[i][0], pipex->path);
+	    if (pipex->my_path[i] == NULL)
         {
-            write(2, &pipex->cmds[i], sizeof(pipex->cmds[i]));
+            perror(pipex->cmds[i]);
     	    cleanup(pipex, " :command error");
         }
     }
