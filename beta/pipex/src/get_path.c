@@ -97,5 +97,5 @@ char	*get_path(char *cmd, char *path)
 		full_path = NULL;
 	}
 	ft_free_array(&dirs);
-	return (NULL);
+	return (full_path);
 }

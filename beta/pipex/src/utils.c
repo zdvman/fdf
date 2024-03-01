@@ -57,6 +57,8 @@ int	open_file(char *file, int flag, t_pipex *pipex)
 		fd = open(file, O_RDONLY, 0644);
 	else if (flag == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (flag == 2)
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 		cleanup(pipex, "open file error");
 	return (fd);
@@ -64,6 +66,8 @@ int	open_file(char *file, int flag, t_pipex *pipex)
 
 void	cleanup(t_pipex *pipex, char *error_msg)
 {
+	if (pipex->pid)
+		free(pipex->pid);
 	if (pipex->infile_fd >= 0)
 		close(pipex->infile_fd);
 	if (pipex->outfile_fd >= 0)
@@ -81,6 +85,9 @@ void	cleanup(t_pipex *pipex, char *error_msg)
 
 void	init_pipex(t_pipex *pipex, int argc, char **argv, char **envp)
 {
+	pipex->pid = malloc(sizeof(pid_t) * (argc - 3));
+	if (!pipex->pid)
+		cleanup(pipex, "pid malloc error");
 	pipex->infile_fd = open_file(argv[1], 0, pipex);
 	pipex->outfile_fd = open_file(argv[argc - 1], 1, pipex);
 	pipex->num_cmds = argc - 3;

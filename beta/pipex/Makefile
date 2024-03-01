@@ -18,7 +18,7 @@
 
 # Имена исполняемых файлов для основной и бонусной частей проекта
 NAME = pipex
-BONUS_NAME = pipex_bonus
+BONUS_NAME = pipex
 
 # Компилятор и флаги компиляции
 CC = gcc
@@ -74,7 +74,7 @@ $(OBJ_BONUS_DIR)/%.o: $(BONUS_DIR)/%.c
 	$(CC) $(CFLAGS) -I$(INCLUDES) -c $< -o $@
 
 # Цель для сборки бонусной части проекта
-bonus: $(BONUS_NAME)
+bonus: fclean $(BONUS_NAME)
 
 # Очистка всех созданных файлов
 clean:
