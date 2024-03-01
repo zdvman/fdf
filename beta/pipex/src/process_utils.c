@@ -38,16 +38,6 @@ static void	ft_dup2(t_pipex *pipex, int i)
 	}
 }
 
-static void	child_process(t_pipex *pipex, char **cmd, char *my_path)
-{	
-	execve(my_path, cmd, pipex->envp);
-	if (my_path)
-		free(my_path);
-	if (cmd)
-		ft_free_array(&cmd);
-	cleanup(pipex, "execve error");
-}
-
 static void	wait_for_children(t_pipex *pipex)
 {
 	pid_t	child_pid;
@@ -66,19 +56,18 @@ static void	wait_for_children(t_pipex *pipex)
 	}
 }
 
-void close_fd_in_parent(t_pipex *pipex, int i)
+static void	close_fd_in_parent(t_pipex *pipex, int i)
 {
 	if (i == 0)
 		close(pipex->infile_fd);
 	else
 	{
 		close(pipex->pipes[i - 1][0]);
-        close(pipex->pipes[i - 1][1]);
+		close(pipex->pipes[i - 1][1]);
 	}
 	if (i == pipex->num_cmds - 1)
 		close(pipex->outfile_fd);
 }
-
 
 void	launch_processes(t_pipex *pipex)
 {
@@ -87,24 +76,15 @@ void	launch_processes(t_pipex *pipex)
 	i = -1;
 	while (++i < pipex->num_cmds)
 	{
-	    char	**cmd;
-	    char	*my_path;
-
-	    ft_dup2(pipex, i);
-	    cmd = ft_split(pipex->cmds[i], ' ');
-	    if (!cmd)
-		    cleanup(pipex, "ft_split error");
-	    my_path = get_path(cmd[0], pipex->path);
-	    if (my_path == NULL)
-        {
-            write(2, &pipex->cmds[i], sizeof(pipex->cmds[i]));
-    		cleanup(pipex, " :command error");
-        }
 		pipex->pid[i] = fork();
 		if (pipex->pid[i] == -1)
 			cleanup(pipex, "fork error");
 		if (pipex->pid[i] == 0)
-			child_process(pipex, cmd, my_path);
+		{
+			ft_dup2(pipex, i);
+			execve(pipex->my_path[i], pipex->my_cmd[i], pipex->envp);
+			cleanup(pipex, "execve error");
+		}
 		else
 			close_fd_in_parent(pipex, i);
 	}

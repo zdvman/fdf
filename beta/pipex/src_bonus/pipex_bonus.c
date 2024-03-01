@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/29 15:46:46 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/29 15:46:46 by dzuiev           ###   ########.fr       */
+/*   Created: 2024/03/01 22:16:42 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/03/01 22:16:42 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 static void	get_input(char **argv, t_pipex *pipex)
 {
 	char	*line;
-	int		fd;
 
-	fd = open_file("temp_file", 2, pipex);
+	pipex->temp_fd = open_file("temp_file", 1, pipex);
 	line = get_next_line(0);
 	while (line != NULL)
 	{
@@ -26,12 +25,12 @@ static void	get_input(char **argv, t_pipex *pipex)
 			free(line);
 			return ;
 		}
-		ft_putstr_fd(line, fd);
+		ft_putstr_fd(line, pipex->temp_fd);
 		free(line);
 		line = get_next_line(0);
 	}
 	free(line);
-	close(fd);
+	close(pipex->temp_fd);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -45,11 +44,7 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	}
 	if (ft_strcmp(argv[1], "here_doc") == 0 && argc == 6)
-	{
 		get_input(argv, &pipex);
-		return (EXIT_FAILURE);
-	}
-	else
 	init_pipex(&pipex, argc, argv, envp);
 	launch_processes(&pipex);
 	cleanup(&pipex, NULL);

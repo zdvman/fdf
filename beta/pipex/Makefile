@@ -51,8 +51,9 @@ all: $(NAME)
 $(NAME): $(LIBP) $(LIBFT) $(OBJ_DIR)/pipex.o
 	$(CC) $(CFLAGS) -I$(INCLUDES) -o $(NAME) $(OBJ_DIR)/pipex.o -L. -lpipex -L$(LIBFT_DIR) -lft
 
-# Сборка бонусной части проекта
-#$(BONUS_NAME): $(LIBP) $(LIBFT) $(BONUS_OBJS)
+# Сборка бонусной части проекта если имя программы
+# для бонусной части отличное от основной части (не используется)
+# $(BONUS_NAME): $(LIBP) $(LIBFT) $(BONUS_OBJS)
 #	$(CC) $(CFLAGS) -I$(INCLUDES) -o $(BONUS_NAME) $(BONUS_OBJS) -L. -lpipex -L$(LIBFT_DIR) -lft
 
 # Компиляция библиотеки libft
@@ -87,7 +88,8 @@ fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME) 
 	rm -f file2
-	#rm -f $(BONUS_NAME)
+	rm -f file
+# rm -f $(BONUS_NAME)
 
 # Пересборка проекта
 re: fclean all
