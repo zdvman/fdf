@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:24:25 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/20 19:24:25 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/04 15:40:56 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,11 @@ char	*get_env(char **envp)
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
-			path = ft_strdup(envp[i] + 5);
-			if (!path)
-			{
-				perror("ft_strdup");
-				return (NULL);
-			}
-			break ;
+			path = envp[i] + 5;
+			return (path);
 		}
 	}
-	return (path);
+	return (NULL);
 }
 
 char	*get_full_path(char **dirs, int i, char *cmd)

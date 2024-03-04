@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 22:18:26 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/01 22:18:26 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/04 15:41:05 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	validate_cmds(t_pipex *pipex)
 		if (pipex->my_path[i] == NULL)
 		{
 			write(2, pipex->cmds[i], sizeof(pipex->cmds[i]));
-			cleanup(pipex, ": command error");
+			cleanup(pipex, ": command not found");
 		}
 	}
 }
@@ -80,6 +80,8 @@ void	init_pipex(t_pipex *pipex, int argc, char **argv, char **envp)
 	int	shift;
 
 	pipex->envp = envp;
+	pipex->path = get_env(envp);
+    //pipex->path = NULL;
 	if (argc == 6 && ft_strcmp(argv[1], "here_doc") == 0)
 	{
 		pipex->infile_fd = open_file("temp_file", 0, pipex);
@@ -95,7 +97,6 @@ void	init_pipex(t_pipex *pipex, int argc, char **argv, char **envp)
 		shift = 2;
 	}
 	pipex->cmds = get_commands(shift, argv, pipex);
-	pipex->path = get_env(envp);
 	validate_cmds(pipex);
 	create_pipes(pipex, pipex->num_cmds - 1);
 	pipex->pid = malloc(sizeof(pid_t) * (argc - 3));

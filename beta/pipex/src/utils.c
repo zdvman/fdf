@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 13:46:16 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/01 18:12:08 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/04 14:51:58 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ void	cleanup(t_pipex *pipex, char *error_msg)
 		close(pipex->infile_fd);
 	if (pipex->outfile_fd >= 0)
 		close(pipex->outfile_fd);
-	if (pipex->path)
-		free(pipex->path);
 	if (pipex->my_path)
 		ft_free_array(&(pipex->my_path));
 	if (pipex->pipes)
