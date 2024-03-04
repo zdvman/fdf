@@ -47,6 +47,6 @@ int	main(int argc, char **argv, char **envp)
 		get_input(argv, &pipex);
 	init_pipex(&pipex, argc, argv, envp);
 	launch_processes(&pipex);
-	cleanup(&pipex, NULL);
+	cleanup(&pipex, NULL, EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }

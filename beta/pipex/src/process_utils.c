@@ -49,9 +49,9 @@ static void	wait_for_children(t_pipex *pipex)
 	{
 		child_pid = waitpid(pipex->pid[i], &status, 0);
 		if (child_pid == -1)
-			cleanup(pipex, "wait error");
+			cleanup(pipex, "wait error", EXIT_FAILURE);
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-			cleanup(pipex, "child process failed");
+			cleanup(pipex, "child process failed", EXIT_FAILURE);
 		i++;
 	}
 }
@@ -69,6 +69,16 @@ static void	close_fd_in_parent(t_pipex *pipex, int i)
 		close(pipex->outfile_fd);
 }
 
+// static void	validate_cmds(t_pipex *pipex, int i)
+// {
+// 	pipex->my_path = get_path(pipex->my_cmd[i][0], pipex->path);
+// 	if (pipex->my_path == NULL)
+// 	{
+// 		write(2, pipex->my_cmd[i][0], sizeof(pipex->my_cmd[i][0]));
+// 		cleanup(pipex, " : command not found", EXIT_FAILURE);
+// 	}
+// }
+
 void	launch_processes(t_pipex *pipex)
 {
 	int	i;
@@ -78,12 +88,14 @@ void	launch_processes(t_pipex *pipex)
 	{
 		pipex->pid[i] = fork();
 		if (pipex->pid[i] == -1)
-			cleanup(pipex, "fork error");
+			cleanup(pipex, "fork error", EXIT_FAILURE);
 		if (pipex->pid[i] == 0)
 		{
+			// validate_cmds(pipex, i);
+			pipex->my_path = get_path(pipex->my_cmd[i][0], pipex->path);
 			ft_dup2(pipex, i);
-			execve(pipex->my_path[i], pipex->my_cmd[i], pipex->envp);
-			cleanup(pipex, "execve error");
+			execve(pipex->my_path, pipex->my_cmd[i], pipex->envp);
+			cleanup(pipex, "execve error", EXIT_FAILURE);
 		}
 		else
 			close_fd_in_parent(pipex, i);

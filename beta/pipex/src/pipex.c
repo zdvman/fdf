@@ -22,8 +22,9 @@ int	main(int argc, char **argv, char **envp)
 		write(2, "./pipex file1 \"cmd1\" \"cmd2\" file2\n", 35);
 		return (EXIT_FAILURE);
 	}
+	t_pipex_zero(&pipex);
 	init_pipex(&pipex, argc, argv, envp);
 	launch_processes(&pipex);
-	cleanup(&pipex, NULL);
+	cleanup(&pipex, NULL, EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }
