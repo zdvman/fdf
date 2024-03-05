@@ -58,27 +58,28 @@ void	ft_free_3d_array(char ****array)
 	*array = NULL;
 }
 
-void	cleanup(t_pipex *pipex, char *error_msg, int exit_status)
+void	cleanup(t_pipex *pipex, int exit_status)
 {
 	if (pipex->cmds)
 		ft_free_array(&(pipex->cmds));
 	if (pipex->my_cmd)
 		ft_free_3d_array(&(pipex->my_cmd));
 	if (pipex->pid)
+	{
 		free(pipex->pid);
+		pipex->pid = NULL;
+	}
 	if (pipex->infile_fd >= 0)
 		close(pipex->infile_fd);
 	if (pipex->outfile_fd >= 0)
 		close(pipex->outfile_fd);
 	if (pipex->my_path)
+	{
 		free(pipex->my_path);
+		pipex->my_path = NULL;
+	}
 	if (pipex->pipes)
 		ft_clean_pipes(&(pipex->pipes), pipex->num_pipes);
-	if (error_msg)
-	{
-		ft_putstr_fd(error_msg, STDERR_FILENO);
-		ft_putchar_fd('\n', STDERR_FILENO);
-	}
 	if (exit_status)
 		exit(exit_status);
 }
@@ -89,11 +90,14 @@ pid_t	*allocate_pid(t_pipex *pipex)
 
 	pid = (pid_t *)malloc(sizeof(pid_t) * pipex->num_cmds);
 	if (pid == NULL)
-		cleanup(pipex, "malloc error for pid array", EXIT_FAILURE);
+	{
+		ft_putstr_fd("malloc error for pid array\n", STDERR_FILENO);
+		cleanup(pipex, EXIT_FAILURE);
+	}
 	return (pid);
 }
 
-int	open_file(char *file, int flag, t_pipex *pipex)
+int	open_file(char *file, int flag)
 {
 	int	fd;
 
@@ -106,8 +110,9 @@ int	open_file(char *file, int flag, t_pipex *pipex)
 	if (fd < 0)
 	{
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
-		ft_putstr_fd(" : ", STDERR_FILENO);
-		cleanup(pipex, file, 0);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(file, STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
 	}
 	return (fd);
 }

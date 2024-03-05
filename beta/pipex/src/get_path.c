@@ -83,7 +83,7 @@ char	*get_path(char *cmd, char *path)
 		full_path = get_full_path(dirs, i, cmd);
 		if (full_path == NULL)
 			break ;
-		if (access(full_path, X_OK) == 0)
+		if (access(full_path, X_OK) == 0 && access(full_path, F_OK) == 0)
 		{
 			ft_free_array(&dirs);
 			return (full_path);
@@ -92,5 +92,5 @@ char	*get_path(char *cmd, char *path)
 		full_path = NULL;
 	}
 	ft_free_array(&dirs);
-	return (full_path);
+	return (cmd);
 }

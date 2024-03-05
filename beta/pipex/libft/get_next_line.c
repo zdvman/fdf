@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:18:22 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/02/07 11:21:55 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/05 17:57:01 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,8 @@ static char	*extract_line(char **saved)
 	return (NULL);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, char **saved)
 {
-	static char	*saved = NULL;
 	char		*line;
 	char		*buf;
 
@@ -98,18 +97,18 @@ char	*get_next_line(int fd)
 	buf = malloc(BUFFER_SIZE + 1);
 	if (!buf)
 		return (NULL);
-	saved = read_from_fd(fd, saved, buf);
-	if (!saved)
+	*saved = read_from_fd(fd, *saved, buf);
+	if (!*saved)
 	{
-		free(saved);
-		saved = NULL;
+		free(*saved);
+		*saved = NULL;
 		return (NULL);
 	}
-	line = extract_line(&saved);
+	line = extract_line(&*saved);
 	if (line == NULL)
 	{
-		free(saved);
-		saved = NULL;
+		free(*saved);
+		*saved = NULL;
 	}
 	return (line);
 }

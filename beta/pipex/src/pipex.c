@@ -25,6 +25,6 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex_zero(&pipex);
 	init_pipex(&pipex, argc, argv, envp);
 	launch_processes(&pipex);
-	cleanup(&pipex, NULL, EXIT_SUCCESS);
+	cleanup(&pipex, EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }

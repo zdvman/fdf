@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 20:10:17 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/04 18:54:44 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/05 19:20:03 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 
 typedef struct s_pipex
 {
+	int		flag_here_doc;
 	int		infile_fd;
 	int		outfile_fd;
-	int		temp_fd;
 	int		num_cmds;
 	int		num_pipes;
 	int		**pipes;
@@ -36,13 +36,15 @@ typedef struct s_pipex
 	char	**envp;
 	char	*my_path;
 	char	*path;
+	char	*outfile_name;
 }				t_pipex;
 
-int		open_file(char *file, int flag, t_pipex *pipex);
+int		open_file(char *file, int flag);
+int		input_validation(t_pipex *pipex, int i);
 void	init_pipex(t_pipex *pipex, int argc, char **argv, char **envp);
 void	ft_free_array(char ***array);
 void	ft_free_3d_array(char ****array);
-void	cleanup(t_pipex *pipex, char *error_msg, int exit_status);
+void	cleanup(t_pipex *pipex, int exit_status);
 void	ft_clean_pipes(int ***pipes, int num_pipes);
 void	launch_processes(t_pipex *pipex);
 void	t_pipex_zero(t_pipex *pipex);
