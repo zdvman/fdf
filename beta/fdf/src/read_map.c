@@ -12,9 +12,9 @@
 
 #include "../includes/libfdf.h"
 
-static size_t	ft_wordlen(const char *s, char c)
+static int	ft_wordlen(const char *s, char c)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (s[i] && s[i] != c)
@@ -22,10 +22,10 @@ static size_t	ft_wordlen(const char *s, char c)
 	return (i);
 }
 
-static size_t	ft_count_words(const char *s, char c)
+static int	ft_count_words(const char *s, char c)
 {
-	size_t	i;
-	size_t	count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -42,73 +42,67 @@ static size_t	ft_count_words(const char *s, char c)
 	return (count);
 }
 
-static size_t	get_map_size(char *file, t_fdf *fdf)
+static void	get_map_size(char *file, t_fdf *data, t_img *img)
 {
-	open_file(fdf, file, 0);
-	fdf->line = get_next_line(fdf->fd);
-	if (fdf->line != NULL)
-		fdf->width = ft_count_words(fdf->line, ' ');
-	while (fdf->line != NULL)
+	open_file(data, img, file, 0);
+	data->line = get_next_line(data->fd);
+	if (data->line != NULL)
+		data->width = ft_count_words(data->line, ' ');
+	while (data->line != NULL)
 	{
-		fdf->height++;
-		free(fdf->line);
-		fdf->line = NULL;
-		fdf->line = get_next_line(fdf->fd);
+		data->height++;
+		free(data->line);
+		data->line = NULL;
+		data->line = get_next_line(data->fd);
 	}
-	free(fdf->line);
-	fdf->line = NULL;
-	close(fdf->fd);
-	fdf->fd = -1;
-	return (fdf->height * fdf->width);
+	free(data->line);
+	data->line = NULL;
+	close(data->fd);
+	data->fd = -1;
 }
 
-static int	create_map(int i, int y, char *line, t_fdf *fdf)
+static void	create_map(int y, char *line, t_fdf *data, t_img *img)
 {
 	char	**split;
 	int		x;
 
 	split = ft_split(line, ' ');
 	if (split == NULL)
-		cleanup(fdf, "Error: split error in create_map function\n", 1);
+		cleanup(data, img, "Error: split error in create_map function\n", 1);
 	x = 0;
 	while (split[x] != NULL)
 	{
-		fdf->my_map[i] = (int *)malloc(3 * sizeof(int));
-		if (fdf->my_map[i] == NULL)
-			cleanup(fdf, "Error: malloc error in create_map function\n", 1);
-		fdf->my_map[i][0] = x;
-		fdf->my_map[i][1] = y;
-		fdf->my_map[i][2] = ft_atoi(split[x]);
+		data->my_map[y][x] = ft_atoi(split[x]);
 		x++;
-		i++;
 	}
 	ft_free_array((void ***)&split);
-	return (i);
 }
 
-void	read_map(char *file, t_fdf *fdf)
+void	read_map(char *file, t_fdf *data, t_img *img)
 {
 	int	y;
-	int	i;
 
-	fdf->my_map = (int **)malloc((get_map_size(file, fdf) + 1) * sizeof(int *));
-	if (fdf->my_map == NULL)
-		cleanup(fdf, "Error: malloc error in read_map function\n", 1);
-	i = 0;
 	y = 0;
-	open_file(fdf, file, 0);
-	fdf->line = get_next_line(fdf->fd);
-	while (fdf->line != NULL)
+	get_map_size(file, data, img);
+	data->my_map = (int **)malloc((data->height + 1) * sizeof(int *));
+	if (data->my_map == NULL)
+		cleanup(data, img, "Error: malloc error in read_map function\n", 1);
+	open_file(data, img, file, 0);
+	data->line = get_next_line(data->fd);
+	while (data->line != NULL)
 	{
-		i = create_map(i, y, fdf->line, fdf);
-		free(fdf->line);
-		fdf->line = NULL;
-		fdf->line = get_next_line(fdf->fd);
+		data->my_map[y] = (int *)malloc((data->width) * sizeof(int));
+		if (data->my_map[y] == NULL)
+			cleanup(data, img, "Error: malloc error in read_map function\n", 1);
+		create_map(y, data->line, data, img);
+		free(data->line);
+		data->line = NULL;
+		data->line = get_next_line(data->fd);
 		y++;
 	}
-	fdf->my_map[i] = NULL;
-	free(fdf->line);
-	fdf->line = NULL;
-	close(fdf->fd);
-	fdf->fd = -1;
+	data->my_map[y] = NULL;
+	free(data->line);
+	data->line = NULL;
+	close(data->fd);
+	data->fd = -1;
 }

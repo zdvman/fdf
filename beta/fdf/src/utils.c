@@ -27,43 +27,53 @@ void ft_free_ptr(void **ptr)
 	}
 }
 
-void	cleanup(t_fdf *fdf, char *error_msg, int exit_code)
+void	cleanup(t_fdf *data, t_img *img, char *error_msg, int exit_code)
 {
-	if (fdf->fd >= 0)
-		close(fdf->fd);
-	if (fdf->line)
-		ft_free_ptr((void **)&(fdf->line));
-	if (fdf->mlx_ptr)
+	if (data->fd >= 0)
+		close(data->fd);
+	if (data->line)
+		ft_free_ptr((void **)&(data->line));
+	if (data->my_map)
+		ft_free_array((void ***)&(data->my_map));
+	if (data->mlx_ptr)
 	{
-		mlx_destroy_display(fdf->mlx_ptr);
-		ft_free_ptr((void **)&(fdf->mlx_ptr));
+		if (data->win_ptr)
+		{
+			if (data->img->img_ptr)
+			{
+				mlx_destroy_image(data->mlx_ptr, data->img->img_ptr);
+				data->img->img_ptr = NULL;
+			}
+			mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+			data->win_ptr = NULL;
+		}
+		mlx_destroy_display(data->mlx_ptr);
+		free(data->mlx_ptr);
+		data->mlx_ptr = NULL;
 	}
-	if (fdf->win_ptr)
-	{
-		mlx_destroy_window(fdf->mlx_ptr, fdf->win_ptr);
-		ft_free_ptr((void **)&(fdf->win_ptr));
-	}
-	if (fdf->my_map)
-		ft_free_array((void ***)&(fdf->my_map));
+	if (img)
+		ft_free_ptr((void **)&img);
+	if (data)
+		ft_free_ptr((void **)&data);
 	if (exit_code)
 		ft_error(error_msg, exit_code);
 }
 
-void	open_file(t_fdf *fdf, char *file, int flag)
+void	open_file(t_fdf *data, t_img *img, char *file, int flag)
 {
 	if (flag == 0)
-		fdf->fd = open(file, O_RDONLY, 0644);
+		data->fd = open(file, O_RDONLY, 0644);
 	else if (flag == 1)
-		fdf->fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		data->fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (flag == 2)
-		fdf->fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fdf->fd < 0)
+		data->fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (data->fd < 0)
 	{
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(file, STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
-		cleanup(fdf, NULL, 1);
+		cleanup(data, img, NULL, 1);
 	}
 }
 

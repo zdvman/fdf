@@ -26,6 +26,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 # Директории с исходным кодом и библиотеками
 LIBMLX_DIR = minilibx-linux
+LIBX11_DIR = /usr/include/X11
 LIBFT_DIR = libft
 INCLUDES = includes
 SRC_DIR = src
@@ -51,7 +52,7 @@ all: $(NAME)
 
 # Сборка основной части проекта
 $(NAME): $(LIBFDF) $(LIBFT) $(LIBMLX) $(OBJ_DIR)/fdf.o
-	$(CC) $(CFLAGS) -I$(INCLUDES) -o $(NAME) $(OBJ_DIR)/fdf.o -L. -lfdf -L$(LIBFT_DIR) -lft -L$(LIBMLX_DIR) -lmlx_Linux -lXext -lX11 -lm -lz
+	$(CC) $(CFLAGS) -I$(INCLUDES) -I$(LIBX11_DIR) -o $(NAME) $(OBJ_DIR)/fdf.o -L. -lfdf -L$(LIBFT_DIR) -lft -L$(LIBMLX_DIR) -lmlx_Linux -lXext -lX11 -lm -lz
 
 # Сборка бонусной части проекта если имя программы
 # для бонусной части отличное от основной части (не используется)
@@ -82,7 +83,7 @@ $(OBJ_BONUS_DIR)/%.o: $(BONUS_DIR)/%.c
 
 # Цель для сборки бонусной части проекта
 bonus: $(LIBFDF) $(LIBFT) $(LIBMLX) $(BONUS_OBJS)
-	$(CC) $(CFLAGS) -I$(INCLUDES) -o $(NAME) $(BONUS_OBJS) -L. -lfdf -L$(LIBFT_DIR) -lft -L$(LIBMLX_DIR) -lmlx_Linux -lXext -lX11 -lm -lz
+	$(CC) $(CFLAGS) -I$(INCLUDES) -I$(LIBX11_DIR) -o $(NAME) $(BONUS_OBJS) -L. -lfdf -L$(LIBFT_DIR) -lft -L$(LIBMLX_DIR) -lmlx_Linux -lXext -lX11 -lm -lz
 
 # Очистка всех созданных файлов
 clean:
