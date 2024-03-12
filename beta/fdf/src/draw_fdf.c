@@ -6,25 +6,11 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 11:09:34 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/11 20:56:19 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/12 20:11:35 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libfdf.h"
-
-int	ft_max(int a, int b)
-{
-	if (a > b)
-		return (a);
-	return (b);
-}
-
-int	ft_abs(int a)
-{
-	if (a < 0)
-		return (-a);
-	return (a);
-}
 
 void clear_image_buffer(t_img *img)
 {
@@ -50,14 +36,14 @@ void isometric_projection(int *iso_x, int *iso_y, float x, float y, float z)
 	*iso_y = (int)(sqrt(2) / 6 * y - (1 / sqrt(6)) * (x + z));
 }
 
-void put_pixel_to_img(char *buffer, int x, int y, int color, t_fdf *data)
+void put_pixel_to_img(char *buffer, t_fdf *data, t_line *line)
 {
-	int pixel_position;
+	int	pixel_position;
 
-	if (x >= 0 && x < data->img->img_width && y >= 0 && y < data->img->img_height) 
+	if (line->x >= 0 && line->x < data->img->img_width && line->y >= 0 && line->y < data->img->img_height) 
 	{
-		pixel_position = y * data->img->line_length + x * (data->img->bits_per_pixel / 8);
-		*(unsigned int *)(buffer + pixel_position) = mlx_get_color_value(data->mlx_ptr, color);
+		pixel_position = line->y * data->img->line_length + line->x * (data->img->bits_per_pixel / 8);
+		*(unsigned int *)(buffer + pixel_position) = mlx_get_color_value(data->mlx_ptr, line->color);
 	}
 }
 
@@ -87,93 +73,114 @@ void rotate_and_project(float *x, float *y, float *z, t_fdf *data)
 	*y = iso_y;
 }
 
-static void draw_line(int x, int y, int x1, int y1, t_fdf *data)
+void	init_line(t_line *line, t_fdf *data)
 {
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	err;
-	int	e2;
-	float length = sqrt(dx*dx + dy*dy);
-	float progress, t;
+	line->x = data->x;
+	line->y = data->y;
+	line->x1 = data->x1;
+	line->y1 = data->y1;
+	line->length = 0;
+	line->t = 0;
+	line->dx = abs(line->x1 - line->x);
+	if (line->x < line->x1)
+		line->sx = 1;
+	else
+		line->sx = -1;
+	line->dy = abs(line->y1 - line->y);
+	if (line->y < line->y1)
+		line->sy = 1;
+	else
+		line->sy = -1;
+	line->err = line->dx - line->dy;
+	line->length = sqrt(line->dx*line->dx + line->dy*line->dy);
+}
 
-	dx = abs(x1 - x);
-	if (x < x1)
-		sx = 1;
-	else
-		sx = -1;
-	dy = abs(y1 - y);
-	if (y < y1)
-		sy = 1;
-	else
-		sy = -1;
-	err = dx - dy;
+static void draw_line(t_fdf *data, t_line *line)
+{
+	init_line(line, data);
 	while (1)
 	{
-		put_pixel_to_img(data->img->img_pixel_ptr, x, y, data->color, data);
-		if (x == x1 && y == y1)
-			break;
-		e2 = 2 * err;
-		if (e2 >= dy)
+		if (data->z_color != data->z1_color)
 		{
-			err += dy; // увеличиваем ошибку
-			x += sx; // перемещаемся по оси X
+			line->t = sqrt((line->x1 - line->x)*(line->x1 - line->x) + (line->y1 - line->y)*(line->y1 - line->y)) / line->length;
+			line->color = get_gradient_color(data->z_color, data->z1_color, line->t);
 		}
-		if (e2 <= dx)
+		put_pixel_to_img(data->img->img_pixel_ptr, data, line);
+		if (line->x == line->x1 && line->y == line->y1)
+			break;
+		line->e2 = 2 * line->err;
+		if (line->e2 >= line->dy)
 		{
-			err += dx; // увеличиваем ошибку
-			y += sy; // перемещаемся по оси Y
+			line->err += line->dy; // увеличиваем ошибку
+			data->x += line->sx; // перемещаемся по оси X
+		}
+		if (line->e2 <= line->dx)
+		{
+			line->err += line->dx; // увеличиваем ошибку
+			line->y += line->sy; // перемещаемся по оси Y
 		}
 	}
 }
 
-static void	ft_brezenham(float x, float y, float x1, float y1, t_fdf *data)
+static void	ft_brezenham(t_fdf *data)
 {
-	float z;
-	float z1;
-
-	z = data->my_map[(int)y][(int)x][0];
-	z1 = data->my_map[(int)y1][(int)x1][0];
-	if (z || z1)
-		data->color = 0xFF0000;
-	else
-		data->color = 0xFFFFFF;
-	x *= data->zoom;
-	y *= data->zoom;
-	z *= data->zoom;
-	x1 *= data->zoom;
-	y1 *= data->zoom;
-	z1 *= data->zoom;
-	rotate_and_project(&x, &y, &z, data);
-	rotate_and_project(&x1, &y1, &z1, data);
-	x+= data->shift_x;
-	y+= data->shift_y;
-	x1+= data->shift_x;
-	y1+= data->shift_y;
-	draw_line(x, y, x1, y1, data);
+	data->z = data->my_map[(int)data->y][(int)data->x][0];
+	data->z1 = data->my_map[(int)data->y1][(int)data->x1][0];
+	data->z_color = data->my_map[(int)data->y][(int)data->x][1];
+	data->z1_color = data->my_map[(int)data->y1][(int)data->x1][1];
+	if (data->z && data->z_color == 0)
+		data->z_color = 0xFF0000;
+	else if (data->z == 0 && data->z_color == 0)
+		data->z_color = data->color;
+	if (data->z1 && data->z1_color == 0)
+		data->z1_color = 0xFF0000;
+	else if (data->z1 == 0 && data->z1_color == 0)
+		data->z1_color = data->color;
+	data->x *= data->zoom;
+	data->y *= data->zoom;
+	data->z *= data->zoom;
+	data->x1 *= data->zoom;
+	data->y1 *= data->zoom;
+	data->z1 *= data->zoom;
+	rotate_and_project(&data->x, &data->y, &data->z, data);
+	rotate_and_project(&data->x1, &data->y1, &data->z1, data);
+	data->x+= data->shift_x;
+	data->y+= data->shift_y;
+	data->x1+= data->shift_x;
+	data->y1+= data->shift_y;
+	draw_line(data, data->line_struct);
 }
 
+static void	draw_img(t_fdf *data)
+{
+	int	x;
+	int	y;
+
+	y = -1;
+	while (++y < data->height)
+	{
+		data->y = y;
+		x = -1;
+		while (++x < data->width)
+		{
+			data->x = x;
+			if (x < data->width - 1)
+			{
+				data->x1 = x + 1;
+				ft_brezenham(data);
+			}
+			if (y < data->height - 1)
+			{
+				data->y1 = y + 1;
+				ft_brezenham(data);
+			}
+		}
+	}
+}
 
 void draw_scene(t_fdf *data)
 {
-	int y;
-	int x;
-
 	clear_image_buffer(data->img);
-	y = 0;
-	while (y < data->height)
-	{
-		x = 0;
-		while (x < data->width)
-		{
-			if (x < data->width - 1)
-				ft_brezenham(x, y, x + 1, y, data);
-			if (y < data->height - 1)
-				ft_brezenham(x, y, x, y + 1, data);
-			x++;
-		}
-		y++;
-	}
+	draw_img(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img->img_ptr, 0, 0);
 }

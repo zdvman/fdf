@@ -6,41 +6,11 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:58:58 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/11 11:07:41 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/12 18:17:05 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libfdf.h"
-
-static int	ft_wordlen(const char *s, char c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] && s[i] != c)
-		i++;
-	return (i);
-}
-
-static int	ft_count_words(const char *s, char c)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if (s[i] != c)
-		{
-			count++;
-			i += ft_wordlen(&s[i], c);
-		}
-		else
-			i++;
-	}
-	return (count);
-}
 
 static void	get_map_size(char *file, t_fdf *data, t_img *img)
 {
@@ -73,15 +43,15 @@ static void	create_map(int y, char *line, t_fdf *data, t_img *img)
 	x = 0;
 	while (split[x] != NULL)
 	{
-		tmp = ft_split(split[x], ",");
+		tmp = ft_split(split[x], ',');
 		data->my_map[y][x] = (int *)malloc(2 * sizeof(int));
 		if (data->my_map[y][x] == NULL || tmp == NULL)
 			cleanup(data, img, "Error: malloc error in create_map function\n", 1);
 		data->my_map[y][x][0] = ft_atoi(tmp[0]);
 		if (tmp[1] != NULL)
-			data->my_map[y][x][1] = ft_atoi_base(tmp[1]);
+			data->my_map[y][x][1] = ft_atoi_base(tmp[1], 16);
 		else
-			data->my_map[y][x][1] = data->color;
+			data->my_map[y][x][1] = 0;
 		ft_free_array((void ***)&tmp);
 		x++;
 	}
@@ -112,8 +82,7 @@ void	read_map(char *file, t_fdf *data, t_img *img)
 		y++;
 	}
 	data->my_map[y] = NULL;
-	free(data->line);
-	data->line = NULL;
+	ft_free_ptr((void **)&data->line);
 	close(data->fd);
 	data->fd = -1;
 }

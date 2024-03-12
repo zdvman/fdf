@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:17:10 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/07 16:47:56 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/12 17:55:04 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,17 @@ typedef struct s_list
 	struct s_list	*next;
 }				t_list;
 
+int				ft_max(int a, int b);
+int				ft_abs(int a);
 int				ft_putchar(char c);
 int				ft_putstr(char *s);
 int				ft_atoi(const char *nptr);
+int				ft_atoi_base(const char *str, int str_base);
 long			ft_atol(const char *str);
 long long		ft_atoll(const char *str);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_strcmp(const char *s1, const char *s2);
+int				ft_count_words(const char *s, char c);
 void			*ft_memset(void *str, int c, size_t len);
 void			ft_bzero(void *str, size_t len);
 void			*ft_memcpy(void *dest, const void *src, size_t n);

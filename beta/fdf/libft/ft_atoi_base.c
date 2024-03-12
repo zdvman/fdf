@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi_base.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/12 17:24:17 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/03/12 17:31:05 by dzuiev           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-int get_digit_value(char c)
+static int get_digit_value(char c)
 {
 	if (c >= '0' && c <= '9') 
 		return c - '0';
@@ -36,13 +48,3 @@ int	ft_atoi_base(const char *str, int str_base)
 	}
 	return sign * result;
 }
-/*
-int	main(int argc, char ** argv)
-{
-	if (argc == 2)
-	{
-		printf("%d\n", ft_atoi_base(argv[1], 16));
-	}
-	return (0);
-}
-*/
