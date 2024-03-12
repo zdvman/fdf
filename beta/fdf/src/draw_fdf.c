@@ -95,18 +95,20 @@ static void draw_line(int x, int y, int x1, int y1, t_fdf *data)
 	int	sy;
 	int	err;
 	int	e2;
+	float length = sqrt(dx*dx + dy*dy);
+	float progress, t;
 
 	dx = abs(x1 - x);
 	if (x < x1)
 		sx = 1;
 	else
 		sx = -1;
-	dy = -abs(y1 - y);
+	dy = abs(y1 - y);
 	if (y < y1)
 		sy = 1;
 	else
 		sy = -1;
-	err = dx + dy;
+	err = dx - dy;
 	while (1)
 	{
 		put_pixel_to_img(data->img->img_pixel_ptr, x, y, data->color, data);
@@ -131,8 +133,8 @@ static void	ft_brezenham(float x, float y, float x1, float y1, t_fdf *data)
 	float z;
 	float z1;
 
-	z = data->my_map[(int)y][(int)x];
-	z1 = data->my_map[(int)y1][(int)x1];
+	z = data->my_map[(int)y][(int)x][0];
+	z1 = data->my_map[(int)y1][(int)x1][0];
 	if (z || z1)
 		data->color = 0xFF0000;
 	else

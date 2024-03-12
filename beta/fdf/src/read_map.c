@@ -64,6 +64,7 @@ static void	get_map_size(char *file, t_fdf *data, t_img *img)
 static void	create_map(int y, char *line, t_fdf *data, t_img *img)
 {
 	char	**split;
+	char	**tmp;
 	int		x;
 
 	split = ft_split(line, ' ');
@@ -72,9 +73,19 @@ static void	create_map(int y, char *line, t_fdf *data, t_img *img)
 	x = 0;
 	while (split[x] != NULL)
 	{
-		data->my_map[y][x] = ft_atoi(split[x]);
+		tmp = ft_split(split[x], ",");
+		data->my_map[y][x] = (int *)malloc(2 * sizeof(int));
+		if (data->my_map[y][x] == NULL || tmp == NULL)
+			cleanup(data, img, "Error: malloc error in create_map function\n", 1);
+		data->my_map[y][x][0] = ft_atoi(tmp[0]);
+		if (tmp[1] != NULL)
+			data->my_map[y][x][1] = ft_atoi_base(tmp[1]);
+		else
+			data->my_map[y][x][1] = data->color;
+		ft_free_array((void ***)&tmp);
 		x++;
 	}
+	data->my_map[y][x] = NULL;
 	ft_free_array((void ***)&split);
 }
 
@@ -84,14 +95,14 @@ void	read_map(char *file, t_fdf *data, t_img *img)
 
 	y = 0;
 	get_map_size(file, data, img);
-	data->my_map = (int **)malloc((data->height + 1) * sizeof(int *));
+	data->my_map = (int ***)malloc((data->height + 1) * sizeof(int **));
 	if (data->my_map == NULL)
 		cleanup(data, img, "Error: malloc error in read_map function\n", 1);
 	open_file(data, img, file, 0);
 	data->line = get_next_line(data->fd);
 	while (data->line != NULL)
 	{
-		data->my_map[y] = (int *)malloc((data->width) * sizeof(int));
+		data->my_map[y] = (int **)malloc((data->width + 1) * sizeof(int *));
 		if (data->my_map[y] == NULL)
 			cleanup(data, img, "Error: malloc error in read_map function\n", 1);
 		create_map(y, data->line, data, img);

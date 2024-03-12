@@ -18,6 +18,29 @@ void	ft_error(char *error_msg, int exit_code)
 	exit(exit_code);
 }
 
+void	ft_free_3d_array(void ****array)
+{
+	int	i;
+	int	j;
+
+	if (array == NULL || *array == NULL)
+		return ;
+	i = 0;
+	while ((*array)[i])
+	{
+		j = 0;
+		while ((*array)[i][j])
+		{
+			free((*array)[i][j]);
+			j++;
+		}
+		free((*array)[i]);
+		i++;
+	}
+	free(*array);
+	*array = NULL;
+}
+
 void	ft_free_array(void ***array)
 {
 	int	i;
@@ -69,7 +92,7 @@ void	cleanup(t_fdf *data, t_img *img, char *error_msg, int exit_code)
 	if (data->line)
 		ft_free_ptr((void **)&(data->line));
 	if (data->my_map)
-		ft_free_array((void ***)&(data->my_map));
+		ft_free_3d_array((void ****)&(data->my_map));
 	if (data->mlx_ptr)
 		ft_destroy_mlx(data);
 	if (img)

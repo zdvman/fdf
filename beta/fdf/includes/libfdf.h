@@ -59,6 +59,7 @@ typedef struct s_fdf
 	int		x1;
 	int		y1;
 	int		z1;
+	int		z_color;
 	int		*key_states;
 	int		width;
 	int		height;
@@ -75,7 +76,7 @@ typedef struct s_fdf
 	float	angle_z;
 	int		fd;
 	char	*line;
-	int		**my_map;
+	int		***my_map;
 	void	*mlx_ptr;
 	void	*win_ptr;
 	t_img	*img;

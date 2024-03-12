@@ -20,7 +20,8 @@ void	init_default(t_fdf *data, t_img *img)
 	data->width = 0;
 	data->height = 0;
 	data->zoom = 20;
-	data->color = 0xFF0000;
+	data->color = 0xFFFFFF;
+	data->z_color = 0xFF0000;
 	data->shift_x = 0;
 	data->shift_y = 0;
 	data->angle_x = 0.615;
