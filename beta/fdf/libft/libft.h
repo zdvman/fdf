@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:17:10 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/12 17:55:04 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/13 12:55:22 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int				ft_putnstr(char *str, int len);
 int				ft_issign(int c);
 int				ft_isnumber(char *arg);
 int				ft_iszero(char *arg);
+int				ft_round(float num);
 int				ft_strisempty(char *arg);
 int				ft_strisspace_only(char *str);
 int				ft_duplicates_found(char **argv);

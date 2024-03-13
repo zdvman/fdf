@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 17:58:49 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/12 20:27:05 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/13 17:52:22 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ void	cleanup(t_fdf *data, t_img *img, char *error_msg, int exit_code)
 		ft_destroy_mlx(data);
 	if (img)
 		ft_free_ptr((void **)&img);
-	if (data)
-		ft_free_ptr((void **)&data);
 	if (data->line_struct)
 		ft_free_ptr((void **)&(data->line_struct));
+	if (data)
+		ft_free_ptr((void **)&data);
 	if (exit_code)
 		ft_error(error_msg, exit_code);
 }

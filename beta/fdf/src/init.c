@@ -54,7 +54,7 @@ void	init_default(t_fdf *data, t_img *img, t_line *line)
 	data->fd = -1;
 	data->width = 0;
 	data->height = 0;
-	data->zoom = 20;
+	data->zoom = 1;
 	data->color = 0xFFFFFF;
 	data->z_color = 0;
 	data->z1_color = 0;

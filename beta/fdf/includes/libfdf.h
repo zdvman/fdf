@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:19:21 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/12 20:20:20 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/13 12:18:29 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ typedef struct	s_img
 
 typedef struct s_fdf
 {
-	float	x;
-	float	x1;
-	float	y;
-	float	y1;
-	float	z;
-	float	z1;
+	int		x;
+	int		x1;
+	int		y;
+	int		y1;
+	int		z;
+	int		z1;
 	int		z_color;
 	int		z1_color;
 	int		*key_states;
