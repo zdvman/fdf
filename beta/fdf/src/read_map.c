@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:58:58 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/14 19:23:43 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/14 20:09:11 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	get_map_size(char *file, t_fdf *data, t_img *img)
 {
+	int	tmp_width;
+
 	open_file(data, img, file, 0);
 	data->line = get_next_line(data->fd);
 	if (data->line != NULL)
@@ -22,6 +24,9 @@ static void	get_map_size(char *file, t_fdf *data, t_img *img)
 		cleanup(data, img, "Error: empty file\n", 1);
 	while (data->line != NULL)
 	{
+		tmp_width = ft_count_words(data->line, ' ');
+		if (tmp_width < data->width)
+			data->width = tmp_width;
 		data->height++;
 		free(data->line);
 		data->line = NULL;
