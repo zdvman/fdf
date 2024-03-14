@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:58:58 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/14 11:59:43 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/14 14:56:03 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	create_map(int y, char *line, t_fdf *data, t_img *img)
 	if (split == NULL)
 		cleanup(data, img, "Error: split error in create_map function\n", 1);
 	x = 0;
-	while (split[x] != NULL)
+	while (split[x] != NULL && x < data->width)
 	{
 		tmp = ft_split(split[x], ',');
 		data->my_map[y][x] = (int *)malloc(2 * sizeof(int));
