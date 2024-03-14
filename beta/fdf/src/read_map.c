@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:58:58 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/12 18:17:05 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/14 11:59:43 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static void	create_map(int y, char *line, t_fdf *data, t_img *img)
 		tmp = ft_split(split[x], ',');
 		data->my_map[y][x] = (int *)malloc(2 * sizeof(int));
 		if (data->my_map[y][x] == NULL || tmp == NULL)
-			cleanup(data, img, "Error: malloc error in create_map function\n", 1);
+			cleanup(data, img,
+				"Error: malloc error in create_map function\n", 1);
 		data->my_map[y][x][0] = ft_atoi(tmp[0]);
 		if (tmp[1] != NULL)
 			data->my_map[y][x][1] = ft_atoi_base(tmp[1], 16);

@@ -6,12 +6,13 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 20:37:46 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/11 20:38:08 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/14 13:34:40 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libfdf.h"
 
+// Функция для обработки нажатия клавиш
 int	mouse_press(int button, int x, int y, t_fdf *data)
 {
 	(void)x;
@@ -37,6 +38,7 @@ int	mouse_press(int button, int x, int y, t_fdf *data)
 	return (0);
 }
 
+// Функция для обработки отпускания клавиш
 int	mouse_release(int button, int x, int y, t_fdf *data)
 {
 	(void)x;
@@ -48,6 +50,7 @@ int	mouse_release(int button, int x, int y, t_fdf *data)
 	return (0);
 }
 
+// Функция для обработки движения мыши
 int	mouse_move(int x, int y, t_fdf *data)
 {
 	if (data->key_states[1])

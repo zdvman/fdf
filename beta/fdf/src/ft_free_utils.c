@@ -6,12 +6,13 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 17:58:49 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/13 17:52:22 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/14 13:26:39 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libfdf.h"
 
+// Функция для освобождения 3D массива
 void	ft_free_3d_array(void ****array)
 {
 	int	i;
@@ -35,6 +36,7 @@ void	ft_free_3d_array(void ****array)
 	*array = NULL;
 }
 
+// Функция для освобождения двумерного массива
 void	ft_free_array(void ***array)
 {
 	int	i;
@@ -51,6 +53,7 @@ void	ft_free_array(void ***array)
 	*array = NULL;
 }
 
+// Функция для освобождения указателя
 void	ft_free_ptr(void **ptr)
 {
 	if (*ptr)
@@ -60,6 +63,7 @@ void	ft_free_ptr(void **ptr)
 	}
 }
 
+// Функция для уничтожения mlx
 static void	ft_destroy_mlx(t_fdf *data)
 {
 	if (data->win_ptr)
@@ -77,6 +81,7 @@ static void	ft_destroy_mlx(t_fdf *data)
 	data->mlx_ptr = NULL;
 }
 
+// Функция для освобождения всей памяти и завершения программы
 void	cleanup(t_fdf *data, t_img *img, char *error_msg, int exit_code)
 {
 	if (data->key_states)

@@ -6,24 +6,27 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 20:38:23 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/12 20:06:10 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/14 13:34:11 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libfdf.h"
 
+// Функция для обработки нажатия клавиш
 int	key_press_hook(int keycode, t_fdf *data)
 {
 	data->key_states[keycode] = 1;
 	return (0);
 }
 
+// Функция для обработки отпускания клавиш
 int	key_release_hook(int keycode, t_fdf *data)
 {
 	data->key_states[keycode] = 0;
 	return (0);
 }
 
+// Функция для обработки нажатия клавиш
 static void	key_angle_and_shift(t_fdf *data)
 {
 	if (data->key_states[XK_a])
@@ -52,6 +55,7 @@ static void	key_angle_and_shift(t_fdf *data)
 		data->shift_y += 1;
 }
 
+// Функция для обработки состояний клавиш
 int	handle_key_states(t_fdf *data)
 {
 	key_angle_and_shift(data);
