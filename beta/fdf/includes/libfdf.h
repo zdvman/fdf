@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:19:21 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/14 14:43:43 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/14 19:08:02 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_img
 
 typedef struct s_fdf
 {
+	int		grad_flag;
 	int		x;
 	int		x1;
 	int		y;
@@ -137,9 +138,12 @@ void			ft_free_ptr(void **ptr);
 
 // utils.c
 void			ft_error(char *error_msg, int exit_code);
-void			handle_user_communication(t_fdf *data);
+void			get_zoom(t_fdf *data);
 void			open_file(t_fdf *data, t_img *img, char *file, int flag);
 void			open_window(t_fdf *data);
 int				close_window(void *param);
+
+// get_color_default.c
+void			get_color_default(t_fdf *data);
 
 #endif

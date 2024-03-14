@@ -58,8 +58,6 @@ void	open_window(t_fdf *data)
 			data->win_height, "FDF");
 	if (data->win_ptr == NULL)
 		cleanup(data, NULL, "Error: mlx_new_window() failed\n", 1);
-	data->shift_x = data->win_width / 2 - data->width * data->zoom / 2;
-	data->shift_y = data->win_height / 2 - data->height * data->zoom / 2;
 	data->img->img_width = data->win_width;
 	data->img->img_height = data->win_height;
 	data->img->img_ptr = mlx_new_image(data->mlx_ptr,
@@ -71,18 +69,4 @@ void	open_window(t_fdf *data)
 			&data->img->bits_per_pixel,
 			&data->img->line_length,
 			&data->img->endian);
-}
-
-void	handle_user_communication(t_fdf *data)
-{
-	mlx_hook(data->win_ptr, 4,
-		1L << 2, mouse_press, data);
-	mlx_hook(data->win_ptr, 5,
-		1L << 3, mouse_release, data);
-	mlx_hook(data->win_ptr, 6, 1 << 6, mouse_move, data);
-	mlx_hook(data->win_ptr, 2, 1L << 0, key_press_hook, data);
-	mlx_hook(data->win_ptr, 3, 1L << 1, key_release_hook, data);
-	mlx_hook(data->win_ptr, 17, 0, close_window, data);
-	mlx_loop_hook(data->mlx_ptr, &handle_key_states, data);
-	mlx_loop(data->mlx_ptr);
 }

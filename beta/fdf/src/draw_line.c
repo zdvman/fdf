@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:32:17 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/14 14:06:46 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/14 19:18:34 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,23 @@ static void	init_line(t_line *line, t_fdf *data)
 	else
 		line->sy = -1;
 	line->err = line->dx + line->dy;
-	line->length = sqrt(line->dx * line->dx + line->dy * line->dy);
+	if (data->grad_flag > 0)
+		line->length = sqrt(line->dx * line->dx + line->dy * line->dy);
 }
 
 // Функция для отрисовки линии
 static void	draw_line_loop_body(t_fdf *data, t_line *line)
 {
-	line->t = sqrt((line->x1 - line->x) * (line->x1 - line->x)
-			+ (line->y1 - line->y) * (line->y1 - line->y))
-		/ line->length;
-	line->color = get_gradient_color(data->z_color,
-			data->z1_color, line->t);
+	if (data->grad_flag > 0)
+	{
+		line->t = sqrt((line->x1 - line->x) * (line->x1 - line->x)
+				+ (line->y1 - line->y) * (line->y1 - line->y))
+			/ line->length;
+		line->color = get_gradient_color(data->z_color,
+				data->z1_color, line->t);
+	}
+	else
+		line->color = data->z_color;
 	put_pixel_to_img(data->img->img_pixel_ptr, data, line);
 	line->e2 = 2 * line->err;
 	if (line->e2 >= line->dy)
@@ -95,20 +101,13 @@ void	ft_brezenham(t_fdf *data)
 	data->z1 = data->my_map[data->y1][data->x1][0];
 	data->z_color = data->my_map[data->y][data->x][1];
 	data->z1_color = data->my_map[data->y1][data->x1][1];
-	if (data->z && data->z_color == 0)
-		data->z_color = 0xFF0000;
-	else if (data->z == 0 && data->z_color == 0)
-		data->z_color = data->color;
-	if (data->z1 && data->z1_color == 0)
-		data->z1_color = 0xFF0000;
-	else if (data->z1 == 0 && data->z1_color == 0)
-		data->z1_color = data->color;
+	get_color_default(data);
 	data->x *= data->zoom;
 	data->y *= data->zoom;
-	data->z *= data->zoom / 3;
+	data->z *= data->zoom / 5;
 	data->x1 *= data->zoom;
 	data->y1 *= data->zoom;
-	data->z1 *= data->zoom / 3;
+	data->z1 *= data->zoom / 5;
 	rotate_and_project(&data->x, &data->y, &data->z, data);
 	rotate_and_project(&data->x1, &data->y1, &data->z1, data);
 	data->x += data->shift_x;

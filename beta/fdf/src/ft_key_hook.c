@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 20:38:23 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/14 13:34:11 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/14 19:13:53 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static void	key_angle_and_shift(t_fdf *data)
 int	handle_key_states(t_fdf *data)
 {
 	key_angle_and_shift(data);
+	if (data->key_states[XK_g])
+		data->grad_flag *= -1;
 	if (data->key_states[XK_Escape])
 	{
 		mlx_loop_end(data->mlx_ptr);

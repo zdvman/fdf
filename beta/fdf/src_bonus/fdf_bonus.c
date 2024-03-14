@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   fdf_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/07 11:39:07 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/14 16:58:13 by dzuiev           ###   ########.fr       */
+/*   Created: 2024/03/14 15:55:36 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/03/14 16:58:29 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libfdf.h"
 
-int	escape_fdf(t_fdf *data)
+static void	handle_user_communication(t_fdf *data)
 {
-	if (data->key_states[XK_Escape])
-	{
-		mlx_loop_end(data->mlx_ptr);
-		return (0);
-	}
-	return (0);
+	mlx_hook(data->win_ptr, 4,
+		1L << 2, mouse_press, data);
+	mlx_hook(data->win_ptr, 5,
+		1L << 3, mouse_release, data);
+	mlx_hook(data->win_ptr, 6, 1 << 6, mouse_move, data);
+	mlx_hook(data->win_ptr, 2, 1L << 0, key_press_hook, data);
+	mlx_hook(data->win_ptr, 3, 1L << 1, key_release_hook, data);
+	mlx_hook(data->win_ptr, 17, 0, close_window, data);
+	mlx_loop_hook(data->mlx_ptr, &handle_key_states, data);
+	mlx_loop(data->mlx_ptr);
 }
 
 int	main(int argc, char **argv)
@@ -40,11 +44,8 @@ int	main(int argc, char **argv)
 	open_window(data);
 	get_zoom(data);
 	draw_scene(data);
-	mlx_hook(data->win_ptr, 17, 0, close_window, data);
-	mlx_hook(data->win_ptr, 2, 1L << 0, key_press_hook, data);
-	mlx_hook(data->win_ptr, 2, 1L << 0, key_press_hook, data);
-	mlx_loop_hook(data->mlx_ptr, &escape_fdf, data);
-	mlx_loop(data->mlx_ptr);
+	handle_user_communication(data);
+	// mlx_loop(data->mlx_ptr);
 	cleanup(data, img, NULL, 0);
 	return (0);
 }
