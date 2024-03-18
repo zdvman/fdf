@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:32:17 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/15 12:17:22 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/18 18:54:39 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ void	ft_brezenham(t_fdf *data)
 	get_color_default(data);
 	data->x *= data->zoom;
 	data->y *= data->zoom;
-	data->z *= data->zoom;
+	data->z *= data->zoom / data->z_zoom_index;
 	data->x1 *= data->zoom;
 	data->y1 *= data->zoom;
-	data->z1 *= data->zoom;
+	data->z1 *= data->zoom / data->z_zoom_index;
 	rotate_and_project(&data->x, &data->y, &data->z, data);
 	rotate_and_project(&data->x1, &data->y1, &data->z1, data);
 	data->x += data->shift_x;

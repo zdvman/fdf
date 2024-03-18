@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:19:21 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/15 12:30:47 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/18 17:02:54 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_fdf
 	int		*key_states;
 	int		grad_flag;
 	int		res_step;
+	int		z_zoom_index;
 	int		shift_index;
 	int		width;
 	int		height;
@@ -88,6 +89,9 @@ typedef struct s_fdf
 	int		shift_y;
 	int		last_x;
 	int		last_y;
+	float	center_x;
+	float	center_y;
+	float	center_z;
 	float	angle_x;
 	float	angle_y;
 	float	angle_z;
@@ -106,6 +110,7 @@ void			init_default(t_fdf *data, t_img *img, t_line *line);
 
 // read_map.c
 void			read_map(char *file, t_fdf *data, t_img *img);
+void			calculate_center(t_fdf *data);
 
 // draw_scene.c
 void			draw_scene(t_fdf *data);
@@ -137,7 +142,7 @@ void			ft_free_ptr(void **ptr);
 
 // utils.c
 void			ft_error(char *error_msg, int exit_code);
-void			get_zoom(t_fdf *data);
+void			get_zoom_and_center(t_fdf *data);
 void			open_file(t_fdf *data, t_img *img, char *file, int flag);
 void			open_window(t_fdf *data);
 int				close_window(void *param);
