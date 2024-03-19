@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 18:58:58 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/15 12:07:10 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/18 18:55:28 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,27 @@ void	read_map(char *file, t_fdf *data, t_img *img)
 	ft_free_ptr((void **)&data->line);
 	close(data->fd);
 	data->fd = -1;
+}
+
+void	calculate_center(t_fdf *data)
+{
+	float	sum_z;
+	int		total_points;
+	int		x;
+	int		y;
+
+	sum_z = 0;
+	total_points = data->width * data->height;
+	if (total_points == 0)
+		cleanup(data, data->img, "Error: empty map\n", 1);
+	y = -1;
+	while (++y < data->height)
+	{
+		x = -1;
+		while (++x < data->width)
+			sum_z += data->my_map[y][x][0];
+	}
+	data->center_x = ((data->width - 1) / 2.0) * data->zoom;
+	data->center_y = ((data->height - 1) / 2.0) * data->zoom;
+	data->center_z = (sum_z / total_points) * (data->zoom / data->z_zoom_index);
 }

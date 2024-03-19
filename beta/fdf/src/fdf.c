@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 11:39:07 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/14 16:58:13 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/18 16:41:14 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ int	main(int argc, char **argv)
 	init_default(data, img, line);
 	read_map(argv[1], data, img);
 	open_window(data);
-	get_zoom(data);
+	get_zoom_and_center(data);
 	draw_scene(data);
 	mlx_hook(data->win_ptr, 17, 0, close_window, data);
-	mlx_hook(data->win_ptr, 2, 1L << 0, key_press_hook, data);
 	mlx_hook(data->win_ptr, 2, 1L << 0, key_press_hook, data);
 	mlx_loop_hook(data->mlx_ptr, &escape_fdf, data);
 	mlx_loop(data->mlx_ptr);

@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:55:36 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/15 12:43:24 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/18 16:43:33 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv)
 	init_default(data, img, line);
 	read_map(argv[1], data, img);
 	open_window(data);
-	get_zoom(data);
+	get_zoom_and_center(data);
 	draw_scene(data);
 	handle_user_communication(data);
 	cleanup(data, img, NULL, 0);

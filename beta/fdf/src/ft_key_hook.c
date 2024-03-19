@@ -6,16 +6,35 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 20:38:23 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/15 12:37:10 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/15 13:50:36 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libfdf.h"
 
+static void	key_options(int keycode, t_fdf *data)
+{
+	if (keycode == XK_m)
+		data->shift_index += 1;
+	if (keycode == XK_n)
+	{
+		if (data->shift_index > 1)
+			data->shift_index -= 1;
+	}
+	if (keycode == XK_v)
+		data->z_zoom_index += 1;
+	if (keycode == XK_b)
+	{
+		if (data->z_zoom_index > 1)
+			data->z_zoom_index -= 1;
+	}
+}
+
 // Функция для обработки нажатия клавиш
 int	key_press_hook(int keycode, t_fdf *data)
 {
 	data->key_states[keycode] = 1;
+	key_options(keycode, data);
 	if (keycode == XK_g)
 	{
 		if (data->grad_flag)
@@ -29,13 +48,6 @@ int	key_press_hook(int keycode, t_fdf *data)
 	{
 		if (data->res_step > 1)
 			data->res_step -= 1;
-	}
-	if (keycode == XK_m)
-		data->shift_index += 1;
-	if (keycode == XK_n)
-	{
-		if (data->shift_index > 1)
-			data->shift_index -= 1;
 	}
 	return (0);
 }
