@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 09:13:50 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/03/19 09:14:03 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/20 18:13:28 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,12 @@ void	ft_free_ptr(void **ptr)
 }
 
 // Функция для освобождения всей памяти и завершения программы
-// void	cleanup(t_fdf *data, t_img *img, char *error_msg, int exit_code)
-// {
-// 	if (data->key_states)
-// 		ft_free_ptr((void **)&(data->key_states));
-// 	if (data->fd >= 0)
-// 		close(data->fd);
-// 	if (data->line)
-// 		ft_free_ptr((void **)&(data->line));
-// 	if (data->my_map)
-// 		ft_free_3d_array((void ****)&(data->my_map));
-// 	if (data->mlx_ptr)
-// 		ft_destroy_mlx(data);
-// 	if (img)
-// 		ft_free_ptr((void **)&img);
-// 	if (data->line_struct)
-// 		ft_free_ptr((void **)&(data->line_struct));
-// 	if (data)
-// 		ft_free_ptr((void **)&data);
-// 	if (exit_code)
-// 		ft_error(error_msg, exit_code);
-// }
+void	cleanup(t_data *data, char *error_msg, int exit_code)
+{
+	if (data->philos)
+		ft_free_ptr((void **)&(data->philos));
+	if (data->forks)
+		ft_free_ptr((void **)&(data->forks));
+	if (exit_code)
+		ft_error(error_msg, exit_code);
+}
