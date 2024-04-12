@@ -1,0 +1,81 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   readline.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: samoore <samoore@student.42london.com      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/09 11:44:49 by samoore           #+#    #+#             */
+/*   Updated: 2024/04/09 11:44:53 by samoore          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+#include <unistd.h>
+#include <strings.h>
+#include <string.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <linux/limits.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <wait.h>
+/*
+typedef struct s_history
+{
+	struct s_history	*next;
+	struct s_history	*prev;
+	char				*entry;
+}	t_hist;
+
+t_hist	*hist_init(void)
+{
+	t_hist	*res;
+
+	res = malloc(sizeof(t_hist));
+	res->next = NULL;
+	res->prev = NULL;
+	res->entry = NULL;
+	return (res);
+}
+
+t_hist	*add_history(t_hist *head, char *str)
+{
+	t_hist	*res;
+	res = malloc(sizeof(t_hist));
+	head->prev = res;
+	res->next = head;
+	res->entry = malloc(sizeof(char) * (strlen(str) + 1));
+	strcpy(res->entry, str);
+	return (res);
+}
+*/
+int main(int ac, char **av, char **env)
+{
+	char	*str;
+	char	dir[PATH_MAX];
+	int		history_index;
+	int		pid;
+	int		fd[2];
+	char *const	args[] = {"/bin.ls", "-l", NULL};
+
+
+	history_index = 0;
+	str = malloc(sizeof(char));
+	while (strcmp(str, "end"))
+	{
+		if (str)
+			free (str);
+		getcwd(dir, sizeof(dir));
+		str = readline((const char *)dir);
+		if (str && *str)
+		{
+			add_history(str);
+			history_index++;
+		}
+
+			execve(str, args, env);
+
+	}
+	free (str);
+}	

@@ -6,7 +6,7 @@
 #    By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/10 10:47:10 by dzuiev            #+#    #+#              #
-#    Updated: 2024/02/10 17:19:24 by dzuiev           ###   ########.fr        #
+#    Updated: 2024/04/10 14:01:11 by dzuiev           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ BONUS_NAME = checker
 
 # Компилятор и флаги компиляции
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fPIC
 
 # Директории с исходным кодом и библиотеками
 LIBFT_DIR = libft

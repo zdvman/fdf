@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:00:35 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/01/16 18:00:35 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:24:49 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_abs(int nbr)
 {
-	if (nbr < 0)
-		return (-nbr);
-	return (nbr);
+    if (nbr < 0)
+        return (-nbr);
+    return (nbr);
 }

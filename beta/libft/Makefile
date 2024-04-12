@@ -6,7 +6,7 @@
 #    By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/30 11:17:38 by dzuiev            #+#    #+#              #
-#    Updated: 2024/02/06 23:03:45 by dzuiev           ###   ########.fr        #
+#    Updated: 2024/03/12 17:17:56 by dzuiev           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ BONUS			=	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back
 					ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 BONUS_OBJS		= $(BONUS:.c=.o)
 
-CC				= cc
+CC				= gcc
 RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror
 
