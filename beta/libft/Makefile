@@ -68,7 +68,7 @@ re: fclean all
 
 # Compile bonus files
 bonus: $(OBJS) $(BONUS_OBJS)
-	ar rcs $(NAME) $^
+	@ar rcs $(NAME) $^
 	@echo "$(GREEN)Bonus part compiled: $(NAME)$(RESET)"
 
 # Phony targets
