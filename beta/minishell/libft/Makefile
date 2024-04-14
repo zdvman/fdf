@@ -47,6 +47,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 # @echo "$(BLUE)Compiled $< into $@$(RESET)"
+# mkdir -p $(OBJ_DIR) - create a directory $(OBJ_DIR) if it doesn't exist
+# -p - no error if existing, make parent directories as needed 
 
 # Main target
 all: $(NAME)
@@ -57,6 +59,9 @@ clean:
 		rm -rf $(OBJ_DIR); \
 		echo "$(YELLOW)Libft object files removed$(RESET)"; \
 	fi
+# rm -rf $(OBJ_DIR) - remove the directory $(OBJ_DIR) with all its content
+# -r - remove directories and their contents recursively
+# -f - ignore nonexistent files and arguments, never prompt
 
 # Full clean including the library
 fclean: clean
@@ -68,8 +73,10 @@ re: fclean all
 
 # Compile bonus files
 bonus: $(OBJS) $(BONUS_OBJS)
-	ar rcs $(NAME) $^
+	@ar rcs $(NAME) $^
 	@echo "$(GREEN)Bonus part compiled: $(NAME)$(RESET)"
+# ar rcs $(NAME) $^ - create a static library $(NAME) from object files $^ (all object files)
+# $^ - all object files (OBJS and BONUS_OBJS)
 
 # Phony targets
 .PHONY: all clean fclean re bonus

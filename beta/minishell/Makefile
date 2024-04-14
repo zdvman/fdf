@@ -6,7 +6,7 @@
 #    By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/10 10:31:12 by dzuiev            #+#    #+#              #
-#    Updated: 2024/04/14 21:08:13 by dzuiev           ###   ########.fr        #
+#    Updated: 2024/04/14 21:26:45 by dzuiev           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,6 +130,9 @@ fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@rm -f $(NAME)
 	@echo "$(RED)$(NAME) removed$(RESET)"
+# rm -rf - remove the directory with all its content
+# -r - remove directories and their contents recursively
+# -f - ignore nonexistent files and arguments, never prompt
 
 # Rebuild everything
 re: fclean all
