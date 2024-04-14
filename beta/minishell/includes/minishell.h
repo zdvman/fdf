@@ -22,13 +22,6 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 
-typedef struct s_token
-{
-	token_type	type;
-	char	*value;
-	struct s_token	*next;
-}				t_token;
-
 typedef enum
 {
 	TOKEN_WORD, // word = any sequence of characters that is not a special character
@@ -44,9 +37,11 @@ typedef enum
 	TOKEN_EOF // end of file - for lexer termination condition
 }				token_type;
 
-// Вспомогательные функции
-t_token	*create_token(token_type type, char *value);
-void	add_token(t_token **token_list, t_token *new_token);
-void	free_tokens(t_token *tokens);
+typedef struct s_token
+{
+	token_type	type;
+	char	*value;
+	struct s_token	*next;
+}				t_token;
 
 #endif

@@ -10,28 +10,23 @@
 #                                                                              #
 # **************************************************************************** #
 
-# **************************************************************************** #
-# Colors for messages
-GREEN=\033[0;32m
-YELLOW=\033[0;33m
-RED=\033[0;31m
-BLUE=\033[0;34m
-RESET=\033[0m
-# **************************************************************************** #
-
 # Name of the library
 NAME = libft.a
-# **************************************************************************** #
+
 # Colors for messages
 GREEN=\033[0;32m
 YELLOW=\033[0;33m
 RED=\033[0;31m
 BLUE=\033[0;34m
 RESET=\033[0m
-# **************************************************************************** #
+
 # Source and object directories
 SRC_DIR = .
 OBJ_DIR = obj
+
+# Compiler and flags
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
 # Sources and objects
 SRCS = $(wildcard $(SRC_DIR)/*.c)
@@ -39,35 +34,34 @@ OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Bonus files
 BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c \
-        ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
+		ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 BONUS_OBJS = $(addprefix $(OBJ_DIR)/, $(BONUS:.c=.o))
-
-# Remove command
-RM = rm -f
-
-# Main target
-all: $(NAME)
 
 # Compile the library
 $(NAME): $(OBJS)
 	@ar rcs $@ $^
-	@echo "$(GREEN)Compilation successful: $(NAME)"
+	@echo "$(GREEN)Compilation successful: $(NAME)$(RESET)"
 
 # Compile object files into obj directory
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(BLUE)Compiled $< into $@$(RESET)"
+# @echo "$(BLUE)Compiled $< into $@$(RESET)"
+
+# Main target
+all: $(NAME)
 
 # Clean object files
 clean:
-	$(RM) -r $(OBJ_DIR)
-	@echo "$(YELLOW)Cleaned object files$(RESET)"
+	@ if [ -d $(OBJ_DIR) ]; then \
+		rm -rf $(OBJ_DIR); \
+		echo "$(YELLOW)Libft object files removed$(RESET)"; \
+	fi
 
 # Full clean including the library
 fclean: clean
-	$(RM) $(NAME)
-	@echo "$(RED)Fully cleaned all compiled files$(RESET)"
+	@rm -f $(NAME)
+	@echo "$(RED)$(NAME) removed$(RESET)"
 
 # Rebuild the library
 re: fclean all

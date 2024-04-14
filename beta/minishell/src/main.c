@@ -33,18 +33,10 @@
 /*                                                                            */
 /******************************************************************************/
 
-// #ifdef BONUS
-// # include "../includes/minishell_bonus.h"
-// #endif
-// #include "../includes/minishell.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <string.h>
-#include <unistd.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "../includes/minishell.h"
+#ifdef BONUS
+#include "../includes/minishell_bonus.h" // Включается только при компиляции бонусной части
+#endif
 
 void	handle_sigint(int sig)
 {
@@ -85,7 +77,7 @@ int	main(void)
 		if (input && *input)
 		{
 			add_history(input);
-			tokenize(input);
+			// tokenize(input);
 		}
 		if (input)
 			free(input);

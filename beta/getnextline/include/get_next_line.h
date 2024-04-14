@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 13:03:34 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/20 16:00:23 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/25 21:23:17 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <stdio.h>
 
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*get_next_line(int fd);
