@@ -59,7 +59,6 @@ int	main(void)
 		if (input == NULL)
 		{
 			printf("exit\n");
-			printf("\033[?12l");
 			break ;
 		}
 		if (input)

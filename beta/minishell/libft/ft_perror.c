@@ -17,6 +17,6 @@ void	ft_perror(char *error_msg)
 	ft_putstr_fd("Error: ", STDERR_FILENO);
 	ft_putstr_fd(error_msg, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(strerror(errno), STDERR_FILENO); // Add the system error message
+	ft_putstr_fd(strerror(errno), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 }

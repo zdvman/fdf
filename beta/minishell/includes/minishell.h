@@ -71,6 +71,19 @@ typedef struct s_token
 	struct s_token	*next;
 }				t_token;
 
+typedef struct s_dynamic_buffer
+{
+	char	*data;
+	size_t	len;
+	size_t	capacity;
+}				t_dynamic_buffer;
+
+// dynamic_buffer.c
+void	buffer_init(t_dynamic_buffer *buf);
+void	buffer_free(t_dynamic_buffer *buf);
+void	buffer_clear(t_dynamic_buffer *buf);
+int		buffer_append(t_dynamic_buffer *buf, const char *str, size_t n);
+
 // utils.c
 void	cleanup(t_token **tokens, int exit_code);
 void	handle_sigint(int sig);
