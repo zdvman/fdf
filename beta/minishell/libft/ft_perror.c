@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_bonus.h                                  :+:      :+:    :+:   */
+/*   ft_perror.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/10 11:02:21 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/10 11:03:48 by dzuiev           ###   ########.fr       */
+/*   Created: 2024/04/15 10:50:29 by dzuiev            #+#    #+#             */
+/*   Updated: 2024/04/15 10:50:29 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_BONUS_H
-# define MINISHELL_BONUS_H
+#include "libft.h"
 
-# include "minishell.h"
-
-#endif
+void	ft_perror(char *error_msg)
+{
+	ft_putstr_fd("Error: ", STDERR_FILENO);
+	ft_putstr_fd(error_msg, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(strerror(errno), STDERR_FILENO); // Add the system error message
+	ft_putstr_fd("\n", STDERR_FILENO);
+}

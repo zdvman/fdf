@@ -1,11 +1,12 @@
 {
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Debug C Program",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\Users\User\Documents\Зуев Дмитрий\School42\42cursus\beta\getnextline",
+            "program": "${workspaceFolder}\Users\User\Documents\Зуев Дмитрий\School42\42cursus\beta",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

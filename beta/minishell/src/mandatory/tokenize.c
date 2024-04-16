@@ -12,108 +12,6 @@
 
 // #include "../../includes/minishell.h"
 
-// t_token	*create_token(token_type type, char *value)
-// {
-// 	t_token *token;
-	
-// 	token = malloc(sizeof(t_token));
-// 	if (token == NULL)
-// 	{
-// 		perror("malloc failed");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	token->type = type;
-// 	token->value = ft_strdup(value); // используем strdup для копирования строки
-// 	token->next = NULL;
-// 	return token;
-// }
-
-// void	add_token(t_token **token_list, t_token *new_token)
-// {
-// 	t_token *current;
-	
-// 	if (*token_list == NULL)
-// 		*token_list = new_token;
-// 	else
-// 	{
-// 		current = *token_list;
-// 		while (current->next != NULL)
-// 			current = current->next;
-// 		current->next = new_token;
-// 	}
-// }
-
-// void	free_tokens(t_token *tokens)
-// {
-// 	t_token *current;
-// 	while (tokens != NULL)
-// 	{
-// 		current = tokens;
-// 		tokens = tokens->next;
-// 		free(current->value);
-// 		free(current);
-// 	}
-// }
-
-// int	is_special_character(char c)
-// {
-// 	return (c == '<' || c == '>' || c == '|' || c == '&' || c == ';');
-// }
-
-// void	handle_special(t_token **tokens, char **input)
-// {
-// 	char *start;
-// 	char special[3];
-	
-// 	start = *input;
-// 	*special = {0};
-// 	special[0] = *start;
-// 	if (*start == '<')
-// 	{
-// 		if (*(start + 1) == '<')
-// 		{
-// 			special[1] = '<';
-// 			(*input)++;
-// 			add_token(tokens, create_token(TOKEN_HERE_DOC, special));
-// 		}
-// 		else
-// 			add_token(tokens, create_token(TOKEN_REDIR_INPUT, special));
-// 	}
-// 	else if (*start == '>')
-// 	{
-// 		if (*(start + 1) == '>')
-// 		{
-// 			special[1] = '>';
-// 			(*input)++;
-// 			add_token(tokens, create_token(TOKEN_REDIR_APPEND, special));
-// 		}
-// 		else
-// 			add_token(tokens, create_token(TOKEN_REDIR_OUTPUT, special));
-// 	}
-// 	else if (*start == '|')
-// 	{
-// 		if (*(start + 1) == '|')
-// 		{
-// 			special[1] = '|';
-// 			(*input)++;
-// 			add_token(tokens, create_token(TOKEN_OR, special));
-// 		}
-// 		else
-// 			add_token(tokens, create_token(TOKEN_PIPE, special));
-// 	}
-// 	else if (*start == '&')
-// 	{
-// 		if (*(start + 1) == '&')
-// 		{
-// 			special[1] = '&';
-// 			(*input)++;
-// 			add_token(tokens, create_token(TOKEN_AND, special));
-// 		}
-// 	}
-// 	else if (*start == ';')
-// 		add_token(tokens, create_token(TOKEN_SEMI, special));
-// 	(*input)++;
-// }
 
 // void	handle_word(t_token **tokens, char **input)
 // {
@@ -179,51 +77,133 @@
 // 		handle_illegal(tokens, input);
 // }
 
-// void tokenize(char *input)
+
+#include "../../includes/minishell.h"
+
+void	add_token(t_token_type type, char *value, t_token **tokens)
+{
+	t_token *token;
+	t_token *current;
+
+	current = *tokens;
+	token = malloc(sizeof(t_token));
+	if (token == NULL)
+	{
+		ft_perror("malloc failed\n");
+		cleanup(tokens, EXIT_FAILURE);
+	}
+	token->type = type;
+	token->value = value;
+	token->next = NULL;
+	if (*tokens == NULL)
+		*tokens = token;
+	else
+	{
+		current = *tokens;
+		while (current->next != NULL)
+			current = current->next;
+		current->next = token;
+	}
+}
+
+// int is_not_in_quotes(t_token **tokens)
 // {
-// 	t_token *tokens = NULL;
-// 	char *original_input = input;
-
-// 	while (*input)
+// 	int in_quotes;
+// 	in_quotes = 0;
+// 	while (tokens && tokens->type != TOKEN_EOF)
 // 	{
-// 		if (isspace(*input))
-// 			input++;  // Skip whitespace
-// 		else if (is_special_character(*input))
-// 			handle_special(&tokens, &input);
-// 		else if (*input == '\'' || *input == '"')
-// 			tokenize_string(&tokens, &input);
-// 		else if (isalpha(*input) || isdigit(*input) || *input == '_')
-// 			handle_word(&tokens, &input);
-// 		else
-// 			handle_illegal(&tokens, &input);
+// 		if (tokens->type == TOKEN_WORD && (ft_strchr(tokens->value, '\'') || ft_strchr(tokens->value, '"')))
+// 			in_quotes = !in_quotes;
+// 		tokens = tokens->next;
 // 	}
-// 	if (input == original_input || *input == '\0')
-// 		add_token(&tokens, create_token(TOKEN_EOF, "EOF"));
-// 	// Вывод токенов для дебага (можно удалить в финальной версии)
-// 	t_token *temp = tokens;
-// 	while (temp != NULL)
-// 	{
-// 		printf("Type: %d, Value: %s\n", temp->type, temp->value);
-// 		temp = temp->next;
-// 	}
-// 	free_tokens(tokens);
+// 	return (in_quotes);
 // }
 
-// int main() {
-//     // Назначение обработчика сигнала
+void tokenize_string(t_token **tokens, char **input)
+{
+	char *start = *input;
+	char current_quote = **input;
 
-//     char *input;
-//     while (1) {
-//         input = readline("minishell> ");
-//         if (input == NULL) {
-//             // Обработка EOF, если пользователь ввел ctrl-D
-//             printf("\n");
-//             break;
-//         }
-//         // Добавьте обработку ввода здесь
-// 		if (input)
-//         	free(input);
-//     }
+	(*input)++;  // Пропускаем начальную кавычку
+	while (**input && **input != current_quote) {
+		// if (current_quote == '\"' && **input == '\\') {
+		// 	if (*(*input + 1) == '\"' || *(*input + 1) == '\\')
+		// 	{
+		// 		// Пропускаем символ экранирования только для специфических символов
+		// 		(*input)++;
+		// 	}
+		// } else if (current_quote == '\"' && **input == '$') {
+		// 	// Здесь должна быть реализация обработки переменных окружения
+		// 	// Эта функция должна возвращать обработанную строку, которую надо добавить к текущему значению токена
+		// 	char *env_value = handle_environment_variable(input); // Реализуйте эту функцию в соответствии с вашими требованиями
+		// 	append_to_token_value(env_value, tokens);  // Добавляйте значение переменной к текущему токену
+		// 	free(env_value);  // Не забудьте освободить память
+		// 	continue;
+		// }
+		(*input)++;
+	}
 
-//     return 0;
-// }
+	if (**input == current_quote) {  // Проверяем, закрыта ли кавычка
+		add_token(TOKEN_WORD, ft_substr(start + 1, 0, *input - start - 1), tokens);
+		(*input)++;
+	// } else {
+	// 	handle_illegal(tokens, input);  // Обработка случая, когда кавычка не закрыта
+	}
+}
+
+
+void handle_special(t_token **tokens, char **input)
+{
+	char *start;
+
+	start = *input;
+	if (*start == '<')
+		handle_less_than_sign(tokens, &start);
+	else if (*start == '>')
+		handle_greater_than_sign(tokens, &start);
+	else if (*start == '|')
+		handle_pipe_or(tokens, &start);
+	else if (*start == '&')
+		handle_and(tokens, &start);
+	else if (*start == ';')
+		handle_semicolon(tokens, &start);
+	else if (*start == '(')
+		handle_open_bracket(tokens, &start);
+	else if (*start == ')')
+		handle_close_bracket(tokens, &start);
+	// else if (*start == '$')
+	// 	add_token(TOKEN_DOLLAR, "$", tokens);
+	// else if (*start == '#')
+	// 	handle_hash(tokens, &start, is_not_in_quotes(*tokens)
+
+		
+	// else if (*start == '#' && is_not_in_quotes(*start))
+	// 	handle_comment(tokens, &start);
+	// else
+	// 	handle_illegal(tokens, &start);
+		
+	*input = start;
+}
+
+void	tokenize(char *input, t_token **tokens)
+{
+	char *start;
+	
+	start = input;
+	while (*input)
+	{
+		if (ft_isspace(*input))
+			input++;
+		else if (is_special_character(*input))
+			handle_special(tokens, &input);
+		else if (*input == '\'' || *input == '\"')
+			tokenize_string(tokens, &input);
+		// else if (isalpha(*input) || isdigit(*input) || *input == '_')
+		// 	handle_word(tokens, &input);
+		// else
+		// 	handle_illegal(tokens, &input);
+		// input++;
+	}
+	if (input == start || *input == '\0')
+		add_token(TOKEN_EOF, ft_strdup("EOF"), tokens);
+}

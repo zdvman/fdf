@@ -20,6 +20,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
+# include <errno.h>
+# include <string.h>
 
 typedef struct s_list
 {
@@ -95,5 +97,6 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 void			ft_striteri(char *s, void (*f)(unsigned int, char *));
 void			*ft_realloc(void *ptr, size_t size);
 char			*get_next_line(int fd);
+void			ft_perror(char *error_msg);
 
 #endif

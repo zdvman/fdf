@@ -38,51 +38,41 @@
 #include "../includes/minishell_bonus.h" // Включается только при компиляции бонусной части
 #endif
 
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	write(STDIN_FILENO, "\nminishell> ", 12);
-	fflush(stdout);
-}
-
-void	set_sig_actions(void)
-{
-	struct sigaction	sa_int;
-	struct sigaction	sa_quit;
-
-	memset(&sa_int, 0, sizeof(sa_int));
-	sa_int.sa_handler = handle_sigint;
-	sigaction(SIGINT, &sa_int, NULL);
-	memset(&sa_quit, 0, sizeof(sa_quit));
-	sa_quit.sa_handler = SIG_IGN;
-	sigaction(SIGQUIT, &sa_quit, NULL);
-}
-
 int	main(void)
 {
+	t_token	*tokens;
+	t_token	*current;
 	char	*input;
 
+	tokens = NULL;
 	printf("\033[?12h");
 	set_sig_actions();
 	input = NULL;
 	while (1)
 	{
 		input = readline("minishell> ");
+		if (input && *input)
+		{
+			add_history(input);
+			tokenize(input, &tokens);
+		}
 		if (input == NULL)
 		{
 			printf("exit\n");
 			printf("\033[?12l");
 			break ;
 		}
-		if (input && *input)
-		{
-			add_history(input);
-			// tokenize(input);
-		}
 		if (input)
 			free(input);
 	}
+	current = tokens;
+	while (current)
+	{
+		printf("tokens->type: %d; tokens->value: %s\n", current->type, current->value);
+		current = current->next;
+	}
 	printf("\033[?12l");
 	rl_clear_history();
+	cleanup(&tokens, 0);
 	return (0);
 }

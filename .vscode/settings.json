@@ -1,5 +1,11 @@
 {
 	"files.associations": {
-		"stddef.h": "c"
-	}
+		"stddef.h": "c",
+		"libfdf.h": "c"
+	},
+	"C_Cpp.default.includePath": [
+        "${workspaceFolder}/**",
+        "/usr/include/readline"
+    ],
+    "C_Cpp.intelliSenseEngine": "default"
 }

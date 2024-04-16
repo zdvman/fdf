@@ -6,7 +6,7 @@
 #    By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/10 10:31:12 by dzuiev            #+#    #+#              #
-#    Updated: 2024/04/14 21:31:55 by dzuiev           ###   ########.fr        #
+#    Updated: 2024/04/15 11:41:51 by dzuiev           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,8 +54,8 @@ LIBFT = $(LIBFT_DIR)/libft.a # Libft library
 # Directories with source files and libraries
 LIBFT_DIR = libft
 LIBFT_DIR = libft
-INCLUDES = -I./includes -I$(LIBFT_DIR)
-LDFLAGS = -L$(LIBFT_DIR) -lft -lreadline #-lreadhistory -L/usr/local/lib , ldconfig -p | grep readline
+INCLUDES = -I./includes -I$(LIBFT_DIR) -I/usr/include/readline
+LDFLAGS = -L$(LIBFT_DIR) -lft -lreadline # -L/usr/local/lib , ldconfig -p | grep readline
 SRC_DIR = src
 OBJ_DIR = obj
 SRC_MANDATORY_DIR = $(SRC_DIR)/mandatory
