@@ -90,6 +90,10 @@ void	cleanup(t_token **tokens, int exit_code);
 void	handle_sigint(int sig);
 void	set_sig_actions(void);
 
+// multiline_and_quotes_input.c
+char	*read_multiline(void);
+int		is_quote_open(const char *input);
+
 // handle_special.c
 int		is_special_character(char c);
 void	handle_greater_than_sign(t_token **tokens, char **input);
