@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 18:21:10 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/18 18:21:55 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/19 16:12:23 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,13 @@ int	is_quote_open(const char *input)
 	current_quote = 0;
 	while (input[i] != '\0')
 	{
-		if (input[i] == '\\' && (input[i + 1] == '\'' || input[i + 1] == '\"'))
-		{
+		// Check if escape is for the current quote
+		if (input[i] == '\\' && (input[i + 1] == current_quote))
+			 // Skip the escaped character if it is the current quote type
 			i++;
+		else if ((input[i] == '\'' || input[i] == '\"') && (i == 0 || input[i-1] != '\\'))
+			// Toggle the quote state only if not preceded by a backslash, or handle initial case
 			current_quote = new_current_quote(current_quote, input[i]);
-		}
-		else if (input[i] == '\'' || input[i] == '\"')
-		{
-			current_quote = new_current_quote(current_quote, input[i]);
-		}
 		i++;
 	}
 	return (current_quote != 0);

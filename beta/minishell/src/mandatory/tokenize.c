@@ -76,7 +76,17 @@ void tokenize_string(t_token **tokens, char **input)
 	while (**input && **input != current_quote) {
 		if (current_quote == '\"' && **input == '\\')
 		{
+			// (*input)++; // Move to escaped character
 			if (*(*input + 1) == '\"' || *(*input + 1) == '\\')
+			{
+				buffer_append(&buffer, start, *input - start); // Add text before escaped character
+				(*input)++; // Move to escaped character
+				buffer_append(&buffer, *input, 1); // Append the escaped character
+				(*input)++; // Move to the next character
+				start = *input;
+				continue;
+			}
+			else
 				(*input)++;
 		}
 		else if (current_quote == '\"' && **input == '$')
@@ -94,7 +104,7 @@ void tokenize_string(t_token **tokens, char **input)
 	if (**input == current_quote)
 	{ 
 		buffer_append(&buffer, start, *input - start);
-		add_token(TOKEN_WORD, ft_strdup(buffer.data), tokens);
+		add_token(TOKEN_STRING, ft_strdup(buffer.data), tokens);
 		(*input)++;
 	}
 	else
@@ -125,6 +135,45 @@ void handle_special(t_token **tokens, char **input)
 	*input = start;
 }
 
+void	tokenize_env_name_to_val(t_token **tokens, char **input)
+{
+	char	*start;
+	char	*env_value;
+	char	*env_name;
+
+	start = *input + 1;
+	(*input)++;
+	while (**input && (ft_isalnum(**input) || **input == '_'))
+		(*input)++;
+	env_name = ft_substr(start, 0, *input - start);
+	env_value = getenv(env_name);
+	free(env_name); // Освободим имя после использования
+	if (env_value == NULL)
+		env_value = ft_strdup(""); // Возвращаем пустую строку, если переменная не найдена
+	add_token(TOKEN_ENV_VAR, ft_strdup(env_value), tokens);
+}
+
+void	tokenize_word(t_token **tokens, char **input)
+{
+	char *start;
+
+	start = *input;
+	while (**input && (ft_isalnum(**input) || **input == '_'))
+		(*input)++;
+	add_token(TOKEN_WORD, ft_substr(start, 0, *input - start), tokens);
+}
+
+void	handle_equal_sign(t_token **tokens, char **input, char *start)
+{
+	if (*input > start && *(*input + 1) != '\0'
+		&& !ft_isspace(*(*input - 1))
+		&& !ft_isspace(*(*input + 1)))
+		add_token(TOKEN_EQUAL, ft_strdup("="), tokens);
+		else
+			handle_illegal(tokens, input);
+	(*input)++;
+}
+
 void	tokenize(char *input, t_token **tokens)
 {
 	char *start;
@@ -138,6 +187,14 @@ void	tokenize(char *input, t_token **tokens)
 			handle_special(tokens, &input);
 		else if (*input == '\'' || *input == '\"')
 			tokenize_string(tokens, &input);
+		else if (*input == '$')
+			tokenize_env_name_to_val(tokens, &input);
+		else if (ft_isalnum(*input) || *input == '_')
+			tokenize_word(tokens, &input);
+		else if (*input == '=')
+			handle_equal_sign(tokens, &input, start);
+		else
+			handle_illegal(tokens, &input);
 	}
 	if (input == start || *input == '\0')
 		add_token(TOKEN_EOF, ft_strdup("EOF"), tokens);

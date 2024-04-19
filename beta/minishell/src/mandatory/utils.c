@@ -12,29 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static void ft_free_tokens(t_token **tokens)
-{
-	t_token *current;
-	while (*tokens != NULL)
-	{
-		current = *tokens;
-		*tokens = (*tokens)->next;
-		if (current->value != NULL)
-			free(current->value);
-		free(current);
-	}
-	*tokens = NULL;
-}
-
-void cleanup(t_token **tokens, int exit_code)
-{
-	if (tokens != NULL && *tokens != NULL)
-		ft_free_tokens(tokens);
-	if (exit_code != 0)
-		exit(exit_code);
-}
-
-void	handle_sigint(int sig)
+static void	handle_sigint(int sig)
 {
 	(void)sig;
 	write(STDIN_FILENO, "\nminishell> ", 12);

@@ -46,6 +46,7 @@
 typedef enum e_token_type
 {
 	TOKEN_WORD,
+	TOKEN_STRING,
 	TOKEN_REDIR_INPUT,
 	TOKEN_REDIR_OUTPUT,
 	TOKEN_REDIR_APPEND,
@@ -54,10 +55,10 @@ typedef enum e_token_type
 	TOKEN_AND,
 	TOKEN_OR,
 	TOKEN_SEMI,
-	TOKEN_SINGLE_QUOTE,
-	TOKEN_DOUBLE_QUOTE,
-	TOKEN_DOLLAR,
+	// TOKEN_SINGLE_QUOTE,
+	// TOKEN_DOUBLE_QUOTE,
 	TOKEN_ENV_VAR,
+	TOKEN_EQUAL,
 	TOKEN_COMMAND_SUBSTITUTION,
 	TOKEN_OPEN_BRACKET,
 	TOKEN_CLOSE_BRACKET,
@@ -70,7 +71,15 @@ typedef struct s_token
 	t_token_type	type;
 	char			*value;
 	struct s_token	*next;
+	struct s_token	*prev;
 }				t_token;
+
+typedef struct s_env
+{
+	char			**envp;
+	t_token			*token;
+	t_token			*head_token;
+}				t_env;
 
 typedef struct s_dynamic_buffer
 {
@@ -85,9 +94,10 @@ void	buffer_free(t_dynamic_buffer *buf);
 void	buffer_clear(t_dynamic_buffer *buf);
 int		buffer_append(t_dynamic_buffer *buf, const char *str, size_t n);
 
+// free_utils.c
+void	cleanup(t_env **env, int status);
+
 // utils.c
-void	cleanup(t_token **tokens, int exit_code);
-void	handle_sigint(int sig);
 void	set_sig_actions(void);
 
 // multiline_and_quotes_input.c
