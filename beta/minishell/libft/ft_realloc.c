@@ -16,13 +16,13 @@ void	*ft_realloc(void *ptr, size_t size)
 {
 	void	*new_ptr;
 
-	if (ptr == NULL)
-		return (malloc(size));
-	if (size == 0)
+	if (size == 0 && ptr != NULL)
 	{
 		free(ptr);
 		return (NULL);
 	}
+	if (ptr == NULL)
+		return (malloc(size));
 	new_ptr = malloc(size);
 	if (new_ptr == NULL)
 		return (NULL);

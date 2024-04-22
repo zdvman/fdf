@@ -70,6 +70,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	int				has_space;
 	struct s_token	*next;
 	struct s_token	*prev;
 }				t_token;
@@ -77,7 +78,7 @@ typedef struct s_token
 typedef struct s_env
 {
 	char			**envp;
-	t_token			*token;
+	t_token			*tokens;
 	t_token			*head_token;
 }				t_env;
 
@@ -87,6 +88,9 @@ typedef struct s_dynamic_buffer
 	size_t	len;
 	size_t	capacity;
 }				t_dynamic_buffer;
+
+// init.c
+void	shell_init(t_env **env, char **envp);
 
 // dynamic_buffer.c
 void	buffer_init(t_dynamic_buffer *buf);
@@ -106,18 +110,17 @@ int		is_quote_open(const char *input);
 
 // handle_special.c
 int		is_special_character(char c);
-void	handle_greater_than_sign(t_token **tokens, char **input);
-void	handle_less_than_sign(t_token **tokens, char **input);
-void	handle_pipe_or(t_token **tokens, char **input);
-void	handle_and(t_token **tokens, char **input);
-void	handle_semicolon(t_token **tokens, char **input);
-void	handle_open_bracket(t_token **tokens, char **input);
-void	handle_close_bracket(t_token **tokens, char **input);
-
+void	handle_greater_than_sign(t_env **env, char **input);
+void	handle_less_than_sign(t_env **env, char **input);
+void	handle_pipe_or(t_env **env, char **input);
+void	handle_and(t_env **env, char **input);
+void	handle_semicolon(t_env **env, char **input);
+void	handle_open_bracket(t_env **env, char **input);
+void	handle_close_bracket(t_env **env, char **input);
 
 // tokenize.c
-void	add_token(t_token_type type, char *value, t_token **tokens);
-void	handle_special(t_token **tokens, char **input);
-void	tokenize(char *input, t_token **tokens);
+void	add_token(t_token_type type, char *value, int space_after, t_env **env);
+void	handle_special(t_env **env, char **input);
+void	tokenize(char *input, t_env **env);
 
 #endif

@@ -6,21 +6,13 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 18:42:01 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/19 19:00:05 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/22 12:58:59 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	tokens_init(t_token **tokens)
-{
-	*tokens = malloc(sizeof(t_token));
-	(*tokens)->value = NULL;
-	(*tokens)->next = NULL;
-	(*tokens)->prev = NULL;
-}
-
-void env_init(t_env **env, char **envp, int env_len)
+static void	env_init(t_env **env, char **envp, int env_len)
 {
 	int	i;
 
@@ -41,26 +33,17 @@ void env_init(t_env **env, char **envp, int env_len)
 			ft_perror("malloc failed\n");
 			cleanup(env, EXIT_FAILURE);
 		}
-		printf("%s\n", (*env)->envp[i]);
 	}
-	(*env)->token = NULL;
+	(*env)->tokens = NULL;
 	(*env)->head_token = NULL;
 }
 
-
-void shell_init(t_env **env, t_token **tokens, char **envp)
+void	shell_init(t_env **env, char **envp)
 {
 	int	env_len;
 
-	*tokens = malloc(sizeof(t_token));
-	if (tokens == NULL)
-	{
-		ft_perror("malloc failed\n");
-		cleanup(env, EXIT_FAILURE);
-	}
 	env_len = ft_strarr_len(envp);
 	env_init(env, envp, env_len);
-	tokens_init(tokens);
 	printf("\033[?12h");
 	set_sig_actions();
 }

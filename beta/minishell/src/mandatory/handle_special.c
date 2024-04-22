@@ -14,81 +14,87 @@
 
 int	is_special_character(char c)
 {
-	return (c == '<' || c == '>' || c == '|' || c == '&' || c == ';' || c == '(' || c == ')');
+	return (c == '<'
+		|| c == '>'
+		|| c == '|'
+		|| c == '&'
+		|| c == ';'
+		|| c == '('
+		|| c == ')');
 }
 
-void	handle_greater_than_sign(t_token **tokens, char **input)
+void	handle_greater_than_sign(t_env **env, char **input)
 {
-	char *start;
+	char	*start;
 
 	start = *input;
 	if (*(start + 1) == '>')
 	{
 		(*input)++;
-		add_token(TOKEN_REDIR_APPEND, ft_strdup(">>"), tokens);
+		add_token(TOKEN_REDIR_APPEND, ft_strdup(">>"), ft_isspace(*(*input + 1)), env);
 	}
 	else
-		add_token(TOKEN_REDIR_OUTPUT, ft_strdup(">"), tokens);
+		add_token(TOKEN_REDIR_OUTPUT, ft_strdup(">"), ft_isspace(*(*input + 1)), env);
 	(*input)++;
 }
 
-void	handle_less_than_sign(t_token **tokens, char **input)
+void	handle_less_than_sign(t_env **env, char **input)
 {
-	char *start;
+	char	*start;
 
 	start = *input;
 	if (*(start + 1) == '<')
 	{
 		(*input)++;
-		add_token(TOKEN_HERE_DOC, ft_strdup("<<"), tokens);
+		add_token(TOKEN_HERE_DOC, ft_strdup("<<"), ft_isspace(*(*input + 1)), env);
 	}
 	else
-		add_token(TOKEN_REDIR_INPUT, ft_strdup("<"), tokens);
+		add_token(TOKEN_REDIR_INPUT, ft_strdup("<"), ft_isspace(*(*input + 1)), env);
 	(*input)++;
 }
 
-void	handle_pipe_or(t_token **tokens, char **input)
+void	handle_pipe_or(t_env **env, char **input)
 {
-	char *start;
+	char	*start;
 
 	start = *input;
 	if (*(start + 1) == '|')
 	{
 		(*input)++;
-		add_token(TOKEN_OR, ft_strdup("||"), tokens);
+		add_token(TOKEN_OR, ft_strdup("||"), ft_isspace(*(*input + 1)), env);
 	}
 	else
-	add_token(TOKEN_PIPE, ft_strdup("|"), tokens);
+		add_token(TOKEN_PIPE, ft_strdup("|"), ft_isspace(*(*input + 1)), env);
 	(*input)++;
 }
 
-void	handle_and(t_token **tokens, char **input)
+void	handle_and(t_env **env, char **input)
 {
-	char *start;
+	char	*start;
 
 	start = *input;
 	if (*(start + 1) == '&')
 	{
 		(*input)++;
-		add_token(TOKEN_AND, ft_strdup("&&"), tokens);
+		add_token(TOKEN_AND, ft_strdup("&&"), ft_isspace(*(*input + 1)), env);
 	}
 	(*input)++;
 }
 
-void	handle_semicolon(t_token **tokens, char **input)
+void	handle_semicolon(t_env **env, char **input)
 {
-	add_token(TOKEN_SEMI, ft_strdup(";"), tokens);
+	add_token(TOKEN_SEMI, ft_strdup(";"), ft_isspace(*(*input + 1)), env);
 	(*input)++;
 }
 
-void	handle_open_bracket(t_token **tokens, char **input)
+void	handle_open_bracket(t_env **env, char **input)
 {
-	add_token(TOKEN_OPEN_BRACKET, ft_strdup("("), tokens);
+	add_token(TOKEN_OPEN_BRACKET, ft_strdup("("), ft_isspace(*(*input + 1)), env);
 	(*input)++;
 }
 
-void	handle_close_bracket(t_token **tokens, char **input)
+void	handle_close_bracket(t_env **env, char **input)
 {
-	add_token(TOKEN_CLOSE_BRACKET, ft_strdup(")"), tokens);
+	add_token(TOKEN_CLOSE_BRACKET, ft_strdup(")"), ft_isspace(*(*input + 1)), env);
 	(*input)++;
 }

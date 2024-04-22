@@ -6,15 +6,15 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 18:17:27 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/19 18:33:23 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/22 12:40:41 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void ft_free_tokens(t_token **tokens)
+static void	ft_free_tokens(t_token **tokens)
 {
-	t_token *current;
+	t_token	*current;
 
 	if (tokens == NULL || *tokens == NULL)
 		return ;
@@ -54,9 +54,9 @@ static void	ft_free_env(t_env **env)
 	free(*env);
 }
 
-void cleanup(t_env **env, int status)
+void	cleanup(t_env **env, int status)
 {
-	ft_free_tokens(&(*env)->token);
+	ft_free_tokens(&(*env)->tokens);
 	ft_free_env(env);
 	rl_clear_history();
 	printf("\033[?12l");
