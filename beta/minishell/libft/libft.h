@@ -99,5 +99,6 @@ void			ft_striteri(char *s, void (*f)(unsigned int, char *));
 void			*ft_realloc(void *ptr, size_t size);
 char			*get_next_line(int fd);
 void			ft_perror(char *error_msg);
+void			ft_free_ptr(void **ptr);
 
 #endif
