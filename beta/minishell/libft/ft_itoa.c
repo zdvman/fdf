@@ -20,10 +20,11 @@ static int	ft_intlen(int n)
 	i = 1;
 	if (n < 0)
 	{
-		n *= -1;
+		tmp = (unsigned int)(-n);
 		i++;
 	}
-	tmp = (unsigned int)n;
+	else
+		tmp = (unsigned int)n;
 	while (tmp >= 10)
 	{
 		tmp /= 10;
@@ -34,21 +35,37 @@ static int	ft_intlen(int n)
 
 static unsigned int	ft_tenpow(int n)
 {
-	if (n == 0)
-		return (1);
+	unsigned int	result;
+	int				i;
+
+	result = 1;
+	i = -1;
+	while (++i < n)
+	{
+		result *= 10;
+	}
+	return (result);
+}
+
+static unsigned int	get_divisor(int n)
+{
+	unsigned int	divisor;
+
+	if (n < 0)
+		divisor = ft_tenpow(ft_intlen(n) - 2);
 	else
-		return (10 * ft_tenpow(n - 1));
+		divisor = ft_tenpow(ft_intlen(n) - 1);
+	return (divisor);
 }
 
 char	*ft_itoa(int n)
 {
 	unsigned int	divisor;
-	int				i;
 	char			*num;
 	char			*tmp;
 
-	i = ft_intlen(n);
-	tmp = (char *)malloc(i + 1);
+	divisor = get_divisor(n);
+	tmp = (char *)malloc(ft_intlen(n) + 1);
 	if (!tmp)
 		return (NULL);
 	num = tmp;
@@ -56,74 +73,23 @@ char	*ft_itoa(int n)
 	{
 		*num++ = '-';
 		n *= -1;
-		i--;
 	}
-	while (i > 0)
+	while (divisor > 0)
 	{
-		divisor = ft_tenpow(i - 1);
 		*num++ = n / divisor + 48;
-		n = n - (n / divisor) * divisor;
-		i--;
+		n %= divisor;
+		divisor /= 10;
 	}
 	*num = '\0';
 	return (tmp);
 }
 
 /*
-int	ft_intlen(int n)
+static unsigned int	ft_tenpow(int n)
 {
-	unsigned int	tmp;
-	int				len;
-
-	len = 1;
-	if (n < 0)
-	{
-		len++;
-		n = -n;
-	}
-	tmp = n;
-	while (tmp >= 10)
-	{
-		len++;
-		tmp /= 10;
-	}
-	return (len);
-}
-
-char	*ft_itoa(int n)
-{
-	unsigned int	tmp;
-	char			*str;
-	int				len;
-
-	len = ft_intlen(n);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	str[len] = '\0';
-	if (n < 0)
-	{
-		str[0] = '-';
-		tmp = -n;
-	}
+	if (n == 0)
+		return (1);
 	else
-		tmp = n;
-	while (len-- > 0 && str[len] != '-')
-	{
-		str[len] = (tmp % 10) + '0';
-		tmp /= 10;
-	}
-	return (str);
-}
-*/
-/*
-int    main(void)
-{
-	char	*str;
-	
-	str = ft_itoa(-2147483647)
-    printf("Nu : %s\n", str);
-	free(str);
-    return (0);
+		return (10 * ft_tenpow(n - 1));
 }
 */

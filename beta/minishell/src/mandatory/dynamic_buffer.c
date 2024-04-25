@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:18:40 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/22 12:54:29 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/24 14:56:03 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,28 @@ int	buffer_append(t_dynamic_buffer *buf, const char *str, size_t n)
 	}
 	ft_memcpy(buf->data + buf->len, str, n);
 	buf->len += n;
+	buf->data[buf->len] = '\0';
+	return (1);
+}
+
+int	buffer_append_char(t_dynamic_buffer *buf, char c)
+{
+	char	*new_data;
+	size_t	new_capacity;
+
+	if (buf->len + 1 + 1 > buf->capacity)
+	{
+		new_capacity = buf->capacity * 2;
+		while (new_capacity < buf->len + 1 + 1) 
+			new_capacity *= 2;
+		new_data = ft_realloc(buf->data, new_capacity);
+		if (!new_data)
+			return (0);
+		buf->data = new_data;
+		buf->capacity = new_capacity;
+	}
+	buf->data[buf->len] = c;
+	buf->len++;
 	buf->data[buf->len] = '\0';
 	return (1);
 }

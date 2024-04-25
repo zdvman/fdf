@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	is_special_character(char c)
+int	is_meta_character(char c)
 {
 	return (c == '<'
 		|| c == '>'
@@ -61,7 +61,7 @@ void	handle_pipe_or(t_env **env, char **input)
 	if (*(start + 1) == '|')
 	{
 		(*input)++;
-		add_token(TOKEN_OR, ft_strdup("||"), ft_isspace(*(*input + 1)), env);
+		add_token(TOKEN_OR_IF, ft_strdup("||"), ft_isspace(*(*input + 1)), env);
 	}
 	else
 		add_token(TOKEN_PIPE, ft_strdup("|"), ft_isspace(*(*input + 1)), env);
@@ -76,8 +76,10 @@ void	handle_and(t_env **env, char **input)
 	if (*(start + 1) == '&')
 	{
 		(*input)++;
-		add_token(TOKEN_AND, ft_strdup("&&"), ft_isspace(*(*input + 1)), env);
+		add_token(TOKEN_AND_IF, ft_strdup("&&"), ft_isspace(*(*input + 1)), env);
 	}
+	else
+		add_token(TOKEN_BACKGROUND, ft_strdup("&"), ft_isspace(*(*input + 1)), env);
 	(*input)++;
 }
 

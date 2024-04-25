@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:39:53 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/22 17:34:28 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/25 16:45:08 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	print_token_name(t_token *token)
 {
 	if (token->type == TOKEN_WORD)
 		printf("TOKEN_WORD         :");
-	else if (token->type == TOKEN_STRING)
-		printf("TOKEN_STRING       :");
+	else if (token->type == TOKEN_BACKGROUND)
+		printf("TOKEN_BACKGROUND   :");
 	else if (token->type == TOKEN_REDIR_INPUT)
 		printf("TOKEN_REDIR_INPUT  :");
 	else if (token->type == TOKEN_REDIR_OUTPUT)
@@ -54,10 +54,10 @@ void	print_token_name(t_token *token)
 		printf("TOKEN_HERE_DOC     :");
 	else if (token->type == TOKEN_PIPE)
 		printf("TOKEN_PIPE         :");
-	else if (token->type == TOKEN_AND)
-		printf("TOKEN_AND          :");
-	else if (token->type == TOKEN_OR)
-		printf("TOKEN_OR           :");
+	else if (token->type == TOKEN_AND_IF)
+		printf("TOKEN_AND_IF          :");
+	else if (token->type == TOKEN_OR_IF)
+		printf("TOKEN_OR_IF           :");
 	else if (token->type == TOKEN_SEMI)
 		printf("TOKEN_SEMI         :");
 	else if (token->type == TOKEN_OPEN_BRACKET)
@@ -66,8 +66,6 @@ void	print_token_name(t_token *token)
 		printf("TOKEN_CLOSE BRACKET:");
 	else if (token->type == TOKEN_ENV_VAR)
 		printf("TOKEN_ENV_VAR      :");
-	else if (token->type == TOKEN_EQUAL)
-		printf("TOKEN_EQUAL        :");
 	else if (token->type == TOKEN_ILLEGAL)
 		printf("TOKEN_ILLEGAL 	   :");
 	else if (token->type == TOKEN_EOF)
@@ -98,7 +96,8 @@ int	main(int argc, char **argv, char **envp)
 		if (input && *input)
 		{
 			add_history(input);
-			tokenize(input, &env);
+			get_tokens(input, &env);
+			expand_tokens(&env);
 		}
 		if (input)
 			free(input);

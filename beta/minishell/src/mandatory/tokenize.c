@@ -48,75 +48,7 @@ void	handle_illegal(t_env **env, char **input)
 	(*input)++;
 }
 
-char	*handle_environment_variable(char **input)
-{
-	char	*start;
-	char	*env_name;
-	char	*env_value;
-
-	start = *input + 1;
-	(*input)++;
-	while (**input && (ft_isalnum(**input) || **input == '_'))
-		(*input)++;
-	env_name = ft_substr(start, 0, *input - start);
-	env_value = getenv(env_name);
-	free(env_name);
-	if (env_value == NULL)
-		return (ft_strdup(""));
-	return (ft_strdup(env_value));
-}
-
-void	tokenize_string(t_env **env, char **input)
-{
-	t_dynamic_buffer	buffer;
-	char				*start;
-	char				current_quote;
-	char				*env_value;
-
-	buffer_init(&buffer);
-	current_quote = **input;
-	start = *input + 1;
-	(*input)++;
-	while (**input && **input != current_quote)
-	{
-		if (current_quote == '\"' && **input == '\\')
-		{
-			if (*(*input + 1) == '\"' || *(*input + 1) == '\\')
-			{
-				buffer_append(&buffer, start, *input - start);
-				(*input)++;
-				buffer_append(&buffer, *input, 1);
-				(*input)++;
-				start = *input;
-				continue ;
-			}
-			else
-				(*input)++;
-		}
-		else if (current_quote == '\"' && **input == '$')
-		{
-			buffer_append(&buffer, start, *input - start);
-			env_value = handle_environment_variable(input);
-			buffer_append(&buffer, env_value, ft_strlen(env_value));
-			free(env_value);
-			start = *input;
-			continue ;
-		}
-		else
-			(*input)++;
-	}
-	if (**input == current_quote)
-	{
-		buffer_append(&buffer, start, *input - start);
-		add_token(TOKEN_STRING, ft_strdup(buffer.data), ft_isspace(*(*input + 1)), env);
-		(*input)++;
-	}
-	else
-		handle_illegal(env, input);
-	buffer_free(&buffer);
-}
-
-void	handle_special(t_env **env, char **input)
+void	handle_meta(t_env **env, char **input)
 {
 	char	*start;
 
@@ -159,50 +91,45 @@ void	tokenize_env_name_to_val(t_env **env, char **input)
 void	tokenize_word(t_env **env, char **input)
 {
 	char	*start;
+	char	current_quote;
 
 	start = *input;
-	while (**input && (ft_isalnum(**input) || **input == '_'))
+	while (**input && !is_meta_character(**input) && !ft_isspace(**input))
+	{
+		if (**input == '\'' || **input == '\"')
+		{
+			current_quote = **input;
+			(*input)++;
+			while (**input && **input != current_quote)
+			{
+				if (current_quote == '\"' && **input == '\\')
+					(*input)++;
+				(*input)++;
+			}
+		}
 		(*input)++;
+	}
 	add_token(TOKEN_WORD, ft_substr(start, 0, *input - start), ft_isspace(**input), env);
 }
 
-void	handle_equal_sign(t_env **env, char **input, char *start)
-{
-	if (*input > start && *(*input + 1) != '\0'
-		&& !ft_isspace(*(*input - 1))
-		&& !ft_isspace(*(*input + 1)))
-		add_token(TOKEN_EQUAL, ft_strdup("="), 0, env);
-	else
-		handle_illegal(env, input);
-	(*input)++;
-}
-
-void	tokenize(char *input, t_env **env)
+void	get_tokens(char *input, t_env **env)
 {
 	char	*start;
 
 	start = input;
 	while (*input)
 	{
-		if (ft_isspace(*input))
+		while (ft_isspace(*input))
 			input++;
-		else if (is_special_character(*input))
-			handle_special(env, &input);
-		else if (*input == '\'' || *input == '\"')
-			tokenize_string(env, &input);
-		else if (*input == '$')
-			tokenize_env_name_to_val(env, &input);
-		else if (ft_isalnum(*input) || *input == '_')
-			tokenize_word(env, &input);
-		else if (*input == '=')
-			handle_equal_sign(env, &input, start);
+		if (is_meta_character(*input))
+			handle_meta(env, &input);
 		else if (*input == '#' && !is_quote_open(start))
 		{
 			add_token(TOKEN_EOF, ft_strdup("EOF"), 0, env);
 			return ;
 		}
 		else
-			handle_illegal(env, &input);
+			tokenize_word(env, &input);
 	}
 	if (input == start || *input == '\0')
 		add_token(TOKEN_EOF, ft_strdup("EOF"), 0, env);
