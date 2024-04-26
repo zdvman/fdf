@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:18:40 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/24 14:56:03 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/26 08:47:01 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	buffer_append_char(t_dynamic_buffer *buf, char c)
 	if (buf->len + 1 + 1 > buf->capacity)
 	{
 		new_capacity = buf->capacity * 2;
-		while (new_capacity < buf->len + 1 + 1) 
+		while (new_capacity < buf->len + 1 + 1)
 			new_capacity *= 2;
 		new_data = ft_realloc(buf->data, new_capacity);
 		if (!new_data)

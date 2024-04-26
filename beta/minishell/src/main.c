@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:39:53 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/25 16:45:08 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/26 09:19:49 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,15 @@ void	print_token_name(t_token *token)
 	else if (token->type == TOKEN_PIPE)
 		printf("TOKEN_PIPE         :");
 	else if (token->type == TOKEN_AND_IF)
-		printf("TOKEN_AND_IF          :");
+		printf("TOKEN_AND_IF       :");
 	else if (token->type == TOKEN_OR_IF)
-		printf("TOKEN_OR_IF           :");
+		printf("TOKEN_OR_IF        :");
 	else if (token->type == TOKEN_SEMI)
 		printf("TOKEN_SEMI         :");
 	else if (token->type == TOKEN_OPEN_BRACKET)
 		printf("TOKEN_OPEN BRACKET :");
 	else if (token->type == TOKEN_CLOSE_BRACKET)
 		printf("TOKEN_CLOSE BRACKET:");
-	else if (token->type == TOKEN_ENV_VAR)
-		printf("TOKEN_ENV_VAR      :");
-	else if (token->type == TOKEN_ILLEGAL)
-		printf("TOKEN_ILLEGAL 	   :");
 	else if (token->type == TOKEN_EOF)
 		printf("TOKEN_EOF          :");
 }
