@@ -61,6 +61,14 @@ typedef enum e_token_type
 	TOKEN_EOF
 }				t_token_type;
 
+typedef struct s_ast_node
+{
+	t_token_type 		type;          // Тип узла (команда, пайплайн, логический оператор)
+	char				**args;        // Аргументы команды
+	struct s_ast_node	*left;         // Левый ребенок в дереве (для операторов)
+	struct s_ast_node	*right;        // Правый ребенок в дереве (для операторов)
+}				t_ast_node;
+
 typedef struct s_token
 {
 	t_token_type	type;
@@ -73,6 +81,8 @@ typedef struct s_token
 typedef struct s_env
 {
 	char			**envp;
+	int				exit_status;
+	t_ast_node		*ast;
 	t_token			*tokens;
 	t_token			*head_token;
 }				t_env;

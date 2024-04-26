@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 08:22:15 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/26 08:39:26 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:34:25 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	handle_backslach(char **input, char **current,
 		buffer_append(buf, *current, *input - *current);
 	(*input)++;
 	if (**input == '\"'
+		|| **input == '\n'
 		|| **input == '\\'
 		|| **input == '$'
 		|| **input == '`')
