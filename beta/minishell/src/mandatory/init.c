@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 18:42:01 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/24 20:36:39 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/28 15:08:34 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	shell_init(t_env **env, char **envp)
 {
 	int	env_len;
 
+	set_sig_actions();
+	printf("\033[?12h");
 	*env = malloc(sizeof(t_env));
 	if (*env == NULL)
 	{
@@ -49,6 +51,4 @@ void	shell_init(t_env **env, char **envp)
 	}
 	env_len = ft_strarr_len(envp);
 	env_init(env, envp, env_len);
-	printf("\033[?12h");
-	set_sig_actions();
 }

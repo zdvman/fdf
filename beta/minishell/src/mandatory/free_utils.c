@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 18:17:27 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/26 10:39:05 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/28 13:56:05 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,23 @@ static void	ft_free_env(t_env **env)
 		(*env)->envp = NULL;
 	}
 	free(*env);
+}
+
+void	ft_free_args(char ***args)
+{
+	int i;
+
+	if (args == NULL || *args == NULL)
+		return;
+	i = 0;
+	while ((*args)[i])
+	{
+		free((*args)[i]);
+		(*args)[i] = NULL;
+		i++;
+	}
+	free(*args);
+	*args = NULL;
 }
 
 void	cleanup(t_env **env, int status)

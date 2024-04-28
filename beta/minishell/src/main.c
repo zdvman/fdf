@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:39:53 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/26 09:19:49 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:10:19 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 		input = read_multiline();
 		if (input == NULL)
 		{
-			printf("exit\n");
+			write(1, "exit\n", 5);
 			break ;
 		}
 		if (input && *input)

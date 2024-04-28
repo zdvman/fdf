@@ -106,6 +106,7 @@ int		buffer_append(t_dynamic_buffer *buf, const char *str, size_t n);
 
 // free_utils.c
 void	cleanup(t_env **env, int status);
+void	ft_free_args(char ***args);
 
 // utils.c
 void	set_sig_actions(void);
