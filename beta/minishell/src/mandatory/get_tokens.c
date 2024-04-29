@@ -115,8 +115,7 @@ void	get_tokens(char *input, t_env **env)
 		else
 			tokenize_word(env, &input);
 	}
-	if (input == current || *input == '\0')
-		add_token(TOKEN_EOF, ft_strdup("EOF"), 0, env);
+	add_token(TOKEN_EOF, ft_strdup("EOF"), 0, env);
 }
 
 /*

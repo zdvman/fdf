@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 08:22:15 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/26 15:34:25 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/29 09:46:20 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	handle_single_quotes(char **input, char **current,
 				t_dynamic_buffer *buf)
 {
 	(*input)++;
+	*current = *input;
 	while (**input && **input != '\'')
 		(*input)++;
 	if (**input == '\'')

@@ -1,0 +1,13 @@
+digraph AST {
+"0x166ce70" [label="|"];
+"0x166ce70" -> "0x166cd60" [label="L"];
+"0x166cd60" [label="|"];
+"0x166cd60" -> "0x166ccc0" [label="L"];
+"0x166ccc0" [label="CMD: grep -i error log.txt"];
+"0x166cd60" -> "0x166cd30" [label="R"];
+"0x166cd30" [label="CMD: sort"];
+"0x166ce70" -> "0x166ce40" [label="R"];
+"0x166ce40" [label="REDIR: unique_errors.txt"];
+"0x166ce40" -> "0x166cdd0" [label="L"];
+"0x166cdd0" [label="CMD: uniq"];
+}

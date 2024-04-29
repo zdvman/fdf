@@ -58,6 +58,7 @@ typedef enum e_token_type
 	TOKEN_BACKGROUND,
 	TOKEN_OPEN_BRACKET,
 	TOKEN_CLOSE_BRACKET,
+	TOKEN_GROUP,
 	TOKEN_EOF
 }				t_token_type;
 
@@ -141,5 +142,20 @@ void	add_token(t_token_type type, char *value, int space_after, t_env **env);
 int		is_meta_character(char c);
 void	handle_meta(t_env **env, char **input);
 void	get_tokens(char *input, t_env **env);
+
+// ast.c
+t_ast_node	*new_ast_node(t_token_type type, char **args,
+				t_ast_node *left, t_ast_node *right);
+char		**copy_args(t_token **current, t_env **env);
+void		parse_tokens(t_env **env);
+
+// parsing.c
+bool		is_redirection(t_token_type type);
+t_ast_node	*apply_redirection(t_token **token, t_env **env, t_ast_node *subtree);
+t_ast_node	*parse_command(t_token **token, t_env **env);
+t_ast_node	*parse_pipeline(t_token **token, t_env **env);
+t_ast_node	*parse_logical(t_token **token, t_env **env);
+t_ast_node	*parse_sequence(t_token **token, t_env **env);
+t_ast_node	*parse_grouped_commands(t_token **token, t_env **env);
 
 #endif
