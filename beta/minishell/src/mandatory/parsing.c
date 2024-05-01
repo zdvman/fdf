@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 08:31:35 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/29 16:27:50 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/30 23:47:37 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,137 +23,97 @@ bool	is_redirection(t_token_type type)
 		return (false);
 }
 
-t_ast_node *parse_command(t_token **token, t_env **env)
+t_ast_node *parse_command(t_token **current, t_env **env)
 {
-	char			**args;
-	char			**redir_args;
-	t_token_type	redir_type;
 	t_ast_node		*cmd_node;
+	t_token_type	type;
+	char			**args;
 
-	if ((*token)->type != TOKEN_WORD)
-	{
-		ft_perror("Expected a command word\n");
-		return (NULL);
-	}
-	args = copy_args(token, env);
+	args = copy_args(current, env);
 	cmd_node = new_ast_node(TOKEN_WORD, args, NULL, NULL);
-	while (*token && ((*token)->type == TOKEN_REDIR_INPUT
-					|| (*token)->type == TOKEN_REDIR_OUTPUT
-					|| (*token)->type == TOKEN_REDIR_APPEND
-					|| (*token)->type == TOKEN_HERE_DOC))
+	while (*current && (is_redirection((*current)->type) || (*current)->type == TOKEN_BACKGROUND))
 	{
-		redir_type = (*token)->type;
-		*token = (*token)->next;
-		if (!*token || (*token)->type != TOKEN_WORD)
+		type = (*current)->type;
+		*current = (*current)->next;
+		if (type == TOKEN_BACKGROUND)
+			cmd_node = new_ast_node(type, NULL, cmd_node, NULL);
+		if (!*current || (*current)->type != TOKEN_WORD)
 		{
 			ft_perror("Expected filename for redirection\n");
-			cleanup(env, EXIT_FAILURE);
+			return (NULL);
 		}
-		redir_args = copy_args(token, env);
-		cmd_node = new_ast_node(redir_type, redir_args, cmd_node, NULL);
+		args = copy_args(current, env);
+		cmd_node = new_ast_node(type, args, cmd_node, NULL);
 	}
 	return (cmd_node);
 }
 
-t_ast_node	*apply_redirection(t_token **token, t_env **env, t_ast_node *subtree)
-{
-    t_token_type	redir_type;
-    char			**redir_args;
-
-	redir_type = (*token)->type;
-    *token = (*token)->next;
-    if (!*token || (*token)->type != TOKEN_WORD)
-	{
-        ft_perror("Expected filename for redirection\n");
-        cleanup(env, EXIT_FAILURE);
-    }
-	redir_args = copy_args(token, env);
-	*token = (*token)->next;
-    return (new_ast_node(redir_type, redir_args, subtree, NULL));
-}
-
-t_ast_node	*parse_pipeline(t_token **token, t_env **env)
-{
-	t_ast_node	*pipeline;
-	t_ast_node	*command;
-
-	pipeline = parse_command(token, env);
-	while (*token && (*token)->type == TOKEN_PIPE)
-	{
-		*token = (*token)->next;
-		command = parse_command(token, env);
-		pipeline = new_ast_node(TOKEN_PIPE, NULL, pipeline, command);
-	}
-	if (*token && is_redirection((*token)->type))
-			pipeline = apply_redirection(token, env, pipeline);
-	return (pipeline);
-}
-
-t_ast_node	*parse_logical(t_token **token, t_env **env)
+t_ast_node	*parse_pipeline(t_token **current, t_env **env)
 {
 	t_ast_node		*left;
 	t_ast_node		*right;
 	t_token_type	type;
 
-	left = parse_pipeline(token, env);
-	while (*token && ((*token)->type == TOKEN_AND_IF
-					|| (*token)->type == TOKEN_OR_IF))
+	left = parse_command(current, env);
+	while (*current && (*current)->type == TOKEN_PIPE)
 	{
-		type = (*token)->type;
-		*token = (*token)->next;
-		right = parse_pipeline(token, env);
+		type = (*current)->type;
+		*current = (*current)->next;
+		right = parse_command(current, env);
 		left = new_ast_node(type, NULL, left, right);
 	}
 	return (left);
 }
 
-t_ast_node	*parse_sequence(t_token **token, t_env **env)
+t_ast_node	*parse_bracket(t_token **current, t_env **env)
 {
-	t_ast_node	*left;
-	t_ast_node	*right;
+	t_ast_node		*node;
 
-	left = NULL;
-	right = NULL;
-	while (*token && (*token)->type != TOKEN_EOF)
-	{
-		if ((*token)->type == TOKEN_OPEN_BRACKET)
-			left = parse_grouped_commands(token, env);
-		else
-			left = parse_logical(token, env);
-		if (*token && (*token)->type == TOKEN_SEMI)
-		{
-			*token = (*token)->next;
-			right = parse_sequence(token, env);
-			left = new_ast_node(TOKEN_SEMI, NULL, left, right);
-		}
-		else
-			break;
-	}
-	return (left);
-}
-
-t_ast_node	*parse_grouped_commands(t_token **token, t_env **env)
-{
-	t_ast_node	*group;
-
-	if ((*token)->type != TOKEN_OPEN_BRACKET)
+	if (!*current || (*current)->type != TOKEN_OPEN_BRACKET)
 	{
 		ft_perror("Expected open bracket\n");
 		return (NULL);
 	}
-	*token = (*token)->next;
-	if (*token && (*token)->type == TOKEN_CLOSE_BRACKET)
-	{
-		ft_perror("Empty command group\n");
-		*token = (*token)->next;  // Move past the close bracket
-		return new_ast_node(TOKEN_GROUP, NULL, NULL, NULL);  // Replace TOKEN_GROUP with your actual token for groups
-	}
-	group = parse_sequence(token, env);
-	if ((*token)->type != TOKEN_CLOSE_BRACKET)
+	*current = (*current)->next;
+	node = parse_sequence(current, env);
+	if (!*current || (*current)->type != TOKEN_CLOSE_BRACKET)
 	{
 		ft_perror("Expected close bracket\n");
 		return (NULL);
 	}
-	*token = (*token)->next;
-	return (group);
+	*current = (*current)->next;
+	return (node);
+}
+
+t_ast_node	*parse_sequence(t_token **current, t_env **env)
+{
+	t_ast_node		*left;
+	t_ast_node		*right;
+	t_token_type	type;
+
+	if (*current && (*current)->type == TOKEN_OPEN_BRACKET)
+	{
+		left = parse_bracket(current, env);
+	}
+	else
+	{
+		left = parse_pipeline(current, env);
+	}
+	while (*current && ((*current)->type == TOKEN_SEMI
+						|| (*current)->type == TOKEN_AND_IF
+						|| (*current)->type == TOKEN_OR_IF))
+	{
+		type = (*current)->type;
+		*current = (*current)->next;
+		if (*current && (*current)->type == TOKEN_OPEN_BRACKET)
+		{
+			right = parse_bracket(current, env);
+		}
+		else
+		{
+			right = parse_pipeline(current, env);
+		}
+		left = new_ast_node(type, NULL, left, right);
+	}
+	return (left);
 }

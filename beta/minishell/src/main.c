@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 10:39:53 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/29 13:49:32 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/30 22:42:15 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,10 +145,10 @@ void	generate_ast_diagram(t_ast_node *root)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_token	*current;
-	t_env	*env;
+	t_token		*current;
+	t_env		*env;
 	t_ast_node	*ast;
-	char	*input;
+	char		*input;
 
 	if (argc != 1)
 	{
@@ -170,20 +170,19 @@ int	main(int argc, char **argv, char **envp)
 			add_history(input);
 			get_tokens(input, &env);
 			expand_tokens(&env);
-			parse_tokens(&env);
+			current = env->tokens;
+			while (current)
+			{
+				print_token_name(current);
+				printf(" space: %s", current->has_space ? "true ;" : "false;");
+				printf(" %s\n", current->value);
+				current = current->next;
+			}
+			ast = parse_tokens(&env);
 		}
 		if (input)
 			free(input);
 	}
-	current = env->tokens;
-	while (current)
-	{
-		print_token_name(current);
-		printf(" space: %s", current->has_space ? "true ;" : "false;");
-		printf(" %s\n", current->value);
-		current = current->next;
-	}
-	ast = env->ast;
 	if (ast)
 	{
 		generate_ast_diagram(ast);

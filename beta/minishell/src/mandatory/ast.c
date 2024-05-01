@@ -6,7 +6,7 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 10:15:26 by dzuiev            #+#    #+#             */
-/*   Updated: 2024/04/29 12:10:17 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/04/30 23:22:04 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	check_ast_output(t_token **current, t_env **env)
 }
 
 // Main function to parse the complete command line into an AST
-void	parse_tokens(t_env **env)
+t_ast_node	*parse_tokens(t_env **env)
 {
 	t_token		*current;
 
@@ -101,9 +101,9 @@ void	parse_tokens(t_env **env)
 	if (!current || current->type == TOKEN_EOF)
 	{
 		ft_perror("No input to parse\n");
-		return ;
+		return (NULL);
 	}
-	(*env)->ast = NULL;
 	(*env)->ast = parse_sequence(&current, env);
 	check_ast_output(&current, env);
+	return ((*env)->ast);
 }
