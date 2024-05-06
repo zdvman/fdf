@@ -12,6 +12,7 @@
 
 #include "../includes/libfdf.h"
 
+// Функция для инициализации структуры img
 static void	init_img_default(t_img *img)
 {
 	img->img_ptr = NULL;
@@ -23,6 +24,7 @@ static void	init_img_default(t_img *img)
 	img->line_length = 0;
 }
 
+// Функция для инициализации структуры line
 static void	init_line_default(t_line *line)
 {
 	line->x = 0;
@@ -40,6 +42,7 @@ static void	init_line_default(t_line *line)
 	line->t = 0;
 }
 
+// Функция для инициализации структуры data
 static void	init_bzezen_data(t_fdf *data)
 {
 	data->x = 0;
@@ -65,6 +68,7 @@ static void	init_bzezen_data(t_fdf *data)
 	data->angle_step = 0.017;
 }
 
+// Функция для инициализации структур по умолчанию
 void	init_default(t_fdf *data, t_img *img, t_line *line)
 {
 	data->grad_flag = 1;
@@ -86,6 +90,7 @@ void	init_default(t_fdf *data, t_img *img, t_line *line)
 	init_line_default(data->line_struct);
 }
 
+// Функция для определения центра карты
 void	get_zoom_and_center(t_fdf *data)
 {
 	float	scale_x;

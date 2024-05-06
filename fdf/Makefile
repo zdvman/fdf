@@ -54,11 +54,6 @@ all: $(NAME)
 $(NAME): $(LIBFDF) $(LIBFT) $(LIBMLX) $(OBJ_DIR)/fdf.o
 	$(CC) $(CFLAGS) -I$(INCLUDES) -I$(LIBX11_DIR) -o $(NAME) $(OBJ_DIR)/fdf.o -L. -lfdf -L$(LIBFT_DIR) -lft -L$(LIBMLX_DIR) -lmlx_Linux -lXext -lX11 -lm -lz
 
-# Сборка бонусной части проекта если имя программы
-# для бонусной части отличное от основной части (не используется)
-# $(BONUS_NAME): $(LIBFDF) $(LIBFT) $(BONUS_OBJS)
-#	$(CC) $(CFLAGS) -I$(INCLUDES) -o $(BONUS_NAME) $(BONUS_OBJS) -L. -lfdf -L$(LIBFT_DIR) -lft
-
 # Компиляция библиотеки libmlx_Linux
 $(LIBMLX):
 	$(MAKE) -C $(LIBMLX_DIR)
@@ -95,9 +90,6 @@ clean:
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME) 
-# rm -f file2
-# rm -f file
-# rm -f $(BONUS_NAME)
 
 # Пересборка проекта
 re: fclean all

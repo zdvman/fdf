@@ -12,6 +12,7 @@
 
 #include "../includes/libfdf.h"
 
+// Функция для обработки нажатия клавиш для изменения масштаба и шага при перетаскивании карты
 static void	key_options(int keycode, t_fdf *data)
 {
 	if (keycode == XK_m)
@@ -30,7 +31,7 @@ static void	key_options(int keycode, t_fdf *data)
 	}
 }
 
-// Функция для обработки нажатия клавиш
+// Функция для обработки нажатия клавиш для включения/отключения градиента и изменения шага рендеринга
 int	key_press_hook(int keycode, t_fdf *data)
 {
 	data->key_states[keycode] = 1;
@@ -52,7 +53,7 @@ int	key_press_hook(int keycode, t_fdf *data)
 	return (0);
 }
 
-// Функция для обработки отпускания клавиш
+// Функция для обработки события отпускания клавиш
 int	key_release_hook(int keycode, t_fdf *data)
 {
 	data->key_states[keycode] = 0;

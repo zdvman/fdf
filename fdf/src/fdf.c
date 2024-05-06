@@ -12,6 +12,7 @@
 
 #include "../includes/libfdf.h"
 
+// Функция для закрытия окна при нажатии на крестик
 int	escape_fdf(t_fdf *data)
 {
 	if (data->key_states[XK_Escape])
@@ -22,6 +23,7 @@ int	escape_fdf(t_fdf *data)
 	return (0);
 }
 
+// Главная функция программы fdf
 int	main(int argc, char **argv)
 {
 	t_fdf	*data;

@@ -12,7 +12,7 @@
 
 #include "../includes/libfdf.h"
 
-// Функция для обработки нажатия клавиш
+// Функция для обработки нажатия клавиш мыши
 int	mouse_press(int button, int x, int y, t_fdf *data)
 {
 	(void)x;
@@ -50,7 +50,7 @@ int	mouse_release(int button, int x, int y, t_fdf *data)
 	return (0);
 }
 
-// Функция для обработки движения мыши
+// Функция для пересчета углов и позиции карты после движения мыши
 int	mouse_move(int x, int y, t_fdf *data)
 {
 	if (data->key_states[1])

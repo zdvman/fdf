@@ -12,6 +12,7 @@
 
 #include "../includes/libfdf.h"
 
+// Функция для обработки событий и взаимодействия с пользователем
 static void	handle_user_communication(t_fdf *data)
 {
 	mlx_hook(data->win_ptr, 4,
@@ -26,6 +27,7 @@ static void	handle_user_communication(t_fdf *data)
 	mlx_loop(data->mlx_ptr);
 }
 
+// Главная функция программы fdf с бонусами
 int	main(int argc, char **argv)
 {
 	t_fdf	*data;

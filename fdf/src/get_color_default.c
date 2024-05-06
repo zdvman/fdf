@@ -12,6 +12,7 @@
 
 #include "../includes/libfdf.h"
 
+// Функция для определения цвета линии по умолчанию
 static void	z_or_z1_not_zero(t_fdf *data)
 {
 	if (data->z > data->z1)
@@ -30,6 +31,7 @@ static void	z_or_z1_not_zero(t_fdf *data)
 	}
 }
 
+// Функция для определения цвета линии по умолчанию
 static void	z_and_z1_not_zero_and_equal(t_fdf *data)
 {
 	if (data->z > 0)
@@ -48,6 +50,7 @@ static void	z_and_z1_not_zero_and_equal(t_fdf *data)
 	}
 }
 
+// Функция для определения цвета линии по умолчанию
 static void	z_and_z1_zero(t_fdf *data)
 {
 	if (data->z_color == 0)
@@ -56,6 +59,7 @@ static void	z_and_z1_zero(t_fdf *data)
 		data->z1_color = data->color;
 }
 
+// Функция для определения цвета линии по умолчанию
 void	get_color_default(t_fdf *data)
 {
 	if ((data->z || data->z1) && data->z != data->z1)

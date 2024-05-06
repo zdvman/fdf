@@ -12,12 +12,14 @@
 
 #include "../includes/libfdf.h"
 
+// Функция для вывода сообщения об ошибке и выхода из программы
 void	ft_error(char *error_msg, int exit_code)
 {
 	ft_putstr_fd(error_msg, STDERR_FILENO);
 	exit(exit_code);
 }
 
+// Функция для очистки памяти и выхода из программы
 void	open_file(t_fdf *data, t_img *img, char *file, int flag)
 {
 	if (flag == 0)
@@ -36,6 +38,7 @@ void	open_file(t_fdf *data, t_img *img, char *file, int flag)
 	}
 }
 
+// Функция для закрытия окна
 int	close_window(void *param)
 {
 	t_fdf	*data;
@@ -45,6 +48,7 @@ int	close_window(void *param)
 	return (0);
 }
 
+// Функция для инициализации структуры img
 void	open_window(t_fdf *data)
 {
 	data->mlx_ptr = mlx_init();

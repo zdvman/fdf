@@ -12,6 +12,7 @@
 
 #include "../includes/libfdf.h"
 
+// Функция для получения размера карты
 static void	get_map_size(char *file, t_fdf *data, t_img *img)
 {
 	int	tmp_width;
@@ -38,6 +39,7 @@ static void	get_map_size(char *file, t_fdf *data, t_img *img)
 	data->fd = -1;
 }
 
+// Функция для создания карты
 static void	create_map(int y, char *line, t_fdf *data, t_img *img)
 {
 	char	**split;
@@ -67,6 +69,7 @@ static void	create_map(int y, char *line, t_fdf *data, t_img *img)
 	ft_free_array((void ***)&split);
 }
 
+// Функция для чтения карты
 void	read_map(char *file, t_fdf *data, t_img *img)
 {
 	int	y;
@@ -95,6 +98,7 @@ void	read_map(char *file, t_fdf *data, t_img *img)
 	data->fd = -1;
 }
 
+// Функция для вычисления центра карты
 void	calculate_center(t_fdf *data)
 {
 	float	sum_z;
