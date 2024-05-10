@@ -6,15 +6,20 @@
 /*   By: dzuiev <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:17:10 by dzuiev            #+#    #+#             */
-/*   Updated: 2023/11/19 23:03:31 by dzuiev           ###   ########.fr       */
+/*   Updated: 2024/03/13 12:55:22 by dzuiev           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 100
+# endif
+
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef struct s_list
 {
@@ -22,8 +27,17 @@ typedef struct s_list
 	struct s_list	*next;
 }				t_list;
 
-int				ft_atoi(const char *str);
+int				ft_max(int a, int b);
+int				ft_abs(int a);
+int				ft_putchar(char c);
+int				ft_putstr(char *s);
+int				ft_atoi(const char *nptr);
+int				ft_atoi_base(const char *str, int str_base);
+long			ft_atol(const char *str);
+long long		ft_atoll(const char *str);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
+int				ft_strcmp(const char *s1, const char *s2);
+int				ft_count_words(const char *s, char c);
 void			*ft_memset(void *str, int c, size_t len);
 void			ft_bzero(void *str, size_t len);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
@@ -41,10 +55,21 @@ int				ft_isalpha(int character);
 int				ft_isdigit(int character);
 int				ft_isalnum(int character);
 int				ft_isascii(int character);
+int				ft_isspace(char c);
 int				ft_isprint(int character);
 int				ft_toupper(int character);
 int				ft_tolower(int character);
 int				ft_lstsize(t_list *lst);
+int				ft_putnchar(char c, int n);
+int				ft_putnstr(char *str, int len);
+int				ft_issign(int c);
+int				ft_isnumber(char *arg);
+int				ft_iszero(char *arg);
+int				ft_round(float num);
+int				ft_strisempty(char *arg);
+int				ft_strisspace_only(char *str);
+int				ft_duplicates_found(char **argv);
+int				ft_nbr_strcmp(const char *s1, const char *s2);
 char			*ft_strdup(const char *str);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
@@ -62,11 +87,13 @@ void			ft_lstadd_back(t_list **lst, t_list *new);
 void			ft_lstdelone(t_list *lst, void (*del)(void *));
 void			ft_lstclear(t_list **lst, void (*del)(void *));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
+void			ft_swap(int *a, int *b);
 t_list			*ft_lstnew(void *content);
 t_list			*ft_lstlast(t_list *lst);
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void(*del)(void *));
 void			ft_striteri(char *s, void (*f)(unsigned int, char *));
 void			*ft_realloc(void *ptr, size_t size);
+char			*get_next_line(int fd);
 
 #endif

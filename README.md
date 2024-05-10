@@ -1,2 +1,1 @@
-# fdf
-FDF Wireframe model. This project is about representing a landscape as a 3D object in which all surfaces are outlined in lines.
+This project is about creating a simple wireframe model representation of a 3D landscape by linking various points (x, y, z) thanks to line segments (edges).
